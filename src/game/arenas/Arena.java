@@ -46,4 +46,6 @@ public abstract class Arena {
     public void crossFinishLine(Racer racer){}
     public void showResults(){}
 
+    //get & set methods
+    public double getFriction(){ return this.FRICTION;}
 }
