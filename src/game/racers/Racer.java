@@ -3,11 +3,11 @@ import utilities.*;
 import utilities.EnumContainer.Color;
 import game.arenas.Arena;
 
-public class Racer {
+public abstract class Racer {
     private int serialNumber;
     private String name;
-    //private Point currentLocation;
-    //private Point finish;
+    private Point currentLocation;
+    private Point finish;
     private Arena arena;
     private double maxSpeed;
     private double acceleration;
@@ -23,14 +23,18 @@ public class Racer {
         this.color = color;
     }
 
-    public EnumContainer.Color getC(){
-        return this.color;
+    public void initRace(Arena arena, Point start, Point finish){}
+    public Point move(double friction){ //move method for racer, needs more work
+        if(this.currentSpeed < this.maxSpeed){
+            this.currentSpeed += this.acceleration * this.arena.getFriction();
+            this.currentLocation.x = this.currentSpeed; 
+        }
+        return this.currentLocation;
     }
-
-    public static void main(String[] args) {
-        EnumContainer.Color c = Color.RED;
-        Racer r = new Racer("yes",1000,200,c);
-        System.out.println("Print: "+r.color);
-    }
-
+    public String describeSpecific(){}
+    public String describeRacer(){}
+    public void introduce(){}
+    public String className(){}
+    public boolean hasMishap(){}
+    //add setter and getter functions 
 }
