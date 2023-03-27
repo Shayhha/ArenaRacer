@@ -2,6 +2,14 @@ package utilities;
 
 public class Point {
 
+
+    /**
+     * This class is the Point class, its job is to represent a 2 dimentional point.
+     * It has a X and a Y value, it has some constant values that represent the max and min values of each point.
+     * This class has a default constructor, a normal constructor and a copy constructor.
+     * This class has a toString method to represent the point as a string and some getters and setters.
+     */
+
     private static final int MAX_X = 1000000;
     private static final int MIN_X = 0;
     private static final int MAX_Y = 800;
@@ -15,8 +23,9 @@ public class Point {
     }
 
     public Point(double X, double Y) {
-        this.x = X;
-        this.y = Y;
+        if (!this.setX(X) || !this.setY(Y)) {
+            throw new IllegalArgumentException("X or Y are invalid");
+        }
     }
 
     public Point(Point obj) {
@@ -32,13 +41,19 @@ public class Point {
     private double getY() { return this.y; };
 
     private boolean setX(double X) { 
-        this.x = X;
-        return true;
+        if (X <= MAX_X && X >= MIN_X) {
+            this.x = X;
+            return true;
+        }
+        return false;
     };
     
     private boolean setY(double Y) { 
-        this.y = Y;
-        return true;
+        if (Y <= MAX_Y && Y >= MIN_Y) {
+            this.y = Y;
+            return true;
+        }
+        return false;
     };
 
 }
