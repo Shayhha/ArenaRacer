@@ -42,7 +42,7 @@ public class Arena {
         Point end = new Point(this.length,0); //ending point
         int i = 0;
         for (Racer r : ActiveRacers) { //foreach racer we set the values of X and Y with MIN_Y_GAP and we call InitRace method for the racer
-            start.setY(i*this.MIN_Y_GAP);
+            start.setY(i * this.MIN_Y_GAP);
             end.setY(start.getY());
             r.initRace(this, start, end);
             i++; // we use i to organize the Racers on the track with the currect Y gap
@@ -70,7 +70,13 @@ public class Arena {
         this.completedRacers.add(racer);
     }
 
-    public void showResults(){}
+    public void showResults() {
+        int place = 0;
+        for (Racer racer : completedRacers) {
+            System.out.println("Place " + place + ":" + racer.describeRacer());
+            place+=1;
+        }
+    }
 
     //get & set methods
     public double getFriction(){ return this.FRICTION;}
