@@ -37,10 +37,10 @@ public class Point {
         return "( " + this.getX() + " , " + this.getY() + " )";
     } 
 
-    private double getX() { return this.x; };
-    private double getY() { return this.y; };
+    public double getX() { return this.x; };
+    public double getY() { return this.y; };
 
-    private boolean setX(double X) { 
+    public boolean setX(double X) { 
         if (X <= MAX_X && X >= MIN_X) {
             this.x = X;
             return true;
@@ -48,7 +48,7 @@ public class Point {
         return false;
     };
     
-    private boolean setY(double Y) { 
+    public boolean setY(double Y) { 
         if (Y <= MAX_Y && Y >= MIN_Y) {
             this.y = Y;
             return true;

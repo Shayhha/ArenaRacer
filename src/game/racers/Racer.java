@@ -23,18 +23,22 @@ public abstract class Racer {
         this.color = color;
     }
 
-    public void initRace(Arena arena, Point start, Point finish){}
-    public Point move(double friction){ //move method for racer, needs more work
+    public abstract void initRace(Arena arena, Point start, Point finish);
+
+    public Point move(double friction){ //method for racer to show his current location on track
         if(this.currentSpeed < this.maxSpeed){
-            this.currentSpeed += this.acceleration * this.arena.getFriction();
-            this.currentLocation.x = this.currentSpeed; 
+        this.currentSpeed += this.acceleration*friction;
+        this.currentLocation.setX(this.currentLocation.getX()+this.currentSpeed);
         }
         return this.currentLocation;
     }
-    public String describeSpecific(){}
+
+    public String describeSpecific(){ //needs to be worked on
+        return "Racer id: "+this.serialNumber+" Name: "+this.name;
+    }
     public String describeRacer(){}
     public void introduce(){}
-    public String className(){}
+    public String className(){return "ClassName<Racer>";}
     public boolean hasMishap(){}
     //add setter and getter functions 
 }

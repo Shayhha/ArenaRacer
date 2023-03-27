@@ -2,6 +2,7 @@ package game.arenas;
 import java.util.ArrayList;
 import java.util.List;
 import game.racers.Racer;
+import utilities.Point;
 
 public abstract class Arena {
 
@@ -36,13 +37,18 @@ public abstract class Arena {
         }
     }
 
-    public void initRace(){}
-    public boolean hasActiveRacers(){
+    public abstract void initRace(); //inherited classes need to implement
+
+    public boolean hasActiveRacers(){ //checks if racers array is empthy
         if(this.ActiveRacers.size()>0)
             return true;
         return false;
     }
-    public void playTurn(){}
+    public void playTurn(){
+        for (Racer r: this.ActiveRacers) {
+            this.ActiveRacers.move
+        }
+    }
     public void crossFinishLine(Racer racer){}
     public void showResults(){}
 
