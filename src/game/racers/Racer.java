@@ -14,7 +14,7 @@ public abstract class Racer {
     private double currentSpeed;
     private double failureProbability;
     private EnumContainer.Color color; //maybe wont work
-    //private Mishap mishap;
+    private Mishap mishap;
 
     public Racer(String name, double maxSpeed, double acceleration, Color color){
         this.name = name;
@@ -34,13 +34,19 @@ public abstract class Racer {
         return this.currentLocation;
     }
 
-    public String describeSpecific(){ //needs to be worked on
-        return "Racer id: "+this.serialNumber+" Name: "+this.name;
+    public abstract String describeSpecific(); //return number of wheels or horse type and stuff
+        
+    public String describeRacer(){
+        return "Racer id: " + this.serialNumber + " Name: " + this.name + this.describeSpecific();
     }
-    public String describeRacer(){}
-    public void introduce(){}
-    public String className(){return "ClassName<Racer>";}
-    public boolean hasMishap(){}
+    public void introduce(){
+        System.out.println(this.className() + ": " + this.describeRacer());
+    }
+    public abstract String className(); //return the name of the class
+
+    public boolean hasMishap() {
+        return false; // TODO
+    }
     //add setter and getter functions 
 
     public Point getCurrentLocation(){return this.currentLocation;} //getter for current location
