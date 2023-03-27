@@ -24,6 +24,7 @@ public abstract class Racer {
     }
 
     public abstract void initRace(Arena arena, Point start, Point finish);
+    
 
     public Point move(double friction){ //method for racer to show his current location on track
         if(this.currentSpeed < this.maxSpeed){
@@ -41,4 +42,6 @@ public abstract class Racer {
     public String className(){return "ClassName<Racer>";}
     public boolean hasMishap(){}
     //add setter and getter functions 
+
+    public Point getCurrentLocation(){return this.currentLocation;} //getter for current location
 }

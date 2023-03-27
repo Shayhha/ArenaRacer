@@ -4,7 +4,7 @@ import java.util.List;
 import game.racers.Racer;
 import utilities.Point;
 
-public abstract class Arena {
+public class Arena {
 
     private List<Racer> ActiveRacers = new ArrayList<Racer>();
     private List<Racer> completedRacers = new ArrayList<Racer>();
@@ -37,21 +37,45 @@ public abstract class Arena {
         }
     }
 
-    public abstract void initRace(); //inherited classes need to implement
+    public void initRace(){
+        Point start = new Point(); //starting point
+        Point end = new Point(this.length,0); //ending point
+        int i = 0;
+        for (Racer r : ActiveRacers) { //foreach racer we set the values of X and Y with MIN_Y_GAP and we call InitRace method for the racer
+            start.setY(i*this.MIN_Y_GAP);
+            end.setY(start.getY());
+            r.initRace(this, start, end);
+            i++; // we use i to organize the Racers on the track with the currect Y gap
+        }
+    }
+
 
     public boolean hasActiveRacers(){ //checks if racers array is empthy
         if(this.ActiveRacers.size()>0)
             return true;
         return false;
     }
-    public void playTurn(){
-        for (Racer r: this.ActiveRacers) {
-            this.ActiveRacers.move
+
+    public void playTurn() {
+        for (Racer r1: this.ActiveRacers) { //goes through all racers calls move method for each
+            r1.move(this.FRICTION);
+            if(r1.getCurrentLocation().getX() == this.length){ //if racer has finsihed the race we call crossFinishedLine method
+                crossFinishLine(r1);
+            }
         }
     }
-    public void crossFinishLine(Racer racer){}
+
+    public void crossFinishLine(Racer racer){ //gets a Racer and removes it from activeRacers and adds it to completeRacers
+        this.ActiveRacers.remove(racer);
+        this.completedRacers.add(racer);
+    }
+
     public void showResults(){}
 
     //get & set methods
     public double getFriction(){ return this.FRICTION;}
+    public double getMIN_Y_GAP(){return this.MIN_Y_GAP;}
+    public int getMAX_RACERS(){return this.MAX_RACERS;}
+    public List<Racer> getActiveRacers(){return this.ActiveRacers;}
+
 }
