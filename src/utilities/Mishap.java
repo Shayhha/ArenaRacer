@@ -58,4 +58,4 @@ public class Mishap {
         DecimalFormat formatter = new DecimalFormat("0.00");
         return "( " + this.getFixable() + ", " + this.getTurnsToFix() + ", " + formatter.format(this.getReductionFactor()) + " )";
     }
-
+}
