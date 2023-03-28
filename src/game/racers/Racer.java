@@ -2,6 +2,7 @@ package game.racers;
 import utilities.*;
 import utilities.EnumContainer.Color;
 import game.arenas.Arena;
+import utilities.Fate;
 
 public abstract class Racer {
     private int serialNumber;
@@ -27,11 +28,27 @@ public abstract class Racer {
     
 
     public Point move(double friction){ //method for racer to show his current location on track
-        if(this.currentSpeed < this.maxSpeed){
+        if(this.currentSpeed < this.maxSpeed){ //calcs racers new point
         this.currentSpeed += this.acceleration*friction;
         this.currentLocation.setX(this.currentLocation.getX()+this.currentSpeed);
         }
-        return this.currentLocation;
+
+        if(hasMishap()==true){ //we check if there is a mishap
+            if(this.mishap.getFixable() == true && this.mishap.getTurnsToFix()==0){//if true then we check if its fixable and has 0 turns
+                this.mishap=null;//if true we changing mishap to null
+            }
+        }
+        else{//else we dont have a mishap so we generate one if breakdown function returns true
+            if(Fate.breakDown()==true){
+                this.mishap=Fate.generateMishap();
+            }
+        }
+        
+        if(hasMishap()==true){ //we checks if we still have a mishap/new one generated
+            this.acceleration *= this.mishap.getReductionFactor();//we reduce the acceleration
+            this.mishap.setTurnsToFix(this.mishap.getTurnsToFix()-1);//we reduce the fix time
+        }
+        return this.currentLocation; //return new point
     }
 
     public abstract String describeSpecific(); //return number of wheels or horse type and stuff
@@ -44,8 +61,11 @@ public abstract class Racer {
     }
     public abstract String className(); //return the name of the class
 
-    public boolean hasMishap() {
-        return false; // TODO
+    public boolean hasMishap() {//chrcks if there is a mishap
+        if(this.mishap.getFixable()==true){
+            return true;
+        }
+        return false;
     }
     //add setter and getter functions 
 
