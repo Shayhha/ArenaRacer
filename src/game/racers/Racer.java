@@ -79,4 +79,8 @@ public abstract class Racer {
     public Point getCurrentLocation(){return this.currentLocation;} //getter for current location
     public Arena getArena(){return this.arena;}
     public int getSerialNumber(){return this.serialNumber;}
+    public boolean setName(String temp){
+        this.name = temp;
+        return true;
+    }
 }
