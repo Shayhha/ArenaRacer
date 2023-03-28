@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 import game.racers.Racer;
 import utilities.Point;
+import game.arenas.exceptions.*;
+
 
 public class Arena {
 
@@ -22,18 +24,17 @@ public class Arena {
     public void addRacer(Racer newRacer){ //add racer
         try{
             if((newRacer instanceof Racer) == false){ //throws exception if given instance isnt "Racer"
-                throw new Exception("RacerTypeExeption");
+                throw new RacerTypeException(newRacer);
             }
             else if(this.ActiveRacers.size()+1 > this.MAX_RACERS){ //throws exception if list is at max capacity
-                throw new Exception("RacerLimitException");
+                throw new RacerTypeException(newRacer);
             }
             else{ //else we add a new racer 
                 this.ActiveRacers.add(newRacer);
             }
-            
         }
         catch(Exception e){ //catches the exceptions and prints them
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -83,5 +84,11 @@ public class Arena {
     public double getMIN_Y_GAP(){return this.MIN_Y_GAP;}
     public int getMAX_RACERS(){return this.MAX_RACERS;}
     public List<Racer> getActiveRacers(){return this.ActiveRacers;}
+    public List<Racer> getCompletedRacers(){return this.completedRacers;}
+    public double length(){return this.length;}
+    public boolean setLength(double t){
+        this.length=t;
+        return true;
+    }
 
 }

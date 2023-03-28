@@ -24,7 +24,11 @@ public abstract class Racer {
         this.color = color;
     }
 
-    public abstract void initRace(Arena arena, Point start, Point finish);
+    public void initRace(Arena arena, Point start, Point finish){
+        this.arena=arena;
+        this.finish=finish;
+        this.finish.setY(start.getY());
+    }
     
 
     public Point move(double friction){ //method for racer to show his current location on track
@@ -59,7 +63,10 @@ public abstract class Racer {
     public void introduce(){
         System.out.println(this.className() + ": " + this.describeRacer());
     }
-    public abstract String className(); //return the name of the class
+
+    public String className(){ //return the name of the class
+        return this.getClass().getSimpleName();
+    } 
 
     public boolean hasMishap() {//chrcks if there is a mishap
         if(this.mishap.getFixable()==true){
@@ -70,4 +77,6 @@ public abstract class Racer {
     //add setter and getter functions 
 
     public Point getCurrentLocation(){return this.currentLocation;} //getter for current location
+    public Arena getArena(){return this.arena;}
+    public int getSerialNumber(){return this.serialNumber;}
 }
