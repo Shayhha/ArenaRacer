@@ -58,10 +58,16 @@ public abstract class Racer {
     public abstract String describeSpecific(); //return number of wheels or horse type and stuff
         
     public String describeRacer(){
-        return "Racer id: " + this.serialNumber + " Name: " + this.name + this.describeSpecific();
+        return "name: " + this.getName() + ", " +
+        "SerialNumber: " + this.getSerialNumber() + ", " +
+        "maxSpeed: " + this.getMaxSpeed() + ", " +
+        "acceleration: " + this.getAcceleration() + ", " +
+        "color: " + this.getColor() +  ", " +/* this line might give an error, we are trying to print an enum value */
+        this.describeSpecific();
     }
+
     public void introduce(){
-        System.out.println(this.className() + ": " + this.describeRacer());
+        System.out.println("[" +this.className()+ "] " + this.describeRacer());
     }
 
     public String className(){ //return the name of the class
