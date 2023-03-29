@@ -5,6 +5,7 @@ import game.arenas.Arena;
 import utilities.Fate;
 
 public abstract class Racer {
+    private int instanceCounter=0; // we use this static field to initialize serialNumber for each instance of class 
     private int serialNumber;
     private String name;
     private Point currentLocation;
@@ -14,7 +15,7 @@ public abstract class Racer {
     private double acceleration;
     private double currentSpeed;
     private double failureProbability;
-    private EnumContainer.Color color; //maybe wont work
+    private EnumContainer.Color color; 
     private Mishap mishap;
 
     public Racer(String name, double maxSpeed, double acceleration, Color color){ //? maybe here we need to use the setters?
@@ -22,6 +23,8 @@ public abstract class Racer {
         this.maxSpeed = maxSpeed;
         this.acceleration = acceleration;
         this.color = color;
+        this.serialNumber = instanceCounter;
+        instanceCounter++; //we increase the insatanceField for each instace of class
     }
 
     public void initRace(Arena arena, Point start, Point finish){
@@ -74,7 +77,7 @@ public abstract class Racer {
         return this.getClass().getSimpleName();
     } 
 
-    public boolean hasMishap() {//chrcks if there is a mishap
+    public boolean hasMishap() {//checks if there is a mishap
         if(this.mishap.getFixable()==true){
             return true;
         }

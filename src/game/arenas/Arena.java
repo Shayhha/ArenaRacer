@@ -44,7 +44,6 @@ public class Arena {
         int i = 0;
         for (Racer r : ActiveRacers) { //foreach racer we set the values of X and Y with MIN_Y_GAP and we call InitRace method for the racer
             start.setY(i * MIN_Y_GAP);
-            end.setY(start.getY());
             r.initRace(this, start, end);
             i++; // we use i to organize the Racers on the track with the currect Y gap
         }
