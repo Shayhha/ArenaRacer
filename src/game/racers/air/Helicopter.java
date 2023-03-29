@@ -4,7 +4,7 @@ import game.racers.Racer;
 import utilities.EnumContainer.Color;
 
 
-public class Helicopter extends Racer {
+public class Helicopter extends Racer implements AerialRacer {
 
     private static final String CLASS_NAME = "Helicopter";
     private static final double DEFAULT_MAX_SPEED = 400;

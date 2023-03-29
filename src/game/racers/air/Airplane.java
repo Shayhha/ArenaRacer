@@ -5,7 +5,7 @@ import game.racers.Wheeled;
 import utilities.EnumContainer.Color;
 
 
-public class Airplane extends Racer {
+public class Airplane extends Racer implements AerialRacer {
 
     private static final String CLASS_NAME = "Airplane";
     private static final int DEFAULT_WHEELS = 3;
