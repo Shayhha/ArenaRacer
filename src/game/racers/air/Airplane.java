@@ -30,6 +30,10 @@ public class Airplane extends Racer implements AerialRacer {
         this.wheeled = new Wheeled(numOfWheels);
     }
 
+    public String className(){ //return the name of the class rowboat
+        return CLASS_NAME;
+    }  
+
     public String describeSpecific() {
         return wheeled.describeSpecific();
     }

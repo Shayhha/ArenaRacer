@@ -28,6 +28,10 @@ public class SpeedBoat extends Racer implements NavalRacer {
         } 
     }
 
+    public String className(){ //return the name of the class rowboat
+        return CLASS_NAME;
+    }
+    
     public String describeSpecific() {
         return "Type: "+ this.type +", Team: "+this.team;
     }
