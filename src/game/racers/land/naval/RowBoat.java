@@ -28,6 +28,9 @@ public class RowBoat extends Racer implements NavalRacer{
 
     public RowBoat(String name, double maxSpeed, double acceleration, Color color){
         super(name,maxSpeed,acceleration,color);//calls super class ctor
+        if(name.equals("")){ //checks if string of name is empty 
+            this.setName(CLASS_NAME+" #"+ this.getSerialNumber());//we set default name “RowBoat #<serialNumber>
+        }
     }
 
     public String className(){ //return the name of the class rowboat
@@ -35,7 +38,7 @@ public class RowBoat extends Racer implements NavalRacer{
     } 
 
     public String describeSpecific(){
-        return "";
+        return "Type: "+ this.type +", Team: "+this.team;
     }
 
     //setter and getter methods
