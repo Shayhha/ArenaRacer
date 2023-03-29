@@ -17,7 +17,7 @@ public abstract class Racer {
     private EnumContainer.Color color; //maybe wont work
     private Mishap mishap;
 
-    public Racer(String name, double maxSpeed, double acceleration, Color color){
+    public Racer(String name, double maxSpeed, double acceleration, Color color){ //? maybe here we need to use the setters?
         this.name = name;
         this.maxSpeed = maxSpeed;
         this.acceleration = acceleration;
@@ -157,14 +157,9 @@ public abstract class Racer {
 
     public EnumContainer.Color getColor() { return this.color; }
 
-    public boolean setColor(String newColor) { // maybe change this param from string to the Color enum type?
-        for (EnumContainer.Color e : EnumContainer.Color.values()) {
-            if (newColor.toUpperCase() == e.toString()) {
-                this.color = e;
-                return true;
-            }
-        }
-        return false;
+    public boolean setColor(EnumContainer.Color newColor) { 
+        this.color = newColor;
+        return true;
     }
 
 }
