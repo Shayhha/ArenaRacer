@@ -24,7 +24,7 @@ public class SpeedBoat extends Racer implements NavalRacer {
         super(name, maxSpeed, acceleration, color);
 
         if (name == null || name == "") {
-            this.setName(CLASS_NAME + " #" +this.getSerialNumber()); //! getSerialNumber might not work here
+            this.setName(CLASS_NAME + " #" +this.getSerialNumber()); 
         } 
     }
 
