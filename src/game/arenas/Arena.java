@@ -30,6 +30,7 @@ public class Arena {
         }
         else{ //else we add a new racer 
             this.ActiveRacers.add(newRacer);
+            System.out.println("14124124");
         }
     }
 

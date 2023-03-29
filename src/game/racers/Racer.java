@@ -5,7 +5,7 @@ import game.arenas.Arena;
 import utilities.Fate;
 
 public abstract class Racer {
-    private static int instanceCounter=0; // we use this static field to initialize serialNumber for each instance of class 
+    private static int instanceCounter=1; // we use this static field to initialize serialNumber for each instance of class 
     private int serialNumber;
     private String name;
     private Point currentLocation;
