@@ -24,6 +24,10 @@ public class Helicopter extends Racer implements AerialRacer {
         } 
     }
 
+    public String className(){ //return the name of the class rowboat
+        return CLASS_NAME;
+    }
+
     public String describeSpecific() {
         return "";
     }
