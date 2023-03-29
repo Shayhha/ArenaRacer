@@ -17,8 +17,8 @@ public class RowBoat extends Racer implements NavalRacer{
     private static final double DEFAULT_MAX_SPEED=75;
     private static final double DEFAULT_ACCELERATION=10;
     private static final EnumContainer.Color DEFAULT_color = Color.RED;
-    private EnumContainer.BoatType type =BoatType.SKULLING;
-    private EnumContainer.Team team=Team.DOUBLE;
+    private EnumContainer.BoatType type = BoatType.SKULLING;
+    private EnumContainer.Team team = Team.DOUBLE;
 
     public RowBoat(){// default ctor
         super("", DEFAULT_MAX_SPEED, DEFAULT_ACCELERATION, DEFAULT_color);//calls super class 
