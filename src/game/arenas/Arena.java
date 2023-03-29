@@ -22,16 +22,22 @@ public class Arena {
     }
 
     public void addRacer(Racer newRacer) throws RacerLimitException, RacerTypeException{ //add racer
-        newRacer.setArena(this); //! testing!!!!!!!
-        if(!(newRacer instanceof Racer)){ //throws exception if given instance isnt "Racer"
+        newRacer.setArena(this);
+        String racerClassName = newRacer.getClass().getName().split("\\.+")[2];
+        String arenaClassName = this.getClass().getName().split("\\.+")[2];
+
+        // if(!(newRacer instanceof Racer)){ //throws exception if given instance isnt "Racer"
+        //     throw new RacerTypeException(newRacer);
+        // }
+
+        if(!(racerClassName.equals(arenaClassName))){ //throws exception if given instance isnt "Racer"
             throw new RacerTypeException(newRacer);
         }
         else if(this.ActiveRacers.size()+1 > this.MAX_RACERS){ //throws exception if list is at max capacity
             throw new RacerLimitException(newRacer);
         }
         else{ //else we add a new racer 
-            this.ActiveRacers.add(newRacer);
-            System.out.println("14124124");
+            this.ActiveRacers.add(newRacer);     
         }
     }
 
@@ -54,17 +60,21 @@ public class Arena {
     }
 
     public void playTurn() {
-        for (Racer r1: this.ActiveRacers) { //goes through all racers calls move method for each
-            r1.move(this.FRICTION);
-            if(r1.getCurrentLocation().getX() == this.length){ //if racer has finsihed the race we call crossFinishedLine method
-                crossFinishLine(r1);
+        if (this.ActiveRacers.size() != 0) {
+            for (Racer r1: this.ActiveRacers) { //goes through all racers calls move method for each
+                r1.move(this.FRICTION);
+                System.out.println(this.ActiveRacers.size());
+                if(r1.getCurrentLocation().getX() >= this.length){ //if racer has finsihed the race we call crossFinishedLine method
+                    crossFinishLine(r1);
+                }
             }
         }
+        System.out.println("asdasdas");
     }
 
     public void crossFinishLine(Racer racer){ //gets a Racer and removes it from activeRacers and adds it to completeRacers
+        this.completedRacers.add(racer);//!
         this.ActiveRacers.remove(racer);
-        this.completedRacers.add(racer);
     }
 
     public void showResults() {

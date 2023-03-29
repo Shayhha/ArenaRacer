@@ -40,6 +40,7 @@ public abstract class Racer {
         this.currentSpeed += this.acceleration*friction;
         this.currentLocation.setX(this.currentLocation.getX()+this.currentSpeed);
         }
+        this.mishap = Fate.generateMishap();
 
         if(hasMishap()==true){ //we check if there is a mishap
             if(this.mishap.getFixable() == true && this.mishap.getTurnsToFix()==0){//if true then we check if its fixable and has 0 turns
@@ -101,7 +102,6 @@ public abstract class Racer {
 
     public boolean setArena(Arena a) { 
         this.arena = a;
-        System.out.println(this.arena.getMIN_Y_GAP());
         return true;
     }
 
