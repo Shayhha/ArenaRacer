@@ -66,14 +66,14 @@ public class Arena {
                 System.out.println(this.ActiveRacers.size());
                 if(r1.getCurrentLocation().getX() >= this.length){ //if racer has finsihed the race we call crossFinishedLine method
                     crossFinishLine(r1);
+                    break; //! this is bad!
                 }
             }
         }
-        System.out.println("asdasdas");
     }
 
     public void crossFinishLine(Racer racer){ //gets a Racer and removes it from activeRacers and adds it to completeRacers
-        this.completedRacers.add(racer);//!
+        this.completedRacers.add(racer);
         this.ActiveRacers.remove(racer);
     }
 
