@@ -1,0 +1,56 @@
+package game.arenas.air;
+import game.arenas.Arena;
+import utilities.EnumContainer;
+import utilities.EnumContainer.Height;
+import utilities.EnumContainer.Vision;
+import utilities.EnumContainer.Weather;
+import utilities.EnumContainer.Wind;
+
+public class AerialArena extends Arena {
+    /*
+     * AerialArena class
+     * represents aerial races
+     * includes ctor for class with super inplementation for superclass
+     * methods to set parameters
+     * methods to get class parameters
+     */
+    
+    private static double DEFAULT_FRICTION=0.4;
+    private final static int DEFAULT_MAX_RACERS=6;
+    private final static int DEFAULT_LENGTH=1500;
+    private EnumContainer.Vision vision = Vision.SUNNY;
+    private EnumContainer.Weather weather = Weather.DRY;
+    private EnumContainer.Height height=Height.HIGH;
+    private EnumContainer.Wind wind=Wind.HIGH;
+
+    public AerialArena(){ //defult ctor;
+        super(DEFAULT_LENGTH,DEFAULT_MAX_RACERS,DEFAULT_LENGTH);
+    }
+
+    public AerialArena(double length, int maxRacers){ //ctor
+        super(length,maxRacers,DEFAULT_FRICTION);//calls super class with desired parameters
+    }
+
+    //setter and getter methods
+    public EnumContainer.Vision getVision(){return this.vision;}
+    public EnumContainer.Weather getWeather(){return this.weather;}
+    public EnumContainer.Height getHeight(){return this.height;}
+    public EnumContainer.Wind getWind(){return this.wind;}
+    public boolean setVision(EnumContainer.Vision temp){
+        this.vision = temp;
+        return true;
+    }
+    public boolean setWeather(EnumContainer.Weather temp){
+        this.weather = temp;
+        return true;
+    }
+    public boolean setHeight(EnumContainer.Height temp){
+        this.height = temp;
+        return true;
+    }
+    public boolean setWind(EnumContainer.Wind temp){
+        this.wind = temp;
+        return true;
+    }
+
+}
