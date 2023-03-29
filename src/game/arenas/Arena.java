@@ -22,11 +22,12 @@ public class Arena {
     }
 
     public void addRacer(Racer newRacer) throws RacerLimitException, RacerTypeException{ //add racer
-        if((newRacer instanceof Racer) == false){ //throws exception if given instance isnt "Racer"
+        newRacer.setArena(this); //! testing!!!!!!!
+        if(!(newRacer instanceof Racer)){ //throws exception if given instance isnt "Racer"
             throw new RacerTypeException(newRacer);
         }
         else if(this.ActiveRacers.size()+1 > this.MAX_RACERS){ //throws exception if list is at max capacity
-            throw new RacerTypeException(newRacer);
+            throw new RacerLimitException(newRacer);
         }
         else{ //else we add a new racer 
             this.ActiveRacers.add(newRacer);

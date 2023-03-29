@@ -28,8 +28,9 @@ public abstract class Racer {
     }
 
     public void initRace(Arena arena, Point start, Point finish){
-        this.arena=arena;
-        this.finish=finish;
+        //this.arena=arena; //initilaze arena
+        this.currentLocation = start;//we initilaize currentLocation
+        this.finish=finish; //initilaze finish
         this.finish.setY(start.getY());
     }
     
@@ -98,7 +99,9 @@ public abstract class Racer {
 
     public Arena getArena(){return this.arena;}
 
-    public boolean setArena() { // TODO: this is going to be similar to setMishap i think
+    public boolean setArena(Arena a) { 
+        this.arena = a;
+        System.out.println(this.arena.getMIN_Y_GAP());
         return true;
     }
 

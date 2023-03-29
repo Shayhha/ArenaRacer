@@ -37,8 +37,7 @@ public class Program {
 		for (Racer racer : racers) {
 			try {
 				arena.addRacer(racer);
-				System.out.println("testtest");
-
+				
 			} catch (RacerLimitException e) {
 				System.out.println("[Error] " + e.getMessage());
 			} catch (RacerTypeException e) {
