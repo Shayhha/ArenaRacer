@@ -28,10 +28,20 @@ public class SpeedBoat extends Racer implements NavalRacer {
         } 
     }
 
-
     public String describeSpecific() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'describeSpecific'");
+        return "Type: "+ this.type +", Team: "+this.team;
     }
     
+    //setter and getter methods
+    public EnumContainer.BoatType getType(){return this.type;}
+    public EnumContainer.Team getTeam(){return this.team;}
+    public boolean setType(EnumContainer.BoatType temp){
+        this.type=temp;
+        return true;
+    }
+    public boolean setTeam(EnumContainer.Team temp){
+        this.team=temp;
+        return true;
+    }
+
 }
