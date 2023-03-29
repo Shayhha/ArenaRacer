@@ -12,7 +12,8 @@ public class Helicopter extends Racer implements AerialRacer {
     private static final Color DEFAULT_color = Color.BLUE;
 
     public Helicopter() {
-        super(CLASS_NAME, DEFAULT_MAX_SPEED, DEFAULT_ACCELERATION, DEFAULT_color);
+        super("", DEFAULT_MAX_SPEED, DEFAULT_ACCELERATION, DEFAULT_color);
+        this.setName(CLASS_NAME + " #" +this.getSerialNumber());
     }
 
     public Helicopter(String name, double maxSpeed, double acceleration, Color color) {

@@ -15,7 +15,8 @@ public class Airplane extends Racer implements AerialRacer {
     private Wheeled wheeled;
 
     public Airplane() {
-        super(CLASS_NAME, DEFAULT_MAX_SPEED, DEFAULT_ACCELERATION, DEFAULT_color);
+        super("", DEFAULT_MAX_SPEED, DEFAULT_ACCELERATION, DEFAULT_color);
+        this.setName(CLASS_NAME + " #" +this.getSerialNumber());
         this.wheeled = new Wheeled(DEFAULT_WHEELS); //? maybe here i need to use the default constructor of Wheeled?
     }
 
