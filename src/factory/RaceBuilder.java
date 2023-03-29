@@ -1,6 +1,7 @@
 package factory;
 import game.arenas.Arena;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import game.racers.Racer;
 import utilities.EnumContainer;
@@ -26,7 +27,9 @@ public class RaceBuilder {
         return instance;
     }
 
-    public Arena buildArena(String arenaType, double length, int maxRacers) throws Exception{ //creates an area instance
+    public Arena buildArena(String arenaType, double length, int maxRacers) 
+        throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException
+            ,IllegalAccessException, IllegalArgumentException, InvocationTargetException { //creates an area instance
         this.classLoader = ClassLoader.getSystemClassLoader();
         classObject = classLoader.loadClass(arenaType);
         this.constructor = classObject.getConstructor(double.class,int.class); //can throw an exception
@@ -34,7 +37,9 @@ public class RaceBuilder {
         return arena;
     }
 
-    public Racer buildRacer(String racerType, String name, double maxSpeed, double acceleration, utilities.EnumContainer.Color color) throws Exception{ //creats racer instance
+    public Racer buildRacer(String racerType, String name, double maxSpeed, double acceleration, utilities.EnumContainer.Color color) 
+        throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException
+            ,IllegalAccessException, IllegalArgumentException, InvocationTargetException { //creats racer instance
         this.classLoader = ClassLoader.getSystemClassLoader();
         classObject = classLoader.loadClass(racerType);
         this.constructor = classObject.getConstructor(String.class,double.class,double.class,EnumContainer.Color.class);
@@ -42,7 +47,9 @@ public class RaceBuilder {
         return racer;
     }
 
-    public Racer buildWheeledRacer(String racerType, String name, double maxSpeed, double acceleration, utilities.EnumContainer.Color color, int numOfWheels) throws Exception{//creats wheeled racer instance
+    public Racer buildWheeledRacer(String racerType, String name, double maxSpeed, double acceleration, utilities.EnumContainer.Color color, int numOfWheels) 
+        throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException
+            ,IllegalAccessException, IllegalArgumentException, InvocationTargetException { //creats wheeled racer instance
         classObject = classLoader.loadClass(racerType);
         this.classLoader = ClassLoader.getSystemClassLoader();
         this.constructor = classObject.getConstructor(String.class,double.class,double.class,EnumContainer.Color.class,int.class);

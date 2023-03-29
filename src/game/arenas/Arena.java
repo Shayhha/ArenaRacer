@@ -21,20 +21,15 @@ public class Arena {
         this.FRICTION = friction;
     }
 
-    public void addRacer(Racer newRacer){ //add racer
-        try{
-            if((newRacer instanceof Racer) == false){ //throws exception if given instance isnt "Racer"
-                throw new RacerTypeException(newRacer);
-            }
-            else if(this.ActiveRacers.size()+1 > this.MAX_RACERS){ //throws exception if list is at max capacity
-                throw new RacerTypeException(newRacer);
-            }
-            else{ //else we add a new racer 
-                this.ActiveRacers.add(newRacer);
-            }
+    public void addRacer(Racer newRacer) throws RacerLimitException, RacerTypeException{ //add racer
+        if((newRacer instanceof Racer) == false){ //throws exception if given instance isnt "Racer"
+            throw new RacerTypeException(newRacer);
         }
-        catch(Exception e){ //catches the exceptions and prints them
-            System.out.println(e.getMessage());
+        else if(this.ActiveRacers.size()+1 > this.MAX_RACERS){ //throws exception if list is at max capacity
+            throw new RacerTypeException(newRacer);
+        }
+        else{ //else we add a new racer 
+            this.ActiveRacers.add(newRacer);
         }
     }
 
