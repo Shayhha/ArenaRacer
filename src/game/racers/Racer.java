@@ -74,13 +74,91 @@ public abstract class Racer {
         }
         return false;
     }
+
     //add setter and getter functions 
 
     public Point getCurrentLocation(){return this.currentLocation;} //getter for current location
+
+    public boolean setCurrentLocation(Point newPoint) { //setter for current location
+        if (this.currentLocation.setX(newPoint.getX()) && this.currentLocation.setY(newPoint.getY())) {
+            return true;
+        }
+        return false;
+    }
+
+
     public Arena getArena(){return this.arena;}
+
+    public boolean setArena() { // TODO: this is going to be similar to setMishap i think
+        return true;
+    }
+
     public int getSerialNumber(){return this.serialNumber;}
+
+    public boolean setSerialNumber(int number) {
+        this.serialNumber = number;
+        return true;
+    }
+
+    public String getName() { return this.name; }
+
     public boolean setName(String temp){
         this.name = temp;
         return true;
     }
+
+    public Point getFinish(){return this.finish;} //getter for finish location
+
+    public boolean setFinish(Point newPoint) { //setter for finish location
+        if (this.finish.setX(newPoint.getX()) && this.finish.setY(newPoint.getY())) {
+            return true;
+        }
+        return false;
+    }
+
+    public double getMaxSpeed() { return this.maxSpeed; }
+
+    public boolean setMaxSpeed(double value) { this.maxSpeed = value; return true; }
+
+    public double getAcceleration() { return this.acceleration; }
+
+    public boolean setAcceleration(double value) { this.acceleration = value; return true; }
+
+    public double getCurrentSpeed() { return this.currentSpeed; }
+
+    public boolean setCurrentSpeed(double value) { this.currentSpeed = value; return true; }
+
+    public double getFailureProbability() { return this.failureProbability; }
+
+    public boolean setFailureProbability(double value) { this.failureProbability = value; return true; }
+
+    public Mishap getMishap() { return this.mishap; }
+
+    public boolean setMishap(Mishap newMishap) {
+    /**
+     * there is a small problem here, if one of the setters returns true and the next returns false,
+     * then we will have a mishap with incorrect data because one field will change and the other wont,
+     * is this a problem?
+     */
+
+        if (this.mishap.setFixable(newMishap.getFixable()) &&
+            this.mishap.setReductionFactor(newMishap.getReductionFactor()) &&
+            this.mishap.setTurnsToFix(newMishap.getTurnsToFix())) {
+            return true;
+        }
+        return false;
+    }
+
+    public EnumContainer.Color getColor() { return this.color; }
+
+    public boolean setColor(String newColor) { // maybe change this param from string to the Color enum type?
+        for (EnumContainer.Color e : EnumContainer.Color.values()) {
+            if (newColor.toUpperCase() == e.toString()) {
+                this.color = e;
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
