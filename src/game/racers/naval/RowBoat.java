@@ -33,7 +33,7 @@ public class RowBoat extends Racer implements NavalRacer{
     }
 
     public String className(){ //return the name of the class rowboat
-        return this.getClass().getSimpleName();
+        return CLASS_NAME;
     } 
 
     public String describeSpecific(){
