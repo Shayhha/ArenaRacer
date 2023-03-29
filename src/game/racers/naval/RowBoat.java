@@ -1,6 +1,5 @@
-package game.racers.land.naval;
+package game.racers.naval;
 import game.racers.Racer;
-import game.racers.naval.NavalRacer;
 import utilities.EnumContainer;
 import utilities.EnumContainer.BoatType;
 import utilities.EnumContainer.Color;
