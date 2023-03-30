@@ -34,31 +34,34 @@ public abstract class Racer {
     
 
     public Point move(double friction){ //method for racer to show his current location on track
-
+        int flag = 0;
+        double newAcc=this.getAcceleration();
         if(hasMishap()==true){ //we check if there is a mishap
             if(this.mishap.getFixable() == true && this.mishap.getTurnsToFix()==0){//if true then we check if its fixable and has 0 turns
                 this.mishap=null;//if true we changing mishap to null
             }
             else{
-                //this.mishap.toString();
+                flag = 1;
             }
         }
         else{//else we dont have a mishap so we generate one if breakdown function returns true
             if(Fate.breakDown()==true){
-                this.mishap=Fate.generateMishap();
+                this.mishap = Fate.generateMishap();
                 System.out.println(this.getName() + " has a new mishap! " + this.mishap.toString());
+                flag = 1;
             }
         }
 
-        if(this.currentSpeed < this.maxSpeed){ //calcs racers new point
-        this.currentSpeed += this.acceleration*friction;
-        this.currentLocation.setX(this.currentLocation.getX()+this.currentSpeed);
-        }
-
-        if(hasMishap()==true){ //we checks if we still have a mishap/new one generated
-            this.acceleration += this.mishap.getReductionFactor();//we reduce the acceleration
+        if (flag == 1) {
+            newAcc *=this.mishap.getReductionFactor();
             this.mishap.setTurnsToFix(this.mishap.getTurnsToFix()-1);//we reduce the fix time
         }
+
+        if(this.currentSpeed < this.maxSpeed) { //calcs racers new point
+            this.currentSpeed += newAcc*friction; //? maybe add a min function to take the max speed
+            this.currentLocation.setX(this.currentLocation.getX()+this.currentSpeed);
+        }
+        
         return this.currentLocation; //return new point
     }
 
@@ -148,13 +151,7 @@ public abstract class Racer {
 
     public Mishap getMishap() { return this.mishap; }
 
-    public boolean setMishap(Mishap newMishap) {
-    /**
-     * there is a small problem here, if one of the setters returns true and the next returns false,
-     * then we will have a mishap with incorrect data because one field will change and the other wont,
-     * is this a problem?
-     */
-
+    public boolean setMishap(Mishap newMishap) { //we need to check if all set methods return true value
         if (this.mishap.setFixable(newMishap.getFixable()) &&
             this.mishap.setReductionFactor(newMishap.getReductionFactor()) &&
             this.mishap.setTurnsToFix(newMishap.getTurnsToFix())) {
@@ -170,13 +167,14 @@ public abstract class Racer {
         return true;
     }
 
-    public boolean equals(Object obj){ //! for testing 
+    public boolean equals(Object obj){ //equals method for Racer class for our use later
         if(obj instanceof Racer){
-            if(this.name == ((Racer)obj).name && this.serialNumber == ((Racer)obj).serialNumber){
+            if(this.name == ((Racer)obj).name && this.serialNumber == ((Racer)obj).serialNumber && 
+            this.currentLocation.equals(((Racer)obj).currentLocation) && this.maxSpeed == ((Racer)obj).maxSpeed && 
+            this.acceleration == ((Racer)obj).acceleration && this.color == ((Racer)obj).color) {
                 return true;
             }
-        }
+        } 
         return false;
     }
-
 }

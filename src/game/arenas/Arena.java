@@ -66,7 +66,7 @@ public class Arena {
                 r1.move(this.FRICTION);
                 //System.out.println(this.ActiveRacers.size());
                 if(r1.getCurrentLocation().getX() >= this.length){ //if racer has finsihed the race we call crossFinishedLine method
-                    List<Racer> temp = new ArrayList<Racer>();
+                    List<Racer> temp = new ArrayList<Racer>(); //temp list
                     for (Racer r2 : ActiveRacers) { //deletes the obj from arrayList
                         if(r2.equals(r1)==false)
                             temp.add(r2);
@@ -78,9 +78,8 @@ public class Arena {
         }
     }
 
-    public void crossFinishLine(Racer racer){ //gets a Racer and removes it from activeRacers and adds it to completeRacers
+    public void crossFinishLine(Racer racer){ //gets a Racer and adds it to completeRacers
         this.completedRacers.add(racer);
-        //this.ActiveRacers.remove(racer);
     }
 
     public void showResults() {
