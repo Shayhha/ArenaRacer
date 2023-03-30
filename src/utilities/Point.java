@@ -56,4 +56,11 @@ public class Point {
         return false;
     };
 
+    public boolean equals(Point other) {
+        if (this.getX() == other.getX() && this.getY() == other.getY()) { 
+            return true;
+        }
+        return false;
+    }
+
 }
