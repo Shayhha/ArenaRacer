@@ -66,7 +66,6 @@ public class Arena {
                 System.out.println(this.ActiveRacers.size());
                 if(r1.getCurrentLocation().getX() >= this.length){ //if racer has finsihed the race we call crossFinishedLine method
                     crossFinishLine(r1);
-                    break; //! this is bad!
                 }
             }
         }

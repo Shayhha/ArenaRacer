@@ -40,11 +40,13 @@ public abstract class Racer {
         this.currentSpeed += this.acceleration*friction;
         this.currentLocation.setX(this.currentLocation.getX()+this.currentSpeed);
         }
-        this.mishap = Fate.generateMishap();
 
         if(hasMishap()==true){ //we check if there is a mishap
             if(this.mishap.getFixable() == true && this.mishap.getTurnsToFix()==0){//if true then we check if its fixable and has 0 turns
                 this.mishap=null;//if true we changing mishap to null
+            }
+            else{
+                this.mishap.toString();
             }
         }
         else{//else we dont have a mishap so we generate one if breakdown function returns true
@@ -80,7 +82,7 @@ public abstract class Racer {
     } 
 
     public boolean hasMishap() {//checks if there is a mishap
-        if(this.mishap.getFixable()==true){
+        if(this.mishap != null){
             return true;
         }
         return false;
