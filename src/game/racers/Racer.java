@@ -46,6 +46,7 @@ public abstract class Racer {
         else{//else we dont have a mishap so we generate one if breakdown function returns true
             if(Fate.breakDown()==true){
                 this.mishap=Fate.generateMishap();
+                System.out.println(this.getName() + " has a new mishap! " + this.mishap.toString());
             }
         }
 
@@ -55,7 +56,6 @@ public abstract class Racer {
         }
 
         if(hasMishap()==true){ //we checks if we still have a mishap/new one generated
-            System.out.println(this.getName() + " has a mishap ! " + this.mishap.toString());
             this.acceleration += this.mishap.getReductionFactor();//we reduce the acceleration
             this.mishap.setTurnsToFix(this.mishap.getTurnsToFix()-1);//we reduce the fix time
         }
