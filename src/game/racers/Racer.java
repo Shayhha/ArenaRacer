@@ -28,25 +28,19 @@ public abstract class Racer {
     }
 
     public void initRace(Arena arena, Point start, Point finish){
-        //this.arena=arena; //initilaze arena
         this.currentLocation = start;//we initilaize currentLocation
         this.finish=finish; //initilaze finish
-        this.finish.setY(start.getY());
     }
     
 
     public Point move(double friction){ //method for racer to show his current location on track
-        if(this.currentSpeed < this.maxSpeed){ //calcs racers new point
-        this.currentSpeed += this.acceleration*friction;
-        this.currentLocation.setX(this.currentLocation.getX()+this.currentSpeed);
-        }
 
         if(hasMishap()==true){ //we check if there is a mishap
             if(this.mishap.getFixable() == true && this.mishap.getTurnsToFix()==0){//if true then we check if its fixable and has 0 turns
                 this.mishap=null;//if true we changing mishap to null
             }
             else{
-                this.mishap.toString();
+                //this.mishap.toString();
             }
         }
         else{//else we dont have a mishap so we generate one if breakdown function returns true
@@ -54,9 +48,15 @@ public abstract class Racer {
                 this.mishap=Fate.generateMishap();
             }
         }
-        
+
+        if(this.currentSpeed < this.maxSpeed){ //calcs racers new point
+        this.currentSpeed += this.acceleration*friction;
+        this.currentLocation.setX(this.currentLocation.getX()+this.currentSpeed);
+        }
+
         if(hasMishap()==true){ //we checks if we still have a mishap/new one generated
-            this.acceleration *= this.mishap.getReductionFactor();//we reduce the acceleration
+            System.out.println(this.getName() + " has a mishap ! " + this.mishap.toString());
+            this.acceleration += this.mishap.getReductionFactor();//we reduce the acceleration
             this.mishap.setTurnsToFix(this.mishap.getTurnsToFix()-1);//we reduce the fix time
         }
         return this.currentLocation; //return new point
@@ -168,6 +168,15 @@ public abstract class Racer {
     public boolean setColor(EnumContainer.Color newColor) { 
         this.color = newColor;
         return true;
+    }
+
+    public boolean equals(Object obj){ //! for testing 
+        if(obj instanceof Racer){
+            if(this.name == ((Racer)obj).name && this.serialNumber == ((Racer)obj).serialNumber){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

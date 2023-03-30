@@ -47,6 +47,7 @@ public class Arena {
         int i = 0;
         for (Racer r : ActiveRacers) { //foreach racer we set the values of X and Y with MIN_Y_GAP and we call InitRace method for the racer
             start.setY(i * MIN_Y_GAP);
+            end.setY(i * MIN_Y_GAP);
             r.initRace(this, start, end);
             i++; // we use i to organize the Racers on the track with the currect Y gap
         }
@@ -63,8 +64,14 @@ public class Arena {
         if (this.ActiveRacers.size() != 0) {
             for (Racer r1: this.ActiveRacers) { //goes through all racers calls move method for each
                 r1.move(this.FRICTION);
-                System.out.println(this.ActiveRacers.size());
+                //System.out.println(this.ActiveRacers.size());
                 if(r1.getCurrentLocation().getX() >= this.length){ //if racer has finsihed the race we call crossFinishedLine method
+                    List<Racer> temp = new ArrayList<Racer>();
+                    for (Racer r2 : ActiveRacers) { //deletes the obj from arrayList
+                        if(r2.equals(r1)==false)
+                            temp.add(r2);
+                    }
+                    this.ActiveRacers = temp;
                     crossFinishLine(r1);
                 }
             }
@@ -73,13 +80,13 @@ public class Arena {
 
     public void crossFinishLine(Racer racer){ //gets a Racer and removes it from activeRacers and adds it to completeRacers
         this.completedRacers.add(racer);
-        this.ActiveRacers.remove(racer);
+        //this.ActiveRacers.remove(racer);
     }
 
     public void showResults() {
         int place = 0;
         for (Racer racer : completedRacers) {
-            System.out.println("Place " + place + ":" + racer.describeRacer());
+            System.out.println("#" + place + " -> " + racer.describeRacer());
             place+=1;
         }
     }
