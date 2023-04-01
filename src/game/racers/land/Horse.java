@@ -29,7 +29,7 @@ public class Horse extends Racer implements LandRacer{
     } 
 
     public String describeSpecific(){
-        return "Breed: "+ this.breed;
+        return ", Breed: "+ this.breed;
     }
 
     //setter and getter methods

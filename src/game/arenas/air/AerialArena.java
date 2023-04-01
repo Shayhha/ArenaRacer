@@ -1,5 +1,8 @@
 package game.arenas.air;
 import game.arenas.Arena;
+import game.racers.Racer;
+import game.racers.air.AerialRacer;
+import game.arenas.exceptions.*;
 import utilities.EnumContainer;
 import utilities.EnumContainer.Height;
 import utilities.EnumContainer.Vision;
@@ -31,6 +34,24 @@ public class AerialArena extends Arena {
         super(length,maxRacers,DEFAULT_FRICTION);//calls super class with desired parameters
     }
 
+    /**
+    *addRacer method checks if object type is for same instance if not throws RacerTypeException
+    *also we check is we are at full capacity if so we throw RacerLimitException
+    *if everything is ok we add the racer to list
+    * <p>
+    */
+    public void addRacer(Racer newRacer) throws RacerLimitException, RacerTypeException{
+        newRacer.setArena(this); //calls setArena to set racers field
+        if(!(newRacer instanceof AerialRacer)){ //checks if racer is not from the desired type and throws exception 
+            throw new RacerTypeException(newRacer);
+        } 
+        else if(this.getActiveRacers().size()+1 > this.getMAX_RACERS()){ //throws exception if list is at max capacity
+            throw new RacerLimitException(newRacer);
+        }
+        else{ //else we add a new racer 
+            this.getActiveRacers().add(newRacer);     
+        }
+    }
     //setter and getter methods
     public EnumContainer.Vision getVision(){return this.vision;}
     public EnumContainer.Weather getWeather(){return this.weather;}

@@ -5,7 +5,6 @@ package utilities;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-
 import factory.RaceBuilder;
 import game.arenas.Arena;
 import game.arenas.air.AerialArena;

@@ -38,7 +38,7 @@ public class Bicycle extends Racer implements LandRacer {
     }
 
     public String describeSpecific() {
-        return wheeled.describeSpecific() + "Bicycle Type: "+ this.type;
+        return wheeled.describeSpecific() + ", Bicycle Type: "+ this.type;
     }
     
     //setter and getter methods

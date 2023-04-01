@@ -30,6 +30,7 @@ public abstract class Racer {
     public void initRace(Arena arena, Point start, Point finish){
         this.currentLocation = start;//we initilaize currentLocation
         this.finish=finish; //initilaze finish
+        this.arena = arena;
     }
     
 

@@ -37,7 +37,7 @@ public class Car extends Racer implements LandRacer {
     }
 
     public String describeSpecific() {
-        return wheeled.describeSpecific() + "Engine Type: "+ this.engine;
+        return wheeled.describeSpecific() + ", Engine Type: "+ this.engine;
     }
     
     //setter and getter methods
