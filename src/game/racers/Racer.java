@@ -4,8 +4,14 @@ import utilities.EnumContainer.Color;
 import game.arenas.Arena;
 import utilities.Fate;
 
+/**
+ * The Racers class is an abstract class that represents the avarage racer in our program.
+ * The Racer has many private variables, a Constructor, and a few methods.
+ */
 public abstract class Racer {
-    private static int instanceCounter=1; // we use this static field to initialize serialNumber for each instance of class 
+
+    //------------------- Private Variables -------------------//
+    private static int instanceCounter = 1; // we use this static field to initialize serialNumber for each instance of class 
     private int serialNumber;
     private String name;
     private Point currentLocation;
@@ -18,22 +24,44 @@ public abstract class Racer {
     private EnumContainer.Color color; 
     private Mishap mishap;
 
+    /**
+     * A normal Constructor for class Racer, it gets 4 parameters and 
+     * uses the setter functions to check the params and add them to the instance.
+     * 
+     * @param name the name of the racer
+     * @param maxSpeed the max speed the racer can reach
+     * @param acceleration the acceleration of the racer
+     * @param color the color of the racer
+     */
     public Racer(String name, double maxSpeed, double acceleration, Color color){ //? maybe here we need to use the setters?
-        this.name = name;
-        this.maxSpeed = maxSpeed;
-        this.acceleration = acceleration;
-        this.color = color;
-        this.serialNumber = instanceCounter;
+        this.setName(name);
+        this.setMaxSpeed(maxSpeed);
+        this.setAcceleration(acceleration);
+        this.setColor(color);
+        this.setSerialNumber(instanceCounter);
         instanceCounter++; //we increase the insatanceField for each instace of class
     }
 
+    /**
+     * this method ensures that the current racer is initialized correctly into the race, it sets the racer's starting
+     * point and finish point. 
+     * @param arena the arena reference that we add the racer into
+     * @param start the start location represented by an instans of class Point
+     * @param finish the finish location represented by an instans of class Point
+     */
     public void initRace(Arena arena, Point start, Point finish){
-        this.currentLocation = start;//we initilaize currentLocation
+        this.currentLocation = start; //we initilaize currentLocation
         this.finish=finish; //initilaze finish
         this.arena = arena;
     }
     
-
+    /**
+     * The move method handels the move of each racer in every turn of the game.
+     * It gets an argument of friction and calculates the new position of the racer based on
+     * a few parameters like the existance of a mishap and the fixability of the mishap and more.
+     * @param friction the amount by which the acceleration needs to be modified for this current move
+     * @return an instans of Point that represents the new location of the racer after the move was made.
+     */
     public Point move(double friction){ //method for racer to show his current location on track
         double newAcc=this.getAcceleration();
         
@@ -71,8 +99,17 @@ public abstract class Racer {
         return this.currentLocation; //return new point
     }
 
-    public abstract String describeSpecific(); //return number of wheels or horse type and stuff
+    /**
+     * an abstract function that us used to describe the specific traites of the racer, for example Car has 4 wheels
+     * @return returns a string that describes the specific trait of the racer
+     */
+    public abstract String describeSpecific(); 
         
+    /**
+     * a general function that describes the data we have about the racer, that includes his name, serial number, 
+     * max speed and more. This function also calls the describeSpecific function for each racer to return his specific information.
+     * @return a string that represents the data of the racer
+     */
     public String describeRacer(){
         return "name: " + this.getName() + ", " +
         "SerialNumber: " + this.getSerialNumber() + ", " +
@@ -82,25 +119,43 @@ public abstract class Racer {
         this.describeSpecific();
     }
 
+    /**
+     * This funcion prints out ALL of the information about a given racer, from his name to the number of wheels. 
+     * It uses the describeRacer function that uses the describeSpecific function.
+     */
     public void introduce(){
         System.out.println("[" +this.className()+ "] " + this.describeRacer());
     }
 
+    /**
+     * @return a String that represents the name of the class of this racer.
+     */
     public String className(){ //return the name of the class
         return this.getClass().getSimpleName();
     } 
 
+    /**
+     * @return a boolean value (true or false) that represents the existance of a mishap for the given racer. True if he has a mishap and False if not.
+     */
     public boolean hasMishap() {//checks if there is a mishap
-        if(this.mishap != null){
+        if (this.mishap != null) {
             return true;
         }
         return false;
     }
 
-    //add setter and getter functions 
+    //------------------- setter and getter functions -------------------//
 
+    /**
+     * @return an instance of class Point that represents the current location of the racer.
+     */
     public Point getCurrentLocation(){return this.currentLocation;} //getter for current location
 
+    /**
+     * A set function for setting the current location of the racer.
+     * @param newPoint is the new location you want to set to the racer, has an X and Y value
+     * @return an boolean value that is true if the location was updated successfully and false if the update failed
+     */
     public boolean setCurrentLocation(Point newPoint) { //setter for current location
         if (this.currentLocation.setX(newPoint.getX()) && this.currentLocation.setY(newPoint.getY())) {
             return true;
@@ -108,30 +163,61 @@ public abstract class Racer {
         return false;
     }
 
-
+    /**
+     * @return an instance of class Arena that represents the current arena of the racer.
+     */
     public Arena getArena(){return this.arena;}
 
+    /**
+     * A set function for setting the arena of the racer.
+     * @param a an instance of class Arena
+     * @return an boolean value that is true if the arena was updated successfully and false if the update failed.
+     */
     public boolean setArena(Arena a) { 
         this.arena = a;
         return true;
     }
 
+    /**
+     * @return an int value that represents the serial number of the racer.
+     */
     public int getSerialNumber(){return this.serialNumber;}
 
+    /**
+     * A set function for setting the serial number of the racer.
+     * @param number an integer that will represent the serial number of the racer
+     * @return an boolean value that is true if the serial number was updated successfully and false if the update failed.
+     */
     public boolean setSerialNumber(int number) {
         this.serialNumber = number;
         return true;
     }
 
+    /**
+     * @return a String value that represents the name of the racer.
+     */
     public String getName() { return this.name; }
 
+    /**
+     * A set function for setting the name of the racer.
+     * @param temp a String with the new name we want to give the racer
+     * @return an boolean value that is true if the name was updated successfully and false if the update failed.
+     */
     public boolean setName(String temp){
         this.name = temp;
         return true;
     }
 
+    /**
+     * @return an instans of class Point that represents the finish location of the racer.
+     */
     public Point getFinish(){return this.finish;} //getter for finish location
 
+    /**
+     * A set function for setting the finish location of the racer.
+     * @param newPoint an instance of type Point that represents the finish location of the racer
+     * @return an boolean value that is true if the finish location was updated successfully and false if the update failed.
+     */
     public boolean setFinish(Point newPoint) { //setter for finish location
         if (this.finish.setX(newPoint.getX()) && this.finish.setY(newPoint.getY())) {
             return true;
@@ -139,24 +225,64 @@ public abstract class Racer {
         return false;
     }
 
+    /**
+     * @return a double value that represents the max speed of the racer.
+     */
     public double getMaxSpeed() { return this.maxSpeed; }
 
+    /**
+     * A set function for setting the max speed of the racer.
+     * @param value a double value that represents the new max speed of the racer
+     * @return an boolean value that is true if the max speed was updated successfully and false if the update failed.
+     */
     public boolean setMaxSpeed(double value) { this.maxSpeed = value; return true; }
 
+    /**
+     * @return a double value that represents the acceleration of the racer.
+     */
     public double getAcceleration() { return this.acceleration; }
 
+    /**
+     * A set function for setting the acceleration of the racer.
+     * @param value a double value that represents the new acceleration of the racer
+     * @return an boolean value that is true if the acceleration was updated successfully and false if the update failed.
+     */
     public boolean setAcceleration(double value) { this.acceleration = value; return true; }
 
+    /**
+     * @return a double value that represents the current speed of the racer.
+     */
     public double getCurrentSpeed() { return this.currentSpeed; }
 
+    /**
+     * A set function for setting the current speed of the racer.
+     * @param value a double value that represents the new current speed of the racer
+     * @return an boolean value that is true if the current speed was updated successfully and false if the update failed.
+     */
     public boolean setCurrentSpeed(double value) { this.currentSpeed = value; return true; }
 
+    /**
+     * @return a double value that represents the failure probability of the racer.
+     */
     public double getFailureProbability() { return this.failureProbability; }
 
+    /**
+     * A set function for setting the failure probability of the racer.
+     * @param value a double value that represents the new failure probability of the racer
+     * @return an boolean value that is true if the failure probability was updated successfully and false if the update failed.
+     */
     public boolean setFailureProbability(double value) { this.failureProbability = value; return true; }
 
+    /**
+     * @return an instans of class Mishap that represents the existence, or lack there of, a mishap for the racer.
+     */
     public Mishap getMishap() { return this.mishap; }
 
+    /**
+     * A set function for setting the mishap of the racer.
+     * @param newMishap an instance of class Mishap that will represent the new mishap of the racer
+     * @return an boolean value that is true if the mishap was updated successfully and false if the update failed.
+     */
     public boolean setMishap(Mishap newMishap) { //we need to check if all set methods return true value
         if (this.mishap.setFixable(newMishap.getFixable()) &&
             this.mishap.setReductionFactor(newMishap.getReductionFactor()) &&
@@ -166,20 +292,34 @@ public abstract class Racer {
         return false;
     }
 
+    /**
+     * @return an enum value of type Color that represents the color of the racer.
+     */
     public EnumContainer.Color getColor() { return this.color; }
 
+    /**
+     * A set function for setting the color of the racer.
+     * @param newColor an enum Color type value that represents the new color of the racer
+     * @return an boolean value that is true if the color was updated successfully and false if the update failed.
+     */
     public boolean setColor(EnumContainer.Color newColor) { 
         this.color = newColor;
         return true;
     }
 
+    /**
+     * This is the equals method that every class inherits from the main Object class, we use it later in the
+     * code inorder to determin if two instances of type Racer are the same or different.
+     * @param obj an instance that inherits from the main Object class that we want to eveluate against our current object.
+     * @return a boolean value if the current racer (this) and the other racer (obj) are the exact same, meaning they have the same values in each field.
+     */
     public boolean equals(Object obj){ //equals method for Racer class for our use later
         if(obj instanceof Racer){
             if(this.name == ((Racer)obj).name && this.serialNumber == ((Racer)obj).serialNumber && 
             this.currentLocation.equals(((Racer)obj).currentLocation) && this.maxSpeed == ((Racer)obj).maxSpeed && 
             this.acceleration == ((Racer)obj).acceleration && this.color == ((Racer)obj).color) {
                 return true;
-            }
+            } //! maybe add more checks here? like mishap, arena, failure probability and more...
         } 
         return false;
     }
