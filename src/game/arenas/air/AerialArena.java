@@ -9,15 +9,24 @@ import utilities.EnumContainer.Vision;
 import utilities.EnumContainer.Weather;
 import utilities.EnumContainer.Wind;
 
-public class AerialArena extends Arena {
-    /*
+    /**
      * AerialArena class
      * represents aerial races
      * includes ctor for class with super inplementation for superclass
      * methods to set parameters
-     * methods to get class parameters
+     * methods to get parameters
+     * <p>
+     * 
+     * @param  DEFAULT_FRICTION this represents default arena friction
+     * @param  DEFAULT_MAX_RACERS represents max racers in the arena
+     * @param  DEFAULT_LENGTH default length of the arena 
+     * @param  vison represents vision of race
+     * @param  weather represents the weather condition
+     * @param height represents how high the race is
+     * @param wind represets the state of wind in race
      */
     
+public class AerialArena extends Arena {
     private static double DEFAULT_FRICTION=0.4;
     private final static int DEFAULT_MAX_RACERS=6;
     private final static int DEFAULT_LENGTH=1500;
@@ -26,7 +35,7 @@ public class AerialArena extends Arena {
     private EnumContainer.Height height=Height.HIGH;
     private EnumContainer.Wind wind=Wind.HIGH;
 
-    public AerialArena(){ //defult ctor;
+    public AerialArena(){ //defult ctor
         super(DEFAULT_LENGTH,DEFAULT_MAX_RACERS,DEFAULT_LENGTH);
     }
 

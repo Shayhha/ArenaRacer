@@ -8,13 +8,23 @@ import utilities.EnumContainer.Body;
 import utilities.EnumContainer.Water;
 import utilities.EnumContainer.WaterSurface;
 
-public class NavalArena extends Arena{
-    /*
-     * NavelArena
-     * represends navel race
-     * has setter and getter for parameters
-     * has default ctor and regular ctor
+
+    /**
+     * NavalArena class
+     * represents aerial races
+     * includes ctor for class with super inplementation for superclass
+     * methods to set parameters
+     * methods to get parameters
+     * <p>
+     * 
+     * @param  DEFAULT_FRICTION this represents default arena friction
+     * @param  DEFAULT_MAX_RACERS represents max racers in the arena
+     * @param  DEFAULT_LENGTH default length of the arena 
+     * @param  water represents water state in race
+     * @param  surface represents the surface type
+     * @param  body represents the body of the Racers vehicle
      */
+public class NavalArena extends Arena{
     private static double DEFAULT_FRICTION=0.7;
     private final static int DEFAULT_MAX_RACERS=5;
     private final static int DEFAULT_LENGTH=1000;
@@ -22,11 +32,11 @@ public class NavalArena extends Arena{
     private EnumContainer.WaterSurface surface = WaterSurface.FLAT;
     private EnumContainer.Body body= Body.LAKE;
 
-    public NavalArena(){
+    public NavalArena(){ //default ctor
         super(DEFAULT_LENGTH,DEFAULT_MAX_RACERS,DEFAULT_LENGTH);
     }
 
-    public NavalArena(double length, int maxRacers){
+    public NavalArena(double length, int maxRacers){ // regular ctor
         super(length,maxRacers,DEFAULT_FRICTION);//calls super class with desired parameters
     }
 

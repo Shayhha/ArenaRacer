@@ -7,14 +7,21 @@ import utilities.EnumContainer;
 import utilities.EnumContainer.Coverage;
 import utilities.EnumContainer.LandSurface;
 
-public class LandArena extends Arena {
-    /*
-     * LandArena
-     * represends Land 
-     * has set and get methods for parameter
-     * default ctor and regular ctor
+    /**
+     * LandArena class
+     * represents aerial races
+     * includes ctor for class with super inplementation for superclass
+     * methods to set parameters
+     * methods to get parameters
+     * <p>
+     * 
+     * @param  DEFAULT_FRICTION this represents default arena friction
+     * @param  DEFAULT_MAX_RACERS represents max racers in the arena
+     * @param  DEFAULT_LENGTH default length of the arena 
+     * @param  covrage represents covrage of race
+     * @param  surface represents the surface type
      */
-
+public class LandArena extends Arena {
     private static double DEFAULT_FRICTION=0.5;
     private final static int DEFAULT_MAX_RACERS=8;
     private final static int DEFAULT_LENGTH=800;
