@@ -12,7 +12,7 @@ public class RacerLimitException extends Exception {
     private String message;
 
     public RacerLimitException(Racer r){ //ctor
-        this.message= "Arena is full! (" + r.getArena().getMAX_RACERS()+ " active racers exist). racer "+ r.getSerialNumber()+ " was not added";
+        this.message= "Arena is full! (" + r.getArena().getMAX_RACERS()+ " active racers exist). racer #"+ r.getSerialNumber()+ " was not added";
     }
 
     /**
