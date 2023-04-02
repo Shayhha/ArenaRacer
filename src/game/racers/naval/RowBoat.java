@@ -5,13 +5,14 @@ import utilities.EnumContainer.BoatType;
 import utilities.EnumContainer.Color;
 import utilities.EnumContainer.Team;
 
-public class RowBoat extends Racer implements NavalRacer{
-    /*
+/**
      * Rowboat class
      * includes default and regular ctors
      * getter and setter methods
      * implemetation of abstract methods from super class racer
      */
+public class RowBoat extends Racer implements NavalRacer{
+    
 
     private static final String CLASS_NAME = "RowBoat";
     private static final double DEFAULT_MAX_SPEED=75;
