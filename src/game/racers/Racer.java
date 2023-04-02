@@ -35,34 +35,39 @@ public abstract class Racer {
     
 
     public Point move(double friction){ //method for racer to show his current location on track
-        int flag = 0;
         double newAcc=this.getAcceleration();
-        if(hasMishap()==true){ //we check if there is a mishap
-            if(this.mishap.getFixable() == true && this.mishap.getTurnsToFix()==0){//if true then we check if its fixable and has 0 turns
-                this.mishap=null;//if true we changing mishap to null
-            }
-            else{
-                flag = 1;
-            }
+        
+        if(this.hasMishap() && this.mishap.getFixable() == true && this.mishap.getTurnsToFix()==0){
+            this.mishap = null;
         }
-        else{//else we dont have a mishap so we generate one if breakdown function returns true
+
+        if(this.hasMishap() == false){
             if(Fate.breakDown()==true){
                 this.mishap = Fate.generateMishap();
                 System.out.println(this.getName() + " has a new mishap! " + this.mishap.toString());
-                flag = 1;
             }
         }
 
-        if (flag == 1) {
+        if(this.hasMishap()){
+            if(this.mishap.getFixable() == false && this.mishap.getTurnsToFix()>0){
+                this.mishap.setTurnsToFix(this.mishap.getTurnsToFix()-1);//we reduce the fix time
+                return this.currentLocation;
+            }
+            else {
+                if(this.mishap.getFixable()==true)
+                    this.mishap.setTurnsToFix(this.mishap.getTurnsToFix()-1);
+            }
+
             newAcc *=this.mishap.getReductionFactor();
-            this.mishap.setTurnsToFix(this.mishap.getTurnsToFix()-1);//we reduce the fix time
+            
+            if(this.currentSpeed < this.maxSpeed) { //calcs racers new point
+                this.currentSpeed += newAcc*friction;
+                if(this.currentSpeed > this.maxSpeed) //check if racer surpassed his declared maxspeed
+                    this.currentSpeed = this.maxSpeed;
+                this.currentLocation.setX(this.currentLocation.getX()+this.currentSpeed);
+            }
         }
 
-        if(this.currentSpeed < this.maxSpeed) { //calcs racers new point
-            this.currentSpeed += newAcc*friction; //? maybe add a min function to take the max speed
-            this.currentLocation.setX(this.currentLocation.getX()+this.currentSpeed);
-        }
-        
         return this.currentLocation; //return new point
     }
 
