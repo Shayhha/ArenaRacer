@@ -33,7 +33,7 @@ public abstract class Racer {
      * @param acceleration the acceleration of the racer
      * @param color the color of the racer
      */
-    public Racer(String name, double maxSpeed, double acceleration, Color color){ //? maybe here we need to use the setters?
+    public Racer(String name, double maxSpeed, double acceleration, Color color){ 
         this.setName(name);
         this.setMaxSpeed(maxSpeed);
         this.setAcceleration(acceleration);
