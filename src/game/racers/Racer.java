@@ -114,7 +114,7 @@ public abstract class Racer {
      * an abstract function that us used to describe the specific traites of the racer, for example Car has 4 wheels
      * @return returns a string that describes the specific trait of the racer
      */
-    public abstract String describeSpecific(); 
+    protected abstract String describeSpecific(); 
         
     /**
      * a general function that describes the data we have about the racer, that includes his name, serial number, 
@@ -160,7 +160,7 @@ public abstract class Racer {
     /**
      * @return an instance of class Point that represents the current location of the racer.
      */
-    public Point getCurrentLocation(){return this.currentLocation;} //getter for current location
+    public final Point getCurrentLocation(){return this.currentLocation;} //getter for current location
 
     /**
      * A set function for setting the current location of the racer.
@@ -177,7 +177,7 @@ public abstract class Racer {
     /**
      * @return an instance of class Arena that represents the current arena of the racer.
      */
-    public Arena getArena(){return this.arena;}
+    public final Arena getArena(){return this.arena;}
 
     /**
      * A set function for setting the arena of the racer.
@@ -192,7 +192,7 @@ public abstract class Racer {
     /**
      * @return an int value that represents the serial number of the racer.
      */
-    public int getSerialNumber(){return this.serialNumber;}
+    public final int getSerialNumber(){return this.serialNumber;}
 
     /**
      * A set function for setting the serial number of the racer.
@@ -207,7 +207,7 @@ public abstract class Racer {
     /**
      * @return a String value that represents the name of the racer.
      */
-    public String getName() { return this.name; }
+    public final String getName() { return this.name; }
 
     /**
      * A set function for setting the name of the racer.
@@ -222,7 +222,7 @@ public abstract class Racer {
     /**
      * @return an instans of class Point that represents the finish location of the racer.
      */
-    public Point getFinish(){return this.finish;} //getter for finish location
+    public final Point getFinish(){return this.finish;} //getter for finish location
 
     /**
      * A set function for setting the finish location of the racer.
@@ -239,7 +239,7 @@ public abstract class Racer {
     /**
      * @return a double value that represents the max speed of the racer.
      */
-    public double getMaxSpeed() { return this.maxSpeed; }
+    public final double getMaxSpeed() { return this.maxSpeed; }
 
     /**
      * A set function for setting the max speed of the racer.
@@ -251,7 +251,7 @@ public abstract class Racer {
     /**
      * @return a double value that represents the acceleration of the racer.
      */
-    public double getAcceleration() { return this.acceleration; }
+    public final double getAcceleration() { return this.acceleration; }
 
     /**
      * A set function for setting the acceleration of the racer.
@@ -263,7 +263,7 @@ public abstract class Racer {
     /**
      * @return a double value that represents the current speed of the racer.
      */
-    public double getCurrentSpeed() { return this.currentSpeed; }
+    public final double getCurrentSpeed() { return this.currentSpeed; }
 
     /**
      * A set function for setting the current speed of the racer.
@@ -275,7 +275,7 @@ public abstract class Racer {
     /**
      * @return a double value that represents the failure probability of the racer.
      */
-    public double getFailureProbability() { return this.failureProbability; }
+    public final double getFailureProbability() { return this.failureProbability; }
 
     /**
      * A set function for setting the failure probability of the racer.
@@ -287,7 +287,7 @@ public abstract class Racer {
     /**
      * @return an instans of class Mishap that represents the existence, or lack there of, a mishap for the racer.
      */
-    public Mishap getMishap() { return this.mishap; }
+    public final Mishap getMishap() { return this.mishap; }
 
     /**
      * A set function for setting the mishap of the racer.
@@ -306,7 +306,7 @@ public abstract class Racer {
     /**
      * @return an enum value of type Color that represents the color of the racer.
      */
-    public EnumContainer.Color getColor() { return this.color; }
+    public final EnumContainer.Color getColor() { return this.color; }
 
     /**
      * A set function for setting the color of the racer.

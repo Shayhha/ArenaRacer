@@ -68,7 +68,7 @@ public class Bicycle extends Racer implements LandRacer {
      * for example: "Number of Wheels: 3, Bicycle Type: MOUNTAIN"
      */
     @Override
-    public String describeSpecific() {
+    protected String describeSpecific() {
         return wheeled.describeSpecific() + ", Bicycle Type: "+ this.type;
     }
     
@@ -77,7 +77,7 @@ public class Bicycle extends Racer implements LandRacer {
     /**
      * @return a value of enum type BicycleType that represents the type of the bike
      */
-    public EnumContainer.BicycleType getType(){return this.type;}
+    public final EnumContainer.BicycleType getType(){return this.type;}
 
     /**
      * A set function for setting the bike type of the racer using enum values of type BicycleType.

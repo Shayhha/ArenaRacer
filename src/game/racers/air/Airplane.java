@@ -65,7 +65,7 @@ public class Airplane extends Racer implements AerialRacer {
      * for example: "Number of Wheels: 3"
      */
     @Override
-    public String describeSpecific() {
+    protected String describeSpecific() {
         return wheeled.describeSpecific();
     }
     

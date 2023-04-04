@@ -50,7 +50,7 @@ public class Mishap {
     /**
      * Returns the boolean value of the fixable field.
      */
-    public boolean getFixable() {
+    public final boolean getFixable() {
         return this.fixable;
     }
 
@@ -66,7 +66,7 @@ public class Mishap {
     /**
      * Returns a double that is the value of the reductionFactor field in the mishap object.
      */
-    public double getReductionFactor() {
+    public final double getReductionFactor() {
         return this.reductionFactor;
     }
 

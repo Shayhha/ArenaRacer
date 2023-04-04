@@ -29,7 +29,7 @@ public class LandArena extends Arena {
     private EnumContainer.LandSurface surface = LandSurface.FLAT;
 
     public LandArena(){//default ctor
-        super(DEFAULT_LENGTH,DEFAULT_MAX_RACERS,DEFAULT_LENGTH);
+        super(DEFAULT_LENGTH,DEFAULT_MAX_RACERS,DEFAULT_FRICTION);
     }
 
     public LandArena(double length, int maxRacers){//ctor 
@@ -56,8 +56,8 @@ public class LandArena extends Arena {
     }
 
     //setter and getter methods
-    public EnumContainer.Coverage getCoverage(){return this.coverage;}
-    public EnumContainer.LandSurface getSurface(){return this.surface;}
+    public final EnumContainer.Coverage getCoverage(){return this.coverage;}
+    public final EnumContainer.LandSurface getSurface(){return this.surface;}
     
     public boolean setCoverage(EnumContainer.Coverage temp){
         this.coverage = temp;

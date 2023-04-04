@@ -134,32 +134,32 @@ public abstract class Arena {
     /**
      * @return a double value that represents the friction of the arena object.
      */
-    public double getFriction(){ return this.FRICTION;}
+    public final double getFriction(){ return this.FRICTION;}
 
     /**
      * @return a double value that represents the min y gap of the arena object.
      */
-    public double getMIN_Y_GAP(){return MIN_Y_GAP;}
+    public final double getMIN_Y_GAP(){return MIN_Y_GAP;}
 
     /**
      * @return an int value that represents the max amount of racers for the arena object.
      */
-    public int getMAX_RACERS(){return this.MAX_RACERS;}
+    public final int getMAX_RACERS(){return this.MAX_RACERS;}
 
     /**
      * @return a List that holds all of the active racers in the arena object.
      */
-    public List<Racer> getActiveRacers(){return this.activeRacers;}
+    public final List<Racer> getActiveRacers(){return this.activeRacers;}
 
     /**
      * @return a List that holds all of the completed racers in the arena object.
      */
-    public List<Racer> getCompletedRacers(){return this.completedRacers;}
+    public final List<Racer> getCompletedRacers(){return this.completedRacers;}
 
     /**
      * @return a double value that represents the length of the arena object.
      */
-    public double length(){return this.length;}
+    public final double getLength(){return this.length;}
 
     /**
      * a set method for the length of the arena

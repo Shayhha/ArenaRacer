@@ -31,7 +31,7 @@ public class Wheeled {
  * getNumOfWheeles method
  * @return number of wheeles
  */
-    public int getNumOfWheeles() {
+    public final int getNumOfWheeles() {
         return this.numOfWheels;
     }
 

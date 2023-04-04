@@ -55,12 +55,12 @@ public class Point {
     /**
      * @return the X value of the point
      */
-    public double getX() { return this.x; };
+    public final double getX() { return this.x; };
 
     /**
      * @return the Y value of the point
      */
-    public double getY() { return this.y; };
+    public final double getY() { return this.y; };
 
     /**
      * A setter for the X value of class Point. it checks that the value is correct 

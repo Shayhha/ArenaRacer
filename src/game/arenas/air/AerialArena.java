@@ -36,7 +36,7 @@ public class AerialArena extends Arena {
     private EnumContainer.Wind wind=Wind.HIGH;
 
     public AerialArena(){ //defult ctor
-        super(DEFAULT_LENGTH,DEFAULT_MAX_RACERS,DEFAULT_LENGTH);
+        super(DEFAULT_LENGTH,DEFAULT_MAX_RACERS,DEFAULT_FRICTION);
     }
 
     public AerialArena(double length, int maxRacers){ //ctor
@@ -62,10 +62,10 @@ public class AerialArena extends Arena {
         }
     }
     //setter and getter methods
-    public EnumContainer.Vision getVision(){return this.vision;}
-    public EnumContainer.Weather getWeather(){return this.weather;}
-    public EnumContainer.Height getHeight(){return this.height;}
-    public EnumContainer.Wind getWind(){return this.wind;}
+    public final EnumContainer.Vision getVision(){return this.vision;}
+    public final EnumContainer.Weather getWeather(){return this.weather;}
+    public final EnumContainer.Height getHeight(){return this.height;}
+    public final EnumContainer.Wind getWind(){return this.wind;}
     public boolean setVision(EnumContainer.Vision temp){
         this.vision = temp;
         return true;

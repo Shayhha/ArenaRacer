@@ -33,7 +33,7 @@ public class NavalArena extends Arena{
     private EnumContainer.Body body= Body.LAKE;
 
     public NavalArena(){ //default ctor
-        super(DEFAULT_LENGTH,DEFAULT_MAX_RACERS,DEFAULT_LENGTH);
+        super(DEFAULT_LENGTH,DEFAULT_MAX_RACERS,DEFAULT_FRICTION);
     }
 
     public NavalArena(double length, int maxRacers){ // regular ctor
@@ -60,9 +60,9 @@ public class NavalArena extends Arena{
     }
 
     //setter and getter methods
-    public EnumContainer.Water getWater(){return this.water;}
-    public EnumContainer.WaterSurface getSurface(){return this.surface;}
-    public EnumContainer.Body getBody(){return this.body;}
+    public final EnumContainer.Water getWater(){return this.water;}
+    public final EnumContainer.WaterSurface getSurface(){return this.surface;}
+    public final EnumContainer.Body getBody(){return this.body;}
     
     public boolean setWater(EnumContainer.Water temp){
         this.water = temp;

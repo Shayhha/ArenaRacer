@@ -60,7 +60,7 @@ public class Horse extends Racer implements LandRacer{
      * for example: "Breed: THOROUGHBRED"
      */
     @Override
-    public String describeSpecific(){
+    protected String describeSpecific(){
         return ", Breed: "+ this.breed;
     }
 
@@ -69,7 +69,7 @@ public class Horse extends Racer implements LandRacer{
     /**
      * @return a value of enum type Breed that represents the type of the horse
      */
-    public EnumContainer.Breed getType(){return this.breed;}
+    public final EnumContainer.Breed getType(){return this.breed;}
 
     /**
      * A set function for setting the horse type of the racer using enum values of type Breed.

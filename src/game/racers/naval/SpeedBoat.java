@@ -67,7 +67,7 @@ public class SpeedBoat extends Racer implements NavalRacer {
      * for example: "Type: SKULLING, Team: SINGLE"
      */
     @Override
-    public String describeSpecific() {
+    protected String describeSpecific() {
         return "Type: "+ this.type +", Team: "+this.team;
     }
     
@@ -76,12 +76,12 @@ public class SpeedBoat extends Racer implements NavalRacer {
     /**
      * @return a value of enum type BoatType that represents the type of the boat
      */
-    public EnumContainer.BoatType getType(){return this.type;}
+    public final EnumContainer.BoatType getType(){return this.type;}
 
     /**
      * @return a value of enum type Team that represents the tema of the boat
      */
-    public EnumContainer.Team getTeam(){return this.team;}
+    public final EnumContainer.Team getTeam(){return this.team;}
 
     /**
      * A set function for setting the boat type of the racer using enum values of type BoatType.
