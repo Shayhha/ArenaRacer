@@ -85,7 +85,7 @@ public class Mishap {
     /**
      * Returns an int that is the value of the turnsToFix field in the mishap object.
      */
-    public int getTurnsToFix() {
+    public final int getTurnsToFix() {
         return this.turnsToFix;
     }
 
