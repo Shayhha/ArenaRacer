@@ -25,6 +25,8 @@ import utilities.EnumContainer.WaterSurface;
      * @param  body represents the body of the Racers vehicle
      */
 public class NavalArena extends Arena{
+
+    //------------------- Private Variables -------------------//
     private static double DEFAULT_FRICTION=0.7;
     private final static int DEFAULT_MAX_RACERS=5;
     private final static int DEFAULT_LENGTH=1000;
@@ -32,10 +34,18 @@ public class NavalArena extends Arena{
     private EnumContainer.WaterSurface surface = WaterSurface.FLAT;
     private EnumContainer.Body body= Body.LAKE;
 
+    /**
+    * A default constructs, creates a new NavalArena object with default values for its DEFAULT_LENGTH, 
+    * DEFAULT_MAX_RACERS and DEFAULT_FRICTION
+    */
     public NavalArena(){ //default ctor
         super(DEFAULT_LENGTH,DEFAULT_MAX_RACERS,DEFAULT_FRICTION);
     }
 
+    /**
+    * A normal constructs, creates a new NavalArena object with default values for its DEFAULT_LENGTH, 
+    * DEFAULT_MAX_RACERS and DEFAULT_FRICTION
+    */
     public NavalArena(double length, int maxRacers){ // regular ctor
         super(length,maxRacers,DEFAULT_FRICTION);//calls super class with desired parameters
     }
@@ -59,7 +69,7 @@ public class NavalArena extends Arena{
         }
     }
 
-    //setter and getter methods
+    //------------------- setter and getter methods -------------------//
     public final EnumContainer.Water getWater(){return this.water;}
     public final EnumContainer.WaterSurface getSurface(){return this.surface;}
     public final EnumContainer.Body getBody(){return this.body;}

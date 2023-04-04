@@ -27,6 +27,8 @@ import utilities.EnumContainer.Wind;
      */
     
 public class AerialArena extends Arena {
+
+    //------------------- Private Variables -------------------//
     private static double DEFAULT_FRICTION=0.4;
     private final static int DEFAULT_MAX_RACERS=6;
     private final static int DEFAULT_LENGTH=1500;
@@ -35,10 +37,18 @@ public class AerialArena extends Arena {
     private EnumContainer.Height height=Height.HIGH;
     private EnumContainer.Wind wind=Wind.HIGH;
 
+    /**
+    * A default constructs, creates a new AerialArena object with default values for its DEFAULT_LENGTH, 
+    * DEFAULT_MAX_RACERS and DEFAULT_FRICTION
+    */
     public AerialArena(){ //defult ctor
         super(DEFAULT_LENGTH,DEFAULT_MAX_RACERS,DEFAULT_FRICTION);
     }
 
+    /**
+    * A normal constructs, creates a new AerialArena object with default values for its DEFAULT_LENGTH, 
+    * DEFAULT_MAX_RACERS and DEFAULT_FRICTION
+    */
     public AerialArena(double length, int maxRacers){ //ctor
         super(length,maxRacers,DEFAULT_FRICTION);//calls super class with desired parameters
     }
@@ -61,11 +71,13 @@ public class AerialArena extends Arena {
             this.getActiveRacers().add(newRacer);     
         }
     }
-    //setter and getter methods
+    
+    //------------------- setter and getter methods -------------------//
     public final EnumContainer.Vision getVision(){return this.vision;}
     public final EnumContainer.Weather getWeather(){return this.weather;}
     public final EnumContainer.Height getHeight(){return this.height;}
     public final EnumContainer.Wind getWind(){return this.wind;}
+    
     public boolean setVision(EnumContainer.Vision temp){
         this.vision = temp;
         return true;
