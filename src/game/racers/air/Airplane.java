@@ -1,12 +1,20 @@
 package game.racers.air;
-
 import game.racers.Racer;
 import game.racers.Wheeled;
 import utilities.EnumContainer.Color;
 
-
+/**
+ * Class Airplane extends the class Racer and implenets the interface AerialRacer.
+ * This class has access to all the variables of the Racer class through the setter and
+ * getter function. And it also has some of its own variables, like Class Name, wheeled 
+ * and other variables that hold default values like default max speed and more.
+ * <p>
+ * This class has a default constructor, a normal constructor and it also overrides 
+ * the className and describeSpecific functions of class Racer.
+ */
 public class Airplane extends Racer implements AerialRacer {
 
+    //------------------- Private Variables -------------------//
     private static final String CLASS_NAME = "Airplane";
     private static final int DEFAULT_WHEELS = 3;
     private static final double DEFAULT_MAX_SPEED = 885;
@@ -42,10 +50,21 @@ public class Airplane extends Racer implements AerialRacer {
         this.wheeled = new Wheeled(numOfWheels);
     }
 
-    public String className(){ //return the name of the class rowboat
+    /**
+     * This is a override of the className method of class Racer
+     * @return a String that represents the class name of the given racer, for example: "Airplane"
+     */
+    @Override
+    public String className(){ //return the name of the class Airplane
         return CLASS_NAME;
     }  
 
+    /**
+     * This is a override of the describeSpecific method of class Racer
+     * @return String that represents the description of the specific attributes of the given racer,
+     * for example: "Number of Wheels: 3"
+     */
+    @Override
     public String describeSpecific() {
         return wheeled.describeSpecific();
     }
