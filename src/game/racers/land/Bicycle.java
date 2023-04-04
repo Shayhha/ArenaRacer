@@ -68,7 +68,7 @@ public class Bicycle extends Racer implements LandRacer {
      * for example: "Number of Wheels: 3, Bicycle Type: MOUNTAIN"
      */
     @Override
-    protected String describeSpecific() {
+    public String describeSpecific() {
         return wheeled.describeSpecific() + ", Bicycle Type: "+ this.type;
     }
     

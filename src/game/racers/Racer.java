@@ -93,7 +93,7 @@ public abstract class Racer {
                 if(this.mishap.getFixable()==true)
                     this.mishap.nextTurn();
             }
-
+            
             // at this point all of the senarios were taken care of, and only the senario where the racer moves with reduced
             // acceleration is left, calculating the new acceleration based on the reduction factor of the mishap that was generated.
             newAcc *=this.mishap.getReductionFactor(); 
@@ -106,7 +106,7 @@ public abstract class Racer {
                 this.currentLocation.setX(this.currentLocation.getX()+this.currentSpeed); // setting the new position of the racer
             }
         }
-
+        
         return this.currentLocation; //return new position
     }
 
@@ -114,7 +114,7 @@ public abstract class Racer {
      * an abstract function that us used to describe the specific traites of the racer, for example Car has 4 wheels
      * @return returns a string that describes the specific trait of the racer
      */
-    protected abstract String describeSpecific(); 
+    public abstract String describeSpecific(); 
         
     /**
      * a general function that describes the data we have about the racer, that includes his name, serial number, 

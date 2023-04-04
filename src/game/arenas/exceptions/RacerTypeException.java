@@ -18,7 +18,7 @@ public class RacerTypeException extends Exception{
      * getMassage method
      * @return message parameter
      */
-    public String getMessage(){
+    public final String getMessage(){
         return this.message;
     }
 }

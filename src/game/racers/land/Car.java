@@ -69,7 +69,7 @@ public class Car extends Racer implements LandRacer {
      * for example: "Number of Wheels: 4, Engine Type: MOUNTAIN"
      */
     @Override
-    protected String describeSpecific() {
+    public String describeSpecific() {
         return wheeled.describeSpecific() + ", Engine Type: "+ this.engine;
     }
     

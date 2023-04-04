@@ -67,7 +67,7 @@ public class SpeedBoat extends Racer implements NavalRacer {
      * for example: "Type: SKULLING, Team: SINGLE"
      */
     @Override
-    protected String describeSpecific() {
+    public String describeSpecific() {
         return "Type: "+ this.type +", Team: "+this.team;
     }
     

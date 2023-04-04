@@ -60,7 +60,7 @@ public class Horse extends Racer implements LandRacer{
      * for example: "Breed: THOROUGHBRED"
      */
     @Override
-    protected String describeSpecific(){
+    public String describeSpecific(){
         return ", Breed: "+ this.breed;
     }
 

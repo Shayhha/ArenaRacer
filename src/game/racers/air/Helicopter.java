@@ -59,7 +59,7 @@ public class Helicopter extends Racer implements AerialRacer {
      * for example: "Number of Wheels: 3"
      */
     @Override
-    protected String describeSpecific() {
+    public String describeSpecific() {
         return ""; // there is nothing specific about the helicopter
     }
     
