@@ -1,3 +1,8 @@
+/**
+ * Parters:
+ * name: Shay Hahiashvili, ID: 206423840
+ * name: Maxim Subotin, ID: 207695479
+ */
 package game.racers.air;
 import game.racers.Racer;
 import game.racers.Wheeled;

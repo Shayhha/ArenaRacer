@@ -1,3 +1,8 @@
+/**
+ * Parters:
+ * name: Shay Hahiashvili, ID: 206423840
+ * name: Maxim Subotin, ID: 207695479
+ */
 package game.racers;
 import utilities.*;
 import utilities.EnumContainer.Color;
@@ -99,7 +104,7 @@ public abstract class Racer {
             newAcc *=this.mishap.getReductionFactor(); 
             
             // calculating the racers new current speed and then his new location
-            if(this.currentSpeed < this.maxSpeed) { 
+            if(this.currentSpeed < this.maxSpeed) {  //! this is what I said, we need to put his outside the if vut it ruins the prints
                 this.currentSpeed += newAcc*friction;
                 if(this.currentSpeed > this.maxSpeed) //check if racer surpassed his declared maxspeed
                     this.currentSpeed = this.maxSpeed;
