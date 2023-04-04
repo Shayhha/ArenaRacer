@@ -82,7 +82,7 @@ public abstract class Racer {
             }
         }
 
-        // now if the user has a mishap we need to check the senario that its is NOT fixable and the
+        // now if the racer has a mishap we need to check the senario that its is NOT fixable and the
         // turns to fix is NOT 0, in that case we reduce the turns to fix by 1 and the racer does not get to move.
         if(this.hasMishap()){
             if(this.mishap.getFixable() == false && this.mishap.getTurnsToFix()>0){
@@ -103,10 +103,9 @@ public abstract class Racer {
                 this.currentSpeed += newAcc*friction;
                 if(this.currentSpeed > this.maxSpeed) //check if racer surpassed his declared maxspeed
                     this.currentSpeed = this.maxSpeed;
-                this.currentLocation.setX(this.currentLocation.getX()+this.currentSpeed); // setting the new position of the racer
             }
+            this.currentLocation.setX(this.currentLocation.getX()+this.currentSpeed); // setting the new position of the racer
         }
-        
         return this.currentLocation; //return new position
     }
 
