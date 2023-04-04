@@ -1,5 +1,7 @@
 /**
- * 
+ * Parters:
+ * name: Shay Hahiashvili, ID: 206423840
+ * name: Maxim Subotin, ID: 207695479
  */
 package utilities;
 
