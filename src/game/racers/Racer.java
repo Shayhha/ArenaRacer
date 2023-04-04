@@ -92,7 +92,6 @@ public abstract class Racer {
             else { // how ever if it is fixable then we just reduce the turns to fix by 1 and the racer moves later with a reduced acceleration
                 if(this.mishap.getFixable()==true)
                     this.mishap.nextTurn();
-                    //this.mishap.setTurnsToFix(this.mishap.getTurnsToFix()-1); //! I've changed this
             }
 
             // at this point all of the senarios were taken care of, and only the senario where the racer moves with reduced
