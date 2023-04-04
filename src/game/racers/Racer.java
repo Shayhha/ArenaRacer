@@ -6,7 +6,11 @@ import utilities.Fate;
 
 /**
  * The Racers class is an abstract class that represents the avarage racer in our program.
- * The Racer has many private variables, a Constructor, and a few methods.
+ * The Racer has many private variables like name, serial number, current location, max speed, acceleration and more.
+ * <p>The Racer also has a Constructor, and a few methods like move, introduce, hasMishap, className and more, 
+ * and also some setter and getter methods.
+ * <p>All of the methods have a purpose, how ever the method describeSpecific is an Abstract Method because we dont 
+ * have enought information in the Racer class to describe its sub classes. 
  */
 public abstract class Racer {
 
@@ -315,11 +319,17 @@ public abstract class Racer {
      */
     public boolean equals(Object obj){ //equals method for Racer class for our use later
         if(obj instanceof Racer){
-            if(this.name == ((Racer)obj).name && this.serialNumber == ((Racer)obj).serialNumber && 
-            this.currentLocation.equals(((Racer)obj).currentLocation) && this.maxSpeed == ((Racer)obj).maxSpeed && 
-            this.acceleration == ((Racer)obj).acceleration && this.color == ((Racer)obj).color) {
+            if(this.name == ((Racer)obj).name && 
+            this.serialNumber == ((Racer)obj).serialNumber && 
+            this.currentLocation.equals(((Racer)obj).currentLocation) && 
+            this.finish.equals(((Racer)obj).finish) &&
+            this.maxSpeed == ((Racer)obj).maxSpeed && 
+            this.acceleration == ((Racer)obj).acceleration && 
+            this.currentSpeed == ((Racer)obj).currentSpeed && 
+            this.failureProbability == ((Racer)obj).failureProbability && 
+            this.color == ((Racer)obj).color) {
                 return true;
-            } //! maybe add more checks here? like mishap, arena, failure probability and more...
+            } 
         } 
         return false;
     }
