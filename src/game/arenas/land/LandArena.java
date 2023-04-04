@@ -22,16 +22,26 @@ import utilities.EnumContainer.LandSurface;
      * @param  surface represents the surface type
      */
 public class LandArena extends Arena {
+
+    //------------------- Private Variables -------------------//
     private static double DEFAULT_FRICTION=0.5;
     private final static int DEFAULT_MAX_RACERS=8;
     private final static int DEFAULT_LENGTH=800;
     private EnumContainer.Coverage coverage = Coverage.GRASS;
     private EnumContainer.LandSurface surface = LandSurface.FLAT;
 
+    /**
+    * A default constructs, creates a new LandArena object with default values for its DEFAULT_LENGTH, 
+    * DEFAULT_MAX_RACERS and DEFAULT_FRICTION
+    */
     public LandArena(){//default ctor
         super(DEFAULT_LENGTH,DEFAULT_MAX_RACERS,DEFAULT_FRICTION);
     }
 
+    /**
+    * A normal constructs, creates a new LandArena object with default values for its DEFAULT_LENGTH, 
+    * DEFAULT_MAX_RACERS and DEFAULT_FRICTION
+    */
     public LandArena(double length, int maxRacers){//ctor 
         super(length,maxRacers,DEFAULT_FRICTION);
     }
@@ -55,7 +65,7 @@ public class LandArena extends Arena {
         }
     }
 
-    //setter and getter methods
+    //------------------- setter and getter methods -------------------//
     public final EnumContainer.Coverage getCoverage(){return this.coverage;}
     public final EnumContainer.LandSurface getSurface(){return this.surface;}
     
