@@ -20,6 +20,7 @@ import game.arenas.exceptions.*;
 */
 public abstract class Arena {
 
+    //------------------- Private Variables -------------------//
     private List<Racer> activeRacers = new ArrayList<Racer>();
     private List<Racer> completedRacers = new ArrayList<Racer>();
     private final double FRICTION;
@@ -27,19 +28,24 @@ public abstract class Arena {
     private final static int MIN_Y_GAP = 10;
     private double length; // x value of finish line
 
-    
+    /**
+     * A normal constructor for class Arena, it gets a few parameters and sets the fields to the correct values.
+     * @param length is a double value that represents the length of the arena
+     * @param maxRacers an int value that is the max amount of racers 
+     * @param friction a double value that is the friction of the arena
+     */
     public Arena(double length, int maxRacers, double friction){ //ctor
         this.length = length;
         this.MAX_RACERS = maxRacers;
         this.FRICTION = friction;
     }
+
     /**
     *addRacer method checks if object type is for same instance if not throws RacerTypeException
     *also we check is we are at full capacity if so we throw RacerLimitException
     *we leave this method for subclasses to implement
     * <p>
     */    
-    
     public abstract void addRacer(Racer newRacer) throws RacerLimitException, RacerTypeException;
 
     /**
@@ -98,6 +104,7 @@ public abstract class Arena {
             }
         }
     }
+    
     /**
     * crossFinishLine method 
     * gets a Racer instance and adds it to list of completedRacers
@@ -122,13 +129,43 @@ public abstract class Arena {
         }
     }
 
-    //get & set methods
+    //------------------- setter and getter methods -------------------//
+
+    /**
+     * @return a double value that represents the friction of the arena object.
+     */
     public double getFriction(){ return this.FRICTION;}
+
+    /**
+     * @return a double value that represents the min y gap of the arena object.
+     */
     public double getMIN_Y_GAP(){return MIN_Y_GAP;}
+
+    /**
+     * @return an int value that represents the max amount of racers for the arena object.
+     */
     public int getMAX_RACERS(){return this.MAX_RACERS;}
+
+    /**
+     * @return a List that holds all of the active racers in the arena object.
+     */
     public List<Racer> getActiveRacers(){return this.activeRacers;}
+
+    /**
+     * @return a List that holds all of the completed racers in the arena object.
+     */
     public List<Racer> getCompletedRacers(){return this.completedRacers;}
+
+    /**
+     * @return a double value that represents the length of the arena object.
+     */
     public double length(){return this.length;}
+
+    /**
+     * a set method for the length of the arena
+     * @param t a double value we want to set the length to be
+     * @return returns true if the length was changed successfuly
+     */
     public boolean setLength(double t){
         this.length=t;
         return true;
