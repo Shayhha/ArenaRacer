@@ -73,7 +73,7 @@ public abstract class Racer {
      */
     public Point move(double friction){ //method for racer to show his current location on track
         double newAcc=this.getAcceleration(); // getting the original acceleration of the racer for later use
-        double newSpeed = this.getCurrentSpeed();
+        double newSpeed = this.getCurrentSpeed(); // getting the original currentSpeed of the racer for later use
 
         // if the racer has a mishap and it is fixable and the turns to fix is 0 then we regard it as if he does not have a mishap
         if(this.hasMishap() && this.mishap.getFixable() == true && this.mishap.getTurnsToFix()==0){
@@ -103,8 +103,6 @@ public abstract class Racer {
             // at this point all of the senarios were taken care of, and only the senario where the racer moves with reduced
             // acceleration is left, calculating the new acceleration based on the reduction factor of the mishap that was generated.
             newAcc *=this.mishap.getReductionFactor(); 
-
-            
         }
 
         // calculating the racers new current speed and then his new location
