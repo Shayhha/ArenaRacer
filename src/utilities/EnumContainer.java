@@ -11,9 +11,6 @@ package utilities;
  * To set a field type: EnumContainer.Vision vision; To set a value: this.vision
  * = EnumContainer.Vision.Sunny
  * 
- * @author מקסים סובוטין - 207695479
- * @author שי חחיאשוילי - 206423840
- *
  */
 public class EnumContainer {
 
