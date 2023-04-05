@@ -1,5 +1,5 @@
 /**
- * Parters:
+ * Partners:
  * name: Shay Hahiashvili, ID: 206423840
  * name: Maxim Subotin, ID: 207695479
  */
@@ -96,7 +96,6 @@ public abstract class Arena {
         if (this.activeRacers.size() != 0) {
             for (Racer r1: this.activeRacers) { //goes through all racers calls move method for each
                 r1.move(this.FRICTION);
-                //System.out.println(this.ActiveRacers.size());
                 if(r1.getCurrentLocation().getX() >= this.length){ //if racer has finsihed the race we call crossFinishedLine method
                     crossFinishLine(r1); //calls method to add to completedRacers
                     List<Racer> temp = new ArrayList<Racer>(); //temp list
