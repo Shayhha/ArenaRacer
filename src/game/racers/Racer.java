@@ -108,7 +108,7 @@ public abstract class Racer {
         }
 
         // calculating the racers new current speed and then his new location
-        if(this.currentSpeed < this.maxSpeed) {  //! this is what I said, we need to put his outside the if vut it ruins the prints
+        if(this.currentSpeed < this.maxSpeed) {  
             newSpeed += newAcc*friction;
             if(newSpeed > this.maxSpeed) //check if racer surpassed his declared maxspeed
                 newSpeed = this.maxSpeed;
