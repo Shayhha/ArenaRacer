@@ -1,5 +1,5 @@
 /**
- * Parters:
+ * Partenrs:
  * name: Shay Hahiashvili, ID: 206423840
  * name: Maxim Subotin, ID: 207695479
  */
