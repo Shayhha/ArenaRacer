@@ -61,10 +61,10 @@ public abstract class Arena {
     * <p>
     */
     public void initRace(){
-        Point start = new Point(); //starting point
-        Point end = new Point(this.length,0); //ending point
         int i = 0;
         for (Racer r : activeRacers) { //foreach racer we set the values of X and Y with MIN_Y_GAP and we call InitRace method for the racer
+            Point start = new Point(); //starting point
+            Point end = new Point(this.length,0); //ending point
             start.setY(i * MIN_Y_GAP);
             end.setY(i * MIN_Y_GAP);
             r.initRace(this, start, end);

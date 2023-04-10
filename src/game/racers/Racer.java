@@ -88,20 +88,9 @@ public abstract class Racer {
             }
         }
 
-        // now if the racer has a mishap we need to check the senario that its is NOT fixable and the
-        // turns to fix is NOT 0, in that case we reduce the turns to fix by 1 and the racer does not get to move.
+        //if racer has new/old mishap we reduce the turns to fix with nextTurn method and calculating the new reduced the acceleration
         if(this.hasMishap()){
-            if(this.mishap.getFixable() == false && this.mishap.getTurnsToFix()>0){
-                this.mishap.setTurnsToFix(this.mishap.getTurnsToFix()-1); // we reduce the fix time
-                return this.currentLocation;
-            }
-            else { // how ever if it is fixable then we just reduce the turns to fix by 1 and the racer moves later with a reduced acceleration
-                if(this.mishap.getFixable()==true)
-                    this.mishap.nextTurn();
-            }
-            
-            // at this point all of the senarios were taken care of, and only the senario where the racer moves with reduced
-            // acceleration is left, calculating the new acceleration based on the reduction factor of the mishap that was generated.
+            this.mishap.nextTurn(); 
             newAcc *=this.mishap.getReductionFactor(); 
         }
 
@@ -109,10 +98,11 @@ public abstract class Racer {
         if(this.currentSpeed < this.maxSpeed) {  
             newSpeed += newAcc*friction;
             if(newSpeed > this.maxSpeed) //check if racer surpassed his declared maxspeed
-                newSpeed = this.maxSpeed;
+                this.currentSpeed=this.maxSpeed;//newSpeed = this.maxSpeed;
+            else
+                this.currentSpeed = newSpeed;
         }
         this.currentLocation.setX(this.currentLocation.getX()+newSpeed); // setting the new position of the racer
-
         return this.currentLocation; //return new position
     }
 
