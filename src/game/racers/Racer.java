@@ -79,7 +79,25 @@ public abstract class Racer {
         if(this.hasMishap() && this.mishap.getFixable() == true && this.mishap.getTurnsToFix()==0){
             this.mishap = null;
         }
-
+        //=======================================================================================================================//
+        // now if the racer has a mishap we need to check the senario that its is NOT fixable and the
+        // turns to fix is NOT 0, in that case we reduce the turns to fix by 1 and the racer does not get to move.
+        // if(this.hasMishap()){
+        //     if(this.mishap.getFixable() == false && this.mishap.getTurnsToFix()>0){
+        //         this.mishap.setTurnsToFix(this.mishap.getTurnsToFix()-1); // we reduce the fix time
+        //         return this.currentLocation;
+        //     }
+        //     else { // how ever if it is fixable then we just reduce the turns to fix by 1 and the racer moves later with a reduced acceleration
+        //         if(this.mishap.getFixable()==true)
+        //             this.mishap.nextTurn();
+        //     }
+             //this.mishap.nextTurn();
+ 
+               // at this point all of the senarios were taken care of, and only the senario where the racer moves with reduced
+               // acceleration is left, calculating the new acceleration based on the reduction factor of the mishap that was generated.
+        //     newAcc *=this.mishap.getReductionFactor(); 
+        // }
+        //=======================================================================================================================//
         // if the racer does not have a mishap then we need to try to generate a new one using the methods of class Fate provided to us
         if(this.hasMishap() == false){ 
             if(Fate.breakDown()==true){ // if a mishap needs to be generate we generate a new one, else there is no mishap this turn
