@@ -6,11 +6,30 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class MainWindow implements ActionListener {
-    
-
     final static String[] ARENAS = { "AerialArena", "NavalArena", "LandArena"};
     final static String[] RACERS = { "Airplain", "Helicopter", "Bicycle", "Car", "Horse", "RowBoat", "SpeedBoat"};
     final static String[] COLORS = {"Black", "Blue", "Green", "Red", "Yellow"};
+    JLabel comboLabel = new JLabel("Choose arena:");
+    JLabel lengthLabel = new JLabel("Arena length:");
+    JLabel maxRacersLabel = new JLabel("Max racers number:");
+    JComboBox chooseArena = new JComboBox<String>(ARENAS);
+    JTextField arenaLength = new JTextField();
+    JTextField maxRacers = new JTextField();
+    JButton buildBtn = new JButton("Build Arena");
+    JLabel racerComboLabel = new JLabel("Choose racer:");
+    JLabel colorComboLabel = new JLabel("Choose color:");
+    JLabel racerNameLabel = new JLabel("Racer name:");
+    JLabel maxSpeedLabel = new JLabel("Max speed:");
+    JLabel accelerationLabel = new JLabel("Acceleration:");
+    JComboBox chooseRacer = new JComboBox<String>(RACERS);
+    JComboBox chooseColor = new JComboBox<String>(COLORS);
+    JTextField racerName = new JTextField();
+    JTextField maxSpeed = new JTextField();
+    JTextField acceleration = new JTextField();
+    JButton addButton = new JButton("Add racer");
+    JButton startRace = new JButton("Start race");
+    JButton showInfo = new JButton("Show info");
+    Frame frame = new JFrame("FRAME_TEXT");
 
 
     // *********
@@ -18,6 +37,8 @@ public class MainWindow implements ActionListener {
         BorderFactory.createLineBorder(Color.GRAY, 1), // black 1px border
         BorderFactory.createEmptyBorder(5, 2, 5, 5) // 5px padding on all sides
     );
+
+    public Frame getFrame(){return frame;}
 
     static Border textFieldBorder = BorderFactory.createEmptyBorder(2,0,0,0);
 
@@ -27,20 +48,12 @@ public class MainWindow implements ActionListener {
     static Font font = new Font("Arial", Font.BOLD, 13);
     // *********
 
-    public Component topPanel(){
+    public Component topPanel() {
         JPanel p1 = new JPanel();
 
         p1.setBorder(BorderFactory.createEmptyBorder(0,10,0,10));           
         p1.setLayout(new GridLayout(0, 1, 0, 0));  
         p1.setPreferredSize(new Dimension(175, 700));
-
-        JLabel comboLabel = new JLabel("Choose arena:");
-        JLabel lengthLabel = new JLabel("Arena length:");
-        JLabel maxRacersLabel = new JLabel("Max racers number:");
-
-        JComboBox chooseArena = new JComboBox<String>(ARENAS);
-        JTextField arenaLength = new JTextField();
-        JTextField maxRacers = new JTextField();
 
         JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
         separator.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -63,8 +76,7 @@ public class MainWindow implements ActionListener {
         maxRacers.setSize(textFieldSize);
         //
         
-        JButton buildBtn = new JButton("Build Arena");
-        
+        buildBtn.addActionListener(this);
 
         p1.add(comboLabel);
         p1.add(chooseArena);
@@ -78,19 +90,7 @@ public class MainWindow implements ActionListener {
         p1.add(buildBtn);
         p1.add(separator);
 
-
-        JLabel racerComboLabel = new JLabel("Choose racer:");
-        JLabel colorComboLabel = new JLabel("Choose color:");
-        JLabel racerNameLabel = new JLabel("Racer name:");
-        JLabel maxSpeedLabel = new JLabel("Max speed:");
-        JLabel accelerationLabel = new JLabel("Acceleration:");
-
-        JComboBox chooseRacer = new JComboBox<String>(RACERS);
-        JComboBox chooseColor = new JComboBox<String>(COLORS);
-        JTextField racerName = new JTextField();
-        JTextField maxSpeed = new JTextField();
-        JTextField acceleration = new JTextField();
-        JButton addButton = new JButton("Add racer");
+        addButton.addActionListener(this);
 
         // setting fonts and borders
         racerComboLabel.setFont(font);
@@ -140,8 +140,8 @@ public class MainWindow implements ActionListener {
         // p1.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         // p1.setLayout(new GridLayout(0, 1, 10,2));
 
-        JButton startRace = new JButton("Start race");
-        JButton showInfo = new JButton("Show info");
+        startRace.addActionListener(this);
+        showInfo.addActionListener(this);
 
         p1.add(startRace);
         p1.add(showInfo);
@@ -150,13 +150,14 @@ public class MainWindow implements ActionListener {
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("FRAME_TEXT");
+        //JFrame frame = new JFrame("FRAME_TEXT");
         JPanel pLeft = new JPanel();
-
+        MainWindow window = new MainWindow();
+        Frame frame = window.getFrame();
         frame.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
         pLeft.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));  
-        pLeft.setPreferredSize(new Dimension(1025, 700));
+        pLeft.setPreferredSize(new Dimension(1000, 700));
         pLeft.setBackground(Color.BLUE);
 
         //pRight.setLayout(new GridLayout(3, 1));
@@ -174,16 +175,23 @@ public class MainWindow implements ActionListener {
         
         //frame.add(pRight);
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1200,700);
         frame.setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // if (e.getSource() == pLeft) {
-            
+        if (e.getSource() == this.buildBtn) {
+            String temp = (String)this.chooseArena.getSelectedItem();
+            String arenaLength = this.arenaLength.getText();
+            String maxRacers = this.maxRacers.getText();
+            ImageIcon icon = new ImageIcon("C:\\Users\\shayh\\Documents\\Visual Studio Code\\HomeWork1\\src\\icons\\LandArena.png");
+            JLabel label = new JLabel(icon);
+            frame.setSize(icon.getIconWidth(), icon.getIconHeight());
+            frame.add(label, BorderLayout.CENTER);
+            frame.setSize(icon.getIconWidth(), icon.getIconHeight());
                 
-        // }
+        }
     }
 }
