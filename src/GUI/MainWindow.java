@@ -7,7 +7,7 @@ import java.awt.event.*;
 
 public class MainWindow {
     
-    final static String[] ARENAS = { "AerialArena", "NavalArena", "AirArena"};
+    final static String[] ARENAS = { "AerialArena", "NavalArena", "LandArena"};
 
     // *********
     static Border border = BorderFactory.createCompoundBorder(
@@ -170,7 +170,7 @@ public class MainWindow {
         pLeft.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));  
         pRight.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));  
 
-        pLeft.setPreferredSize(new Dimension(1025, 700));
+        pLeft.setPreferredSize(new Dimension(900, 700));
         pRight.setPreferredSize(new Dimension(175, 700));
 
         pLeft.setBackground(Color.BLUE);
