@@ -6,9 +6,12 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class MainWindow implements ActionListener {
+
+    // Our Variables:
     final static String[] ARENAS = { "AerialArena", "NavalArena", "LandArena"};
     final static String[] RACERS = { "Airplain", "Helicopter", "Bicycle", "Car", "Horse", "RowBoat", "SpeedBoat"};
     final static String[] COLORS = {"Black", "Blue", "Green", "Red", "Yellow"};
+
     JLabel comboLabel = new JLabel("Choose arena:");
     JLabel lengthLabel = new JLabel("Arena length:");
     JLabel maxRacersLabel = new JLabel("Max racers number:");
@@ -29,39 +32,36 @@ public class MainWindow implements ActionListener {
     JButton addButton = new JButton("Add racer");
     JButton startRace = new JButton("Start race");
     JButton showInfo = new JButton("Show info");
-    Frame frame = new JFrame("FRAME_TEXT");
+    JFrame frame = new JFrame("FRAME_TEXT");
+    JSeparator separator1 = new JSeparator(SwingConstants.HORIZONTAL);
+    JSeparator separator2 = new JSeparator(SwingConstants.HORIZONTAL);
+    //
 
-
-    // *********
-    static Border border = BorderFactory.createCompoundBorder(
-        BorderFactory.createLineBorder(Color.GRAY, 1), // black 1px border
-        BorderFactory.createEmptyBorder(5, 2, 5, 5) // 5px padding on all sides
-    );
-
-    public Frame getFrame(){return frame;}
-
-    static Border textFieldBorder = BorderFactory.createEmptyBorder(2,0,0,0);
-
-    static Dimension textFieldSize = new Dimension(100, 20);
-    static Dimension buttonSize = new Dimension(100, 45);
-
+    // defaults
+    static Border textFieldBorder = BorderFactory.createEmptyBorder(8,0,0,0);
     static Font font = new Font("Arial", Font.BOLD, 13);
-    // *********
+    //
+
+    public JFrame getFrame(){return frame;}
 
     public Component topPanel() {
         JPanel p1 = new JPanel();
 
-        p1.setBorder(BorderFactory.createEmptyBorder(0,10,0,10));           
-        p1.setLayout(new GridLayout(0, 1, 0, 0));  
-        p1.setPreferredSize(new Dimension(175, 700));
+        p1.setLayout(new GridBagLayout());   
+        p1.setBorder(BorderFactory.createEmptyBorder(-40,-25,0,0)); 
+        p1.setPreferredSize(new Dimension(183, 700));
 
-        JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
-        separator.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        GridBagConstraints gbc = new GridBagConstraints();        
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.ipadx = 0;
+        gbc.ipady = 3;
+        gbc.insets = new Insets(2, 0, 0, 0); // top, left, bottom, right
 
         // setting fonts and borders
         comboLabel.setFont(font);
         comboLabel.setBorder(textFieldBorder);
-        comboLabel.setBackground(Color.BLACK);
 
         lengthLabel.setFont(font);
         lengthLabel.setBorder(textFieldBorder);
@@ -69,30 +69,6 @@ public class MainWindow implements ActionListener {
         maxRacersLabel.setFont(font);
         maxRacersLabel.setBorder(textFieldBorder);
 
-        arenaLength.setBorder(border);
-        arenaLength.setSize(textFieldSize);
-
-        maxRacers.setBorder(border);
-        maxRacers.setSize(textFieldSize);
-        //
-        
-        buildBtn.addActionListener(this);
-
-        p1.add(comboLabel);
-        p1.add(chooseArena);
-
-        p1.add(lengthLabel);
-        p1.add(arenaLength);
-
-        p1.add(maxRacersLabel);
-        p1.add(maxRacers);
-        
-        p1.add(buildBtn);
-        p1.add(separator);
-
-        addButton.addActionListener(this);
-
-        // setting fonts and borders
         racerComboLabel.setFont(font);
         racerComboLabel.setBorder(textFieldBorder);
 
@@ -107,76 +83,98 @@ public class MainWindow implements ActionListener {
         
         accelerationLabel.setFont(font);
         accelerationLabel.setBorder(textFieldBorder);
-
-        racerName.setBorder(border);
-        racerName.setSize(textFieldSize);
-
-        maxSpeed.setBorder(border);
-        maxSpeed.setSize(textFieldSize);
-
-        acceleration.setBorder(border);
-        acceleration.setSize(textFieldSize);
         //
 
-        p1.add(racerComboLabel);
-        p1.add(chooseRacer);
 
-        p1.add(colorComboLabel);
-        p1.add(chooseColor);
+        // Top Part of the Right Panel:
 
-        p1.add(racerNameLabel);
-        p1.add(racerName);
-        
-        p1.add(maxSpeedLabel);
-        p1.add(maxSpeed);
+        buildBtn.addActionListener(this);
 
-        p1.add(accelerationLabel);
-        p1.add(acceleration);
+        p1.add(comboLabel, gbc);
+        gbc.gridy++;
+        p1.add(chooseArena, gbc);
+        gbc.gridy++;
+        p1.add(lengthLabel, gbc);
+        gbc.gridy++;
+        p1.add(arenaLength, gbc);
+        gbc.gridy++;
+        p1.add(maxRacersLabel, gbc);
+        gbc.gridy++;
+        p1.add(maxRacers, gbc);
+        gbc.gridy++;
+        gbc.insets = new Insets(7, 0, 7, 0);
+        p1.add(buildBtn, gbc);
+        gbc.gridy++;
+        p1.add(separator1, gbc);
+        gbc.gridy++;
+        gbc.insets = new Insets(2, 0, 0, 0);
+        //
 
-        p1.add(addButton);
 
+        // Middle Part of the Right Panel:
 
+        addButton.addActionListener(this);
 
-        // p1.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        // p1.setLayout(new GridLayout(0, 1, 10,2));
+        gbc.insets = new Insets(-2, 0, 0, 0);
+        p1.add(racerComboLabel, gbc);
+        gbc.gridy++;
+        gbc.insets = new Insets(2, 0, 0, 0);
+        p1.add(chooseRacer, gbc);
+        gbc.gridy++;
+        p1.add(colorComboLabel, gbc);
+        gbc.gridy++;
+        p1.add(chooseColor, gbc);
+        gbc.gridy++;
+        p1.add(racerNameLabel, gbc);
+        gbc.gridy++;
+        p1.add(racerName, gbc);
+        gbc.gridy++;
+        p1.add(maxSpeedLabel, gbc);
+        gbc.gridy++;
+        p1.add(maxSpeed, gbc);
+        gbc.gridy++;
+        p1.add(accelerationLabel, gbc);
+        gbc.gridy++;
+        p1.add(acceleration, gbc);
+        gbc.gridy++;
+        gbc.insets = new Insets(7, 0, 7, 0);
+        p1.add(addButton, gbc);
+        gbc.gridy++;
+        p1.add(separator2, gbc);
+        gbc.gridy++;
+        //
+
+        // Bottom Part of the Right Panel:
 
         startRace.addActionListener(this);
         showInfo.addActionListener(this);
 
-        p1.add(startRace);
-        p1.add(showInfo);
-
+        gbc.insets = new Insets(4, 0, 7, 0);
+        p1.add(startRace, gbc);
+        gbc.gridy++;
+        p1.add(showInfo, gbc);
+        //
+        
         return p1;
     }
 
     public static void main(String[] args) {
-        //JFrame frame = new JFrame("FRAME_TEXT");
-        JPanel pLeft = new JPanel();
         MainWindow window = new MainWindow();
-        Frame frame = window.getFrame();
+        Component rightPanel = window.topPanel();
+        JPanel leftPanel = new JPanel();
+        JFrame frame = window.getFrame();
+        
         frame.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
-        pLeft.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));  
-        pLeft.setPreferredSize(new Dimension(1000, 700));
-        pLeft.setBackground(Color.BLUE);
+        leftPanel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));  
+        leftPanel.setPreferredSize(new Dimension(1000, 700));
+        leftPanel.setBackground(Color.GRAY);
 
-        //pRight.setLayout(new GridLayout(3, 1));
+        frame.add(leftPanel);
+        frame.add(rightPanel, BorderLayout.NORTH);
 
-        MainWindow app = new MainWindow();
-        Component contents = app.topPanel();
-        frame.add(pLeft);
-        frame.add(contents, BorderLayout.NORTH);
-
-        //pRight.add(contents, BorderLayout.CENTER);
-
-        // pRight.add(topPanel());
-        // pRight.add(midPanel());
-        // pRight.add(buttomPanel());
-        
-        //frame.add(pRight);
-
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1200,700);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1200,728);
         frame.setVisible(true);
     }
 
