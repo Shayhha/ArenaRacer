@@ -12,6 +12,17 @@ public class MainWindow implements ActionListener {
     final static String[] RACERS = { "Airplain", "Helicopter", "Bicycle", "Car", "Horse", "RowBoat", "SpeedBoat"};
     final static String[] COLORS = {"Black", "Blue", "Green", "Red", "Yellow"};
 
+    // Constant Values for the Screen Dimentions
+    final static int MAIN_WINDOW_WIDTH = 1200;
+    final static int MAIN_WINDOW_HEIGHT = 728;
+
+    final static int LEFT_PANEL_WIDTH = 1000;
+    final static int LEFT_PANEL_HEIGHT = 700;
+
+    final static int RIGHT_PANEL_WIDTH = 183;
+    final static int RIGHT_PANEL_HEIGHT = 700;
+
+    // Our Components:
     JLabel comboLabel = new JLabel("Choose arena:");
     JLabel lengthLabel = new JLabel("Arena length:");
     JLabel maxRacersLabel = new JLabel("Max racers number:");
@@ -32,9 +43,11 @@ public class MainWindow implements ActionListener {
     JButton addButton = new JButton("Add racer");
     JButton startRace = new JButton("Start race");
     JButton showInfo = new JButton("Show info");
-    JFrame frame = new JFrame("FRAME_TEXT");
+    JFrame mainFrame = new JFrame("Race Game - Advanced OOP");
+    JPanel leftPanel = new JPanel();
     JSeparator separator1 = new JSeparator(SwingConstants.HORIZONTAL);
     JSeparator separator2 = new JSeparator(SwingConstants.HORIZONTAL);
+    JLabel backgroundLabel = new JLabel("");
     //
 
     // defaults
@@ -42,14 +55,21 @@ public class MainWindow implements ActionListener {
     static Font font = new Font("Arial", Font.BOLD, 13);
     //
 
-    public JFrame getFrame(){return frame;}
+    public JFrame getFrame(){return mainFrame;}
+    public JPanel getLeftPanel(){return leftPanel;}
 
-    public Component topPanel() {
+    /**
+     * Builds the Right panel of the main screen. 
+     * <p>This panel will hold all of the buttons and the text fields and labels for the 
+     * controls of the game, it will alow the player to add arena, add racers, start and end the race and more.
+     * @return a JPanel object that has all of the buttons and text fields in the correct order
+     */
+    public JPanel buildRightPanel() {
         JPanel p1 = new JPanel();
 
         p1.setLayout(new GridBagLayout());   
         p1.setBorder(BorderFactory.createEmptyBorder(-40,-25,0,0)); 
-        p1.setPreferredSize(new Dimension(183, 700));
+        p1.setPreferredSize(new Dimension(RIGHT_PANEL_WIDTH, RIGHT_PANEL_HEIGHT));
 
         GridBagConstraints gbc = new GridBagConstraints();        
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -159,37 +179,50 @@ public class MainWindow implements ActionListener {
     }
 
     public static void main(String[] args) {
+        // creating the main window using some variables declared above
         MainWindow window = new MainWindow();
-        Component rightPanel = window.topPanel();
-        JPanel leftPanel = new JPanel();
-        JFrame frame = window.getFrame();
+        JFrame mainFrame = window.getFrame();
+        JPanel leftPanel = window.getLeftPanel(); // the left panel will hold all of the racers
+        JPanel rightPanel = window.buildRightPanel(); // the right panel will hold all of the buttons and text boxes
         
-        frame.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        // setting the correct layout to the frame and the panels
+        mainFrame.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
         leftPanel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));  
-        leftPanel.setPreferredSize(new Dimension(1000, 700));
-        leftPanel.setBackground(Color.GRAY);
+        leftPanel.setPreferredSize(new Dimension(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT));
+        leftPanel.setBackground(Color.GRAY); // this is temporary
+        //leftPanel.setLayout(new BorderLayout()); // this might improve the positioning of the image in the left panel
 
-        frame.add(leftPanel);
-        frame.add(rightPanel, BorderLayout.NORTH);
+        // adding the panels to the frame
+        mainFrame.add(leftPanel);
+        mainFrame.add(rightPanel, BorderLayout.NORTH);
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1200,728);
-        frame.setVisible(true);
+        // setting the frame's size and making it visible
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setSize(MAIN_WINDOW_WIDTH,MAIN_WINDOW_HEIGHT);
+        mainFrame.setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == this.buildBtn) {
-            String temp = (String)this.chooseArena.getSelectedItem();
+        if (e.getSource() == this.buildBtn) { // if the build arena button was clicked
+            leftPanel.remove(backgroundLabel); // removing the existig image from the left panel before adding a new one
+
+            // getting the user's choises from the combo box and text boxes on the screen
+            String arenaImagePath = "src/icons/" + (String)this.chooseArena.getSelectedItem() + ".jpg"; // creating the path to the background image of the area useing the choise from the user's input to the combo box
             String arenaLength = this.arenaLength.getText();
             String maxRacers = this.maxRacers.getText();
-            ImageIcon icon = new ImageIcon("C:\\Users\\shayh\\Documents\\Visual Studio Code\\HomeWork1\\src\\icons\\LandArena.png");
-            JLabel label = new JLabel(icon);
-            frame.setSize(icon.getIconWidth(), icon.getIconHeight());
-            frame.add(label, BorderLayout.CENTER);
-            frame.setSize(icon.getIconWidth(), icon.getIconHeight());
-                
+
+            // creating the background image of the arena with the path that is made of the user's choise
+            ImageIcon icon = new ImageIcon(arenaImagePath);
+            Image image = icon.getImage().getScaledInstance(leftPanel.getWidth(), leftPanel.getHeight(), Image.SCALE_SMOOTH); // setting the size of the image to be the size of the panel it will sit in
+
+            // adding the background image to the screen
+            backgroundLabel = new JLabel("", new ImageIcon(image), JLabel.CENTER); // adding the background image to a label
+            backgroundLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // removing the background from the label that holds the background image of the arena
+            leftPanel.add(backgroundLabel, BorderLayout.CENTER); // adding the label with the image to the left panel of the main screen
+
+            mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
         }
     }
 }
