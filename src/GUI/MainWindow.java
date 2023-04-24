@@ -67,6 +67,11 @@ public class MainWindow implements ActionListener {
     public JFrame getFrame(){return mainFrame;}
     public JPanel getLeftPanel(){return leftPanel;}
 
+
+    // ======================================================================== //
+
+    // Helper functions:
+
     /**
      * Builds the Right panel of the main screen. 
      * <p>This panel will hold all of the buttons and the text fields and labels for the 
@@ -209,6 +214,10 @@ public class MainWindow implements ActionListener {
         racer.setLocation(racer.getX() + x, racer.getY() + y);
     }
 
+    // ======================================================================== //
+
+    // Input Checking Functions:
+
     private boolean checkArenaLength(int len) {
         if (len < 100 || len > 3000) {
             JOptionPane.showMessageDialog(null,
@@ -230,6 +239,8 @@ public class MainWindow implements ActionListener {
         }
         return true;
     }
+
+    // ======================================================================== //
 
     public static void main(String[] args) {
         // creating the main window using some variables declared above
