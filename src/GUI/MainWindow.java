@@ -194,6 +194,44 @@ public class MainWindow implements ActionListener {
     }
 
     /**
+     * Building the Main Window for the game
+     */
+    private static void createMainWindow() {
+        // creating the main window using some variables declared above
+        MainWindow window = new MainWindow();
+        JFrame mainFrame = window.getFrame();
+        JPanel leftPanel = window.getLeftPanel(); // the left panel will hold all of the racers
+        JPanel rightPanel = window.buildRightPanel(); // the right panel will hold all of the buttons and text boxes
+        
+        // setting the correct layout to the frame and the panels
+        mainFrame.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        mainFrame.setSize(MAIN_WINDOW_WIDTH,MAIN_WINDOW_HEIGHT);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // get the screen size
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        // calculate the new location of the frame
+        int x = (int) ((screenSize.getWidth() - mainFrame.getWidth()) / 2);
+        int y = (int) ((screenSize.getHeight() - mainFrame.getHeight()) / 2);
+
+        // set the location of the frame
+        mainFrame.setLocation(x, y);
+
+        leftPanel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));  
+        leftPanel.setPreferredSize(new Dimension(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT));
+        leftPanel.setBackground(Color.GRAY); // this is temporary
+        leftPanel.setLayout(new BorderLayout()); // this might improve the positioning of the image in the left panel
+
+        // adding the panels to the frame
+        mainFrame.add(leftPanel);
+        mainFrame.add(rightPanel, BorderLayout.NORTH);
+
+        // setting the frame's size and making it visible
+        mainFrame.setVisible(true);
+    }
+
+    /**
      * creating a single racer buy getting the icon from the given path and makeing a label that will hold that icon
      * @param path the path to the icon we want to give the racer
      * @return a JLabel object (an icon) that represents a racer in our race
@@ -243,40 +281,6 @@ public class MainWindow implements ActionListener {
 
     // ======================================================================== //
 
-    private static void createMainWindow() {
-        // creating the main window using some variables declared above
-        MainWindow window = new MainWindow();
-        JFrame mainFrame = window.getFrame();
-        JPanel leftPanel = window.getLeftPanel(); // the left panel will hold all of the racers
-        JPanel rightPanel = window.buildRightPanel(); // the right panel will hold all of the buttons and text boxes
-        
-        // setting the correct layout to the frame and the panels
-        mainFrame.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        mainFrame.setSize(MAIN_WINDOW_WIDTH,MAIN_WINDOW_HEIGHT);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // get the screen size
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-        // calculate the new location of the frame
-        int x = (int) ((screenSize.getWidth() - mainFrame.getWidth()) / 2);
-        int y = (int) ((screenSize.getHeight() - mainFrame.getHeight()) / 2);
-
-        // set the location of the frame
-        mainFrame.setLocation(x, y);
-
-        leftPanel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));  
-        leftPanel.setPreferredSize(new Dimension(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT));
-        leftPanel.setBackground(Color.GRAY); // this is temporary
-        leftPanel.setLayout(new BorderLayout()); // this might improve the positioning of the image in the left panel
-
-        // adding the panels to the frame
-        mainFrame.add(leftPanel);
-        mainFrame.add(rightPanel, BorderLayout.NORTH);
-
-        // setting the frame's size and making it visible
-        mainFrame.setVisible(true);
-    }
 
     public static void main(String[] args) {
         createMainWindow();
