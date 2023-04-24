@@ -8,64 +8,66 @@ import java.util.ArrayList;
 public class MainWindow implements ActionListener {
 
     // Our Variables:
-    final static String[] ARENAS = { "AerialArena", "NavalArena", "LandArena"};
-    final static String[] RACERS = { "Airplain", "Helicopter", "Bicycle", "Car", "Horse", "RowBoat", "SpeedBoat"};
-    final static String[] COLORS = {"Black", "Blue", "Green", "Red", "Yellow"};
+    private final static String[] ARENAS = { "AerialArena", "NavalArena", "LandArena"};
+    private final static String[] RACERS = { "Airplain", "Helicopter", "Bicycle", "Car", "Horse", "RowBoat", "SpeedBoat"};
+    private final static String[] COLORS = {"Black", "Blue", "Green", "Red", "Yellow"};
 
     private int maxNumOfRacers = 8; // values must be between 1-20
     private int arenaLen = 1000; // values must be between 100-3000
 
-    // Constant Values for the Screen Dimentions
-    final static int MAIN_WINDOW_WIDTH = 1200;
-    final static int MAIN_WINDOW_HEIGHT = 728; // when we have more that 11 racers on the screen we need to increase the height by RACER_ICON_SIZE
+    // Constant Values for the Screen Dimentions:
+    private final static int MAIN_WINDOW_WIDTH = 1200;
+    private final static int MAIN_WINDOW_HEIGHT = 728; // when we have more that 11 racers on the screen we need to increase the height by RACER_ICON_SIZE
 
-    final static int LEFT_PANEL_WIDTH = 1000;
-    final static int LEFT_PANEL_HEIGHT = 700;
+    private final static int LEFT_PANEL_WIDTH = 1000;
+    private final static int LEFT_PANEL_HEIGHT = 700;
 
-    final static int RIGHT_PANEL_WIDTH = 183;
-    final static int RIGHT_PANEL_HEIGHT = 700;
+    private final static int RIGHT_PANEL_WIDTH = 183;
+    private final static int RIGHT_PANEL_HEIGHT = 700;
 
-    final static int RACER_ICON_SIZE = 60; // width = height = 60
+    private final static int RACER_ICON_SIZE = 60; // width = height = 60
 
-    // ...
-    ArrayList<JLabel> racersList = new ArrayList<JLabel>(maxNumOfRacers);
+    // A temporary array of racers (array of icons)
+    private ArrayList<JLabel> racersList = new ArrayList<JLabel>(maxNumOfRacers);
 
     // Our Components:
-    JLabel comboLabel = new JLabel("Choose arena:");
-    JLabel lengthLabel = new JLabel("Arena length:");
-    JLabel maxRacersLabel = new JLabel("Max racers number:");
-    JComboBox chooseArena = new JComboBox<String>(ARENAS);
-    JTextField arenaLength = new JTextField();
-    JTextField maxRacers = new JTextField();
-    JButton buildBtn = new JButton("Build Arena");
-    JLabel racerComboLabel = new JLabel("Choose racer:");
-    JLabel colorComboLabel = new JLabel("Choose color:");
-    JLabel racerNameLabel = new JLabel("Racer name:");
-    JLabel maxSpeedLabel = new JLabel("Max speed:");
-    JLabel accelerationLabel = new JLabel("Acceleration:");
-    JComboBox chooseRacer = new JComboBox<String>(RACERS);
-    JComboBox chooseColor = new JComboBox<String>(COLORS);
-    JTextField racerName = new JTextField();
-    JTextField maxSpeed = new JTextField();
-    JTextField acceleration = new JTextField();
-    JButton addButton = new JButton("Add racer");
-    JButton startRace = new JButton("Start race");
-    JButton showInfo = new JButton("Show info");
-    JFrame mainFrame = new JFrame("Race Game - Advanced OOP");
-    JPanel leftPanel = new JPanel(null);
-    JSeparator separator1 = new JSeparator(SwingConstants.HORIZONTAL);
-    JSeparator separator2 = new JSeparator(SwingConstants.HORIZONTAL);
-    JLabel backgroundLabel = new JLabel("");
+    private JLabel comboLabel = new JLabel("Choose arena:");
+    private JLabel lengthLabel = new JLabel("Arena length:");
+    private JLabel maxRacersLabel = new JLabel("Max racers number:");
+    private JComboBox chooseArena = new JComboBox<String>(ARENAS);
+    private JTextField arenaLength = new JTextField();
+    private JTextField maxRacers = new JTextField();
+    private JButton buildBtn = new JButton("Build Arena");
+    private JLabel racerComboLabel = new JLabel("Choose racer:");
+    private JLabel colorComboLabel = new JLabel("Choose color:");
+    private JLabel racerNameLabel = new JLabel("Racer name:");
+    private JLabel maxSpeedLabel = new JLabel("Max speed:");
+    private JLabel accelerationLabel = new JLabel("Acceleration:");
+    private JComboBox chooseRacer = new JComboBox<String>(RACERS);
+    private JComboBox chooseColor = new JComboBox<String>(COLORS);
+    private JTextField racerName = new JTextField();
+    private JTextField maxSpeed = new JTextField();
+    private JTextField acceleration = new JTextField();
+    private JButton addButton = new JButton("Add racer");
+    private JButton startRace = new JButton("Start race");
+    private JButton showInfo = new JButton("Show info");
+    private JFrame mainFrame = new JFrame("Race Game - Advanced OOP");
+    private JPanel leftPanel = new JPanel(null);
+    private JSeparator separator1 = new JSeparator(SwingConstants.HORIZONTAL);
+    private JSeparator separator2 = new JSeparator(SwingConstants.HORIZONTAL);
+    private JLabel backgroundLabel = new JLabel("");
     //
 
-    // defaults
+    // Default values for gui:
     private static Border textFieldBorder = BorderFactory.createEmptyBorder(8,0,0,0);
     private static Font font = new Font("Arial", Font.BOLD, 13);
+
     //
 
+    // Getter functions:
     public JFrame getFrame(){return mainFrame;}
     public JPanel getLeftPanel(){return leftPanel;}
-
+    //
 
     // ======================================================================== //
 
@@ -241,7 +243,7 @@ public class MainWindow implements ActionListener {
 
     // ======================================================================== //
 
-    public static void main(String[] args) {
+    private static void createMainWindow() {
         // creating the main window using some variables declared above
         MainWindow window = new MainWindow();
         JFrame mainFrame = window.getFrame();
@@ -263,7 +265,6 @@ public class MainWindow implements ActionListener {
         // set the location of the frame
         mainFrame.setLocation(x, y);
 
-
         leftPanel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));  
         leftPanel.setPreferredSize(new Dimension(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT));
         leftPanel.setBackground(Color.GRAY); // this is temporary
@@ -275,6 +276,10 @@ public class MainWindow implements ActionListener {
 
         // setting the frame's size and making it visible
         mainFrame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        createMainWindow();
     }
 
     @Override
