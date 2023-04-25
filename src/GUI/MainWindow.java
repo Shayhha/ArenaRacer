@@ -39,7 +39,7 @@ public class MainWindow implements ActionListener {
     private JLabel comboLabel = new JLabel("Choose arena:");
     private JLabel lengthLabel = new JLabel("Arena length:");
     private JLabel maxRacersLabel = new JLabel("Max racers number:");
-    private JComboBox chooseArena = new JComboBox<String>(ARENAS);
+    private JComboBox<String> chooseArena = new JComboBox<String>(ARENAS);
     private JTextField arenaLength = new JTextField();
     private JTextField maxRacers = new JTextField();
     private JButton buildArenaButton = new JButton("Build Arena");
@@ -48,8 +48,8 @@ public class MainWindow implements ActionListener {
     private JLabel racerNameLabel = new JLabel("Racer name:");
     private JLabel maxSpeedLabel = new JLabel("Max speed:");
     private JLabel accelerationLabel = new JLabel("Acceleration:");
-    private JComboBox chooseRacer = new JComboBox<String>(RACERS);
-    private JComboBox chooseColor = new JComboBox<String>(COLORS);
+    private JComboBox<String> chooseRacer = new JComboBox<String>(RACERS);
+    private JComboBox<String> chooseColor = new JComboBox<String>(COLORS);
     private JTextField racerName = new JTextField();
     private JTextField maxSpeed = new JTextField();
     private JTextField acceleration = new JTextField();
