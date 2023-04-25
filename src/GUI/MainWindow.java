@@ -387,19 +387,19 @@ public class MainWindow implements ActionListener {
                     arena.addRacer(Instance); //calls add racer of arena (might throw an exaption!)
 
                     Instance.introduce();
-                    
+
+                    leftPanel.remove(backgroundLabel);
+
                     int i = arena.getActiveRacers().size();
-                    int cur = 0;
 
                     JLabel r1 = createRacer("src/icons/" + (String)Instance.getClass().getSimpleName() + this.chooseColor.getSelectedItem().toString() + ".png");
                     racersList.add(r1);
-                    moveRacer(r1, 0, (i-1)*RACER_ICON_SIZE);
-
-                    leftPanel.remove(backgroundLabel);
-                    leftPanel.add(r1, BorderLayout.CENTER);
+                    moveRacer(r1, 0, (i-1)*RACER_ICON_SIZE); //! use Y-GAP
                     
-                    //leftPanel.add(backgroundLabel, BorderLayout.CENTER); 
-                    mainFrame.setVisible(true);
+                    leftPanel.add(r1, BorderLayout.CENTER);
+
+                    printBackgroundImage(); //! add comment and use this func in other places
+                    mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
 
                 }
                 catch(Exception ex){
@@ -416,6 +416,22 @@ public class MainWindow implements ActionListener {
                      return;
             }
         }
-        
+    
+    }
+
+    private void printBackgroundImage() {
+        // getting the user's choises from the combo box and text boxes on the screen
+        String arenaImagePath = "src/icons/" + (String)this.chooseArena.getSelectedItem() + ".jpg"; // creating the path to the background image of the area useing the choise from the user's input to the combo box
+                
+        // creating the background image of the arena with the path that is made of the user's choise
+        ImageIcon icon = new ImageIcon(arenaImagePath);
+        Image image = icon.getImage().getScaledInstance(leftPanel.getWidth(), leftPanel.getHeight(), Image.SCALE_SMOOTH); // setting the size of the image to be the size of the panel it will sit in
+
+        // adding the background image to the screen
+        backgroundLabel = new JLabel("", new ImageIcon(image), JLabel.CENTER); // adding the background image to a label
+        backgroundLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // removing the background from the label that holds the background image of the arena
+
+        // adding the label with the choosen image to the left panel of the main screen
+        leftPanel.add(backgroundLabel, BorderLayout.CENTER); 
     }
 }
