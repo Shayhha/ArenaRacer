@@ -173,7 +173,7 @@ public abstract class Racer implements Runnable {
         return false;
     }
 
-    public void run() {//!
+    public void run() {//!    SYNCHRONIZATION IS NECESSARY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         while(this.currentLocation.getX() < this.arena.getLength()){
             this.move(this.arena.getFriction());
             try {
