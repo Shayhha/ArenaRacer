@@ -172,8 +172,8 @@ public abstract class Racer implements Runnable {
         }
         return false;
     }
-
-    public void run() {//!    SYNCHRONIZATION IS NECESSARY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //!(volatile keyword can make a parameter visable to all threads in real time, e.g volatile int num)
+    public void run() { //!    SYNCHRONIZATION IS NECESSARY !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         while(this.currentLocation.getX() < this.arena.getLength()){
             this.move(this.arena.getFriction());
             try {
