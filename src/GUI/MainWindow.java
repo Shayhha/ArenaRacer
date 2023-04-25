@@ -42,7 +42,7 @@ public class MainWindow implements ActionListener {
     // A temporary array of racers (array of icons)
     private ArrayList<JLabel> racersList = new ArrayList<JLabel>(maxNumOfRacers);
 
-    // Our Components:
+    // Our GUI Components:
     private JLabel comboLabel = new JLabel("Choose arena:");
     private JLabel lengthLabel = new JLabel("Arena length:");
     private JLabel maxRacersLabel = new JLabel("Max racers number:");
@@ -277,10 +277,7 @@ public class MainWindow implements ActionListener {
 
         // checking if the user's input contains non-numeric characters
         if (!this.arenaLength.getText().matches("\\d+") || !this.maxRacers.getText().matches("\\d+")) {
-            JOptionPane.showMessageDialog(null,
-                "Invalid input values! Please try again.", "Message",
-                JOptionPane.INFORMATION_MESSAGE 
-            );
+            showErrorMessage("Invalid input values! Please try again.");
             return false;
         }
 
@@ -289,10 +286,7 @@ public class MainWindow implements ActionListener {
         maxNumOfRacers = Integer.parseInt(this.maxRacers.getText());
 
         if (arenaLen < 100 || arenaLen > 3000 || maxNumOfRacers < 1 || maxNumOfRacers > 20) {
-            JOptionPane.showMessageDialog(null,
-                "Invalid input values! Please try again.", "Message",
-                JOptionPane.INFORMATION_MESSAGE
-            );
+            showErrorMessage("Invalid input values! Please try again.");
             return false;
         }
 
@@ -321,12 +315,16 @@ public class MainWindow implements ActionListener {
             // removing the existig image from the left panel before adding a new one
             leftPanel.remove(backgroundLabel); 
 
+            // reseting the arena
+            ARENA = null;
+
             // look at the user's inputed data and checking that it is valid
             if (!makeArena()) 
                 return;
 
-            String arenaType = chooseArena.getSelectedItem().toString(); //"AerialArena", "NavalArena", "LandArena"
+            String arenaType = chooseArena.getSelectedItem().toString(); // can be: "AerialArena", "NavalArena", "LandArena"
 
+            // trying to build the arena object based on the user's selection, if failed, show an error and stop the funtion
             try {
                 if (arenaType.contains("Aerial"))
                     ARENA = buildInstance.buildArena("game.arenas.air." + arenaType, arenaLen, maxNumOfRacers);
@@ -335,12 +333,11 @@ public class MainWindow implements ActionListener {
                 else if (arenaType.contains("Land"))
                     ARENA = buildInstance.buildArena("game.arenas.land." + arenaType, arenaLen, maxNumOfRacers);
             } catch (Exception e1) {
-                System.out.println("Unable to build arena!");
+                showErrorMessage("Invalid input values! Please try again.");
                 return;
-            }
-            System.out.println(ARENA.getClass());
-           
+            }           
 
+            // resizing the window acording to the max racers count //! this needs more work on the left panel size
             if (this.maxNumOfRacers > 11) {
                 mainFrame.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT + (this.maxNumOfRacers-11)*60); // adding 60 pixels to the height for each max racer after 11 racers
                 //leftPanel.setSize(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT + (this.maxNumOfRacers-11)*60);
@@ -374,15 +371,14 @@ public class MainWindow implements ActionListener {
                     "Invalid input values! Please try again.", "Missing Values Error", JOptionPane.ERROR_MESSAGE);
                      return;
                 } 
+
                 String racerNameValue = this.racerName.getText();
                 double maxSpeedValue = Integer.parseInt(this.maxSpeed.getText());
                 double accelerationValue = Integer.parseInt(this.acceleration.getText());
                 String racerChoiceCombo = (String)this.chooseRacer.getSelectedItem();
                 EnumContainer.Color colorValue = EnumContainer.Color.valueOf(this.chooseColor.getSelectedItem().toString().toUpperCase());
-                AerialArena a = new AerialArena(1000, 8);
-                System.out.println(a.getClass().toString());
-                String racerTypeValue =  "game.racers." +a.getClass().toString().split("\\.")[2]  +"."+ racerChoiceCombo;
-                System.out.println(racerTypeValue);
+                String racerTypeValue =  "game.racers." +ARENA.getClass().toString().split("\\.")[2]  +"."+ racerChoiceCombo;
+
                 Racer Instance=null;
                 try{
                     if(racerChoiceCombo == "Airplane")
@@ -395,7 +391,7 @@ public class MainWindow implements ActionListener {
                         Instance = buildInstance.buildRacer(racerTypeValue, racerNameValue, maxSpeedValue, accelerationValue, colorValue); //create instance
                     
                     ARENA.addRacer(Instance); //calls add racer of arena (might throw an exaption!)
-                    System.out.println(Instance.getName());
+                    Instance.introduce();
                 }
                 catch(Exception ex){
                     JOptionPane.showMessageDialog(null,
@@ -403,16 +399,13 @@ public class MainWindow implements ActionListener {
                     System.out.println(ex);
                     return;
                 }
-
-                
                   
             }
             else{
                 JOptionPane.showMessageDialog(null,
-                    "You have to build an arena first!", "Error", JOptionPane.ERROR_MESSAGE);
+                    "Please build arena first and add racers!", "Message", JOptionPane.ERROR_MESSAGE);
                      return;
             }
         }
-        
     }
 }
