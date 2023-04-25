@@ -5,16 +5,17 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
-
 import game.arenas.Arena;
-import game.arenas.air.AerialArena;
 import game.racers.Racer;
 import utilities.EnumContainer;
+import game.arenas.Arena;
+import game.arenas.air.AerialArena;
+import game.arenas.land.LandArena;
+import game.arenas.naval.NavalArena;
 import factory.RaceBuilder;
 
 public class MainWindow implements ActionListener {
-    //Arena Instance
-    private Arena arena=null;
+    
     // Our Variables:
     private final static String[] ARENAS = { "AerialArena", "NavalArena", "LandArena"};
     private final static String[] RACERS = { "Airplane", "Helicopter", "Bicycle", "Car", "Horse", "RowBoat", "SpeedBoat"};
@@ -34,6 +35,9 @@ public class MainWindow implements ActionListener {
     private final static int RIGHT_PANEL_HEIGHT = 700;
 
     private final static int RACER_ICON_SIZE = 60; // width = height = 60
+
+    // The Arena Object for the Game:
+    private Arena ARENA = null;
 
     // A temporary array of racers (array of icons)
     private ArrayList<JLabel> racersList = new ArrayList<JLabel>(maxNumOfRacers);
@@ -69,7 +73,6 @@ public class MainWindow implements ActionListener {
     // Default values for gui:
     private static Border textFieldBorder = BorderFactory.createEmptyBorder(8,0,0,0);
     private static Font font = new Font("Arial", Font.BOLD, 13);
-
     //
 
     // Getter functions:
@@ -128,7 +131,11 @@ public class MainWindow implements ActionListener {
         accelerationLabel.setBorder(textFieldBorder);
         //
 
-
+        // Setting default values
+        arenaLength.setText("1000"); 
+        maxRacers.setText("8");
+        //
+        
         // Top Part of the Right Panel:
 
         buildArenaButton.addActionListener(this);
@@ -261,30 +268,42 @@ public class MainWindow implements ActionListener {
         racer.setLocation(racer.getX() + x, racer.getY() + y);
     }
 
-    // ======================================================================== //
-
-    // Input Checking Functions:
-
-    private boolean checkArenaLength(int len) {
-        if (len < 100 || len > 3000) {
-            JOptionPane.showMessageDialog(null,
-             "The length of the arena must be between 100 and 3000 units, try again.", "Arena Length Input Error",
-             JOptionPane.INFORMATION_MESSAGE //check is this is a good icon ( https://stackoverflow.com/questions/6562847/joptionpane-change-the-icon )
-             );
+    private boolean makeArena() {
+        // checking if the user inputed data into all of the fields (if there are no missing values)
+        if (this.arenaLength.getText().isEmpty() || this.maxRacers.getText().isEmpty()) { // if there is a missing value, show error message
+            showErrorMessage("Invalid input values! Please try again.");
             return false;
         }
+
+        // checking if the user's input contains non-numeric characters
+        if (!this.arenaLength.getText().matches("\\d+") || !this.maxRacers.getText().matches("\\d+")) {
+            JOptionPane.showMessageDialog(null,
+                "Invalid input values! Please try again.", "Message",
+                JOptionPane.INFORMATION_MESSAGE 
+            );
+            return false;
+        }
+
+        // getting the values the user has inputed into all of the fields (now the values cant be missing)
+        arenaLen = Integer.parseInt(this.arenaLength.getText());
+        maxNumOfRacers = Integer.parseInt(this.maxRacers.getText());
+
+        if (arenaLen < 100 || arenaLen > 3000 || maxNumOfRacers < 1 || maxNumOfRacers > 20) {
+            JOptionPane.showMessageDialog(null,
+                "Invalid input values! Please try again.", "Message",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+            return false;
+        }
+
         return true;
     }
 
-    private boolean checkMaxRacers(int num) {
-        if (num < 1 || num > 20) {
-            JOptionPane.showMessageDialog(null,
-             "An arena can have between 1 and 20 racers, try setting a different maximum number or racers.", "Maximum Racers Input Error",
-             JOptionPane.INFORMATION_MESSAGE //check is this is a good icon ( https://stackoverflow.com/questions/6562847/joptionpane-change-the-icon )
-             );
-            return false;
-        }
-        return true;
+    private void showErrorMessage(String err) {
+        JOptionPane.showMessageDialog(null,
+            err, "Message",
+            JOptionPane.INFORMATION_MESSAGE // more icons here --> https://stackoverflow.com/questions/6562847/joptionpane-change-the-icon 
+            );
     }
 
     // ======================================================================== //
@@ -297,34 +316,42 @@ public class MainWindow implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         RaceBuilder buildInstance = RaceBuilder.getInstance();  //instance of RaceBuilder
+
         if (e.getSource() == this.buildArenaButton) { // if the build arena button was clicked
-            leftPanel.remove(backgroundLabel); // removing the existig image from the left panel before adding a new one
-            
+            // removing the existig image from the left panel before adding a new one
+            leftPanel.remove(backgroundLabel); 
+
+            // look at the user's inputed data and checking that it is valid
+            if (!makeArena()) 
+                return;
+
+            String arenaType = chooseArena.getSelectedItem().toString(); //"AerialArena", "NavalArena", "LandArena"
+
+            try {
+                if (arenaType.contains("Aerial"))
+                    ARENA = buildInstance.buildArena("game.arenas.air." + arenaType, arenaLen, maxNumOfRacers);
+                else if (arenaType.contains("Naval"))
+                    ARENA = buildInstance.buildArena("game.arenas.naval." + arenaType, arenaLen, maxNumOfRacers);
+                else if (arenaType.contains("Land"))
+                    ARENA = buildInstance.buildArena("game.arenas.land." + arenaType, arenaLen, maxNumOfRacers);
+            } catch (Exception e1) {
+                System.out.println("Unable to build arena!");
+                return;
+            }
+            System.out.println(ARENA.getClass());
+           
+
+            if (this.maxNumOfRacers > 11) {
+                mainFrame.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT + (this.maxNumOfRacers-11)*60); // adding 60 pixels to the height for each max racer after 11 racers
+                //leftPanel.setSize(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT + (this.maxNumOfRacers-11)*60);
+            } else {
+                mainFrame.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT); // if less than 11 max racers keep original default size
+                //leftPanel.setSize(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT);
+            }
+
             // getting the user's choises from the combo box and text boxes on the screen
             String arenaImagePath = "src/icons/" + (String)this.chooseArena.getSelectedItem() + ".jpg"; // creating the path to the background image of the area useing the choise from the user's input to the combo box
             
-            // checking the input to of the user for arena
-            if (!this.arenaLength.getText().isEmpty()) {
-                arenaLen = Integer.parseInt(this.arenaLength.getText()); // need to add checks for this value
-                if (!checkArenaLength(arenaLen)) {
-                    return;
-                }
-                
-            } else { // this error message is not like the Word document, fix it.
-                JOptionPane.showMessageDialog(null,
-                 "Please fill in the \"Arena Length\" and \"Max racers Number\" fields before creating the arena.", "Missing Values Error",
-                 JOptionPane.INFORMATION_MESSAGE //check is this is a good icon ( https://stackoverflow.com/questions/6562847/joptionpane-change-the-icon )
-                );
-                return;
-            }
-            
-            if (!this.maxRacers.getText().isEmpty()) {
-                maxNumOfRacers = Integer.parseInt(this.maxRacers.getText()); // need to add checks for this value
-
-                if (!checkMaxRacers(maxNumOfRacers)) {
-                    return;
-                }
-            }
             // creating the background image of the arena with the path that is made of the user's choise
             ImageIcon icon = new ImageIcon(arenaImagePath);
             Image image = icon.getImage().getScaledInstance(leftPanel.getWidth(), leftPanel.getHeight(), Image.SCALE_SMOOTH); // setting the size of the image to be the size of the panel it will sit in
@@ -333,26 +360,14 @@ public class MainWindow implements ActionListener {
             backgroundLabel = new JLabel("", new ImageIcon(image), JLabel.CENTER); // adding the background image to a label
             backgroundLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // removing the background from the label that holds the background image of the arena
 
+            // adding the label with the choosen image to the left panel of the main screen
+            leftPanel.add(backgroundLabel, BorderLayout.CENTER); 
 
-            // Initialize each JLabel object in the racers array, JUST A TEST!!!
-            for (int i = 0; i < maxNumOfRacers; i++) {
-                racersList.add(i, createRacer("src/icons/HelicopterBlack.png"));
-
-                // racersArray[i] = createRacer("src/icons/HelicopterBlack.png");
-                moveRacer(racersList.get(i),0,i*RACER_ICON_SIZE);
-                leftPanel.add(racersList.get(i), BorderLayout.CENTER);
-            }
-            //
-
-            
-            // this line must be in the end for some reason... this might be a problem when adding racers, we will have to write this line after every racer that we add..
-            leftPanel.add(backgroundLabel, BorderLayout.CENTER); // adding the label with the image to the left panel of the main screen
-
-            mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
+            mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible 
         }
 
         if (e.getSource() == this.addRacerButton) {
-            if(this.arena != null){
+            if(this.ARENA != null){
                 if (!this.maxSpeed.getText().matches("\\d+") || !this.acceleration.getText().matches("\\d+") || this.maxSpeed.getText().equals("") || this.acceleration.getText().equals("")
                      || this.racerName.getText().equals("")) {
                     JOptionPane.showMessageDialog(null,
@@ -379,7 +394,7 @@ public class MainWindow implements ActionListener {
                     else
                         Instance = buildInstance.buildRacer(racerTypeValue, racerNameValue, maxSpeedValue, accelerationValue, colorValue); //create instance
                     
-                    arena.addRacer(Instance); //calls add racer of arena (might throw an exaption!)
+                    ARENA.addRacer(Instance); //calls add racer of arena (might throw an exaption!)
                     System.out.println(Instance.getName());
                 }
                 catch(Exception ex){
