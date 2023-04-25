@@ -385,6 +385,22 @@ public class MainWindow implements ActionListener {
                         Instance = buildInstance.buildRacer(racerTypeValue, racerNameValue, maxSpeedValue, accelerationValue, colorValue); //create instance
                     
                     arena.addRacer(Instance); //calls add racer of arena (might throw an exaption!)
+
+                    Instance.introduce();
+                    
+                    int i = arena.getActiveRacers().size();
+                    int cur = 0;
+
+                    JLabel r1 = createRacer("src/icons/" + (String)Instance.getClass().getSimpleName() + this.chooseColor.getSelectedItem().toString() + ".png");
+                    racersList.add(r1);
+                    moveRacer(r1, 0, (i-1)*RACER_ICON_SIZE);
+
+                    leftPanel.remove(backgroundLabel);
+                    leftPanel.add(r1, BorderLayout.CENTER);
+                    
+                    //leftPanel.add(backgroundLabel, BorderLayout.CENTER); 
+                    mainFrame.setVisible(true);
+
                 }
                 catch(Exception ex){
                     JOptionPane.showMessageDialog(null,
