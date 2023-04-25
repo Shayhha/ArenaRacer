@@ -175,4 +175,6 @@ public abstract class Arena {
         return true;
     }
 
+    public void setActiveRacers(List<Racer> temp){this.activeRacers = temp;}
+
 }

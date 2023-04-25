@@ -392,7 +392,6 @@ public class MainWindow implements ActionListener {
                     System.out.println(ex);
                     return;
                 }
-                  
             }
             else{
                 JOptionPane.showMessageDialog(null,

@@ -6,6 +6,10 @@
 package game.racers;
 import utilities.*;
 import utilities.EnumContainer.Color;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import game.arenas.Arena;
 import utilities.Fate;
 
@@ -17,7 +21,7 @@ import utilities.Fate;
  * <p>All of the methods have a purpose, how ever the method describeSpecific is an Abstract Method because we dont 
  * have enought information in the Racer class to describe its sub classes. 
  */
-public abstract class Racer {
+public abstract class Racer implements Runnable {
 
     //------------------- Private Variables -------------------//
     private static int instanceCounter = 1; // we use this static field to initialize serialNumber for each instance of class 
@@ -167,6 +171,27 @@ public abstract class Racer {
             return true;
         }
         return false;
+    }
+
+    public void run() {//!
+        while(this.currentLocation.getX() < this.arena.getLength()){
+            this.move(this.arena.getFriction());
+            try {
+                Thread.sleep(((int)(Math.random() * 1000)));
+            }
+            catch (InterruptedException e){
+                System.out.println("Error exception");
+            }
+        }
+        if(this.currentLocation.getX() >= this.arena.getLength()){ //if racer has finsihed the race we call crossFinishedLine method
+            this.arena.crossFinishLine(this); //calls method to add to completedRacers
+            List<Racer> temp = new ArrayList<Racer>(); //temp list
+            for (Racer r2 : this.arena.getActiveRacers()) { //deletes the obj from arrayList
+                if(r2.equals(this)==false)
+                    temp.add(r2);
+            }
+            this.arena.setActiveRacers(temp);
+        }   
     }
 
     //------------------- setter and getter functions -------------------//
