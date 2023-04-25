@@ -4,12 +4,20 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
+
+import game.arenas.Arena;
+import game.arenas.air.AerialArena;
+import game.racers.Racer;
+import utilities.EnumContainer;
+import factory.RaceBuilder;
 
 public class MainWindow implements ActionListener {
-
+    //Arena Instance
+    private Arena arena=null;
     // Our Variables:
     private final static String[] ARENAS = { "AerialArena", "NavalArena", "LandArena"};
-    private final static String[] RACERS = { "Airplain", "Helicopter", "Bicycle", "Car", "Horse", "RowBoat", "SpeedBoat"};
+    private final static String[] RACERS = { "Airplane", "Helicopter", "Bicycle", "Car", "Horse", "RowBoat", "SpeedBoat"};
     private final static String[] COLORS = {"Black", "Blue", "Green", "Red", "Yellow"};
 
     private int maxNumOfRacers = 8; // values must be between 1-20
@@ -37,7 +45,7 @@ public class MainWindow implements ActionListener {
     private JComboBox chooseArena = new JComboBox<String>(ARENAS);
     private JTextField arenaLength = new JTextField();
     private JTextField maxRacers = new JTextField();
-    private JButton buildBtn = new JButton("Build Arena");
+    private JButton buildArenaButton = new JButton("Build Arena");
     private JLabel racerComboLabel = new JLabel("Choose racer:");
     private JLabel colorComboLabel = new JLabel("Choose color:");
     private JLabel racerNameLabel = new JLabel("Racer name:");
@@ -48,7 +56,7 @@ public class MainWindow implements ActionListener {
     private JTextField racerName = new JTextField();
     private JTextField maxSpeed = new JTextField();
     private JTextField acceleration = new JTextField();
-    private JButton addButton = new JButton("Add racer");
+    private JButton addRacerButton = new JButton("Add racer");
     private JButton startRace = new JButton("Start race");
     private JButton showInfo = new JButton("Show info");
     private JFrame mainFrame = new JFrame("Race Game - Advanced OOP");
@@ -123,7 +131,7 @@ public class MainWindow implements ActionListener {
 
         // Top Part of the Right Panel:
 
-        buildBtn.addActionListener(this);
+        buildArenaButton.addActionListener(this);
 
         p1.add(comboLabel, gbc);
         gbc.gridy++;
@@ -138,7 +146,7 @@ public class MainWindow implements ActionListener {
         p1.add(maxRacers, gbc);
         gbc.gridy++;
         gbc.insets = new Insets(7, 0, 7, 0);
-        p1.add(buildBtn, gbc);
+        p1.add(buildArenaButton, gbc);
         gbc.gridy++;
         p1.add(separator1, gbc);
         gbc.gridy++;
@@ -148,7 +156,7 @@ public class MainWindow implements ActionListener {
 
         // Middle Part of the Right Panel:
 
-        addButton.addActionListener(this);
+        addRacerButton.addActionListener(this);
 
         gbc.insets = new Insets(-2, 0, 0, 0);
         p1.add(racerComboLabel, gbc);
@@ -173,7 +181,7 @@ public class MainWindow implements ActionListener {
         p1.add(acceleration, gbc);
         gbc.gridy++;
         gbc.insets = new Insets(7, 0, 7, 0);
-        p1.add(addButton, gbc);
+        p1.add(addRacerButton, gbc);
         gbc.gridy++;
         p1.add(separator2, gbc);
         gbc.gridy++;
@@ -288,7 +296,8 @@ public class MainWindow implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == this.buildBtn) { // if the build arena button was clicked
+        RaceBuilder buildInstance = RaceBuilder.getInstance();  //instance of RaceBuilder
+        if (e.getSource() == this.buildArenaButton) { // if the build arena button was clicked
             leftPanel.remove(backgroundLabel); // removing the existig image from the left panel before adding a new one
             
             // getting the user's choises from the combo box and text boxes on the screen
@@ -341,5 +350,54 @@ public class MainWindow implements ActionListener {
 
             mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
         }
+
+        if (e.getSource() == this.addRacerButton) {
+            if(this.arena != null){
+                if (!this.maxSpeed.getText().matches("\\d+") || !this.acceleration.getText().matches("\\d+") || this.maxSpeed.getText().equals("") || this.acceleration.getText().equals("")
+                     || this.racerName.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null,
+                    "Invalid input values! Please try again.", "Missing Values Error", JOptionPane.ERROR_MESSAGE);
+                     return;
+                } 
+                String racerNameValue = this.racerName.getText();
+                double maxSpeedValue = Integer.parseInt(this.maxSpeed.getText());
+                double accelerationValue = Integer.parseInt(this.acceleration.getText());
+                String racerChoiceCombo = (String)this.chooseRacer.getSelectedItem();
+                EnumContainer.Color colorValue = EnumContainer.Color.valueOf(this.chooseColor.getSelectedItem().toString().toUpperCase());
+                AerialArena a = new AerialArena(1000, 8);
+                System.out.println(a.getClass().toString());
+                String racerTypeValue =  "game.racers." +a.getClass().toString().split("\\.")[2]  +"."+ racerChoiceCombo;
+                System.out.println(racerTypeValue);
+                Racer Instance=null;
+                try{
+                    if(racerChoiceCombo == "Airplane")
+                        Instance = buildInstance.buildWheeledRacer(racerTypeValue, racerNameValue, maxSpeedValue, accelerationValue, colorValue,3); //create instance
+                    else if(racerChoiceCombo == "Bicycle")
+                        Instance = buildInstance.buildWheeledRacer(racerTypeValue, racerNameValue, maxSpeedValue, accelerationValue, colorValue,2); //create instance
+                    else if(racerChoiceCombo == "Car")
+                        Instance = buildInstance.buildWheeledRacer(racerTypeValue, racerNameValue, maxSpeedValue, accelerationValue, colorValue,4); //create instance
+                    else
+                        Instance = buildInstance.buildRacer(racerTypeValue, racerNameValue, maxSpeedValue, accelerationValue, colorValue); //create instance
+                    
+                    arena.addRacer(Instance); //calls add racer of arena (might throw an exaption!)
+                    System.out.println(Instance.getName());
+                }
+                catch(Exception ex){
+                    JOptionPane.showMessageDialog(null,
+                    "Racer doesn't match arena.", "Racer Error", JOptionPane.ERROR_MESSAGE);
+                    System.out.println(ex);
+                    return;
+                }
+
+                
+                  
+            }
+            else{
+                JOptionPane.showMessageDialog(null,
+                    "You have to build an arena first!", "Error", JOptionPane.ERROR_MESSAGE);
+                     return;
+            }
+        }
+        
     }
 }

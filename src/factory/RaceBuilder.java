@@ -7,7 +7,6 @@ package factory;
 import game.arenas.Arena;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-
 import game.racers.Racer;
 import utilities.EnumContainer;
 
@@ -22,7 +21,7 @@ public class RaceBuilder {
     private Class<?> classObject;
     private Constructor<?> constructor;
 
-    protected RaceBuilder(){} //ctor of class RaceBuilder
+    public RaceBuilder(){} //ctor of class RaceBuilder
 
     
     /**
@@ -83,8 +82,8 @@ public class RaceBuilder {
     public Racer buildWheeledRacer(String racerType, String name, double maxSpeed, double acceleration, utilities.EnumContainer.Color color, int numOfWheels) 
         throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException
             ,IllegalAccessException, IllegalArgumentException, InvocationTargetException { //creats wheeled racer instance
-        classObject = classLoader.loadClass(racerType);
         this.classLoader = ClassLoader.getSystemClassLoader();
+        classObject = classLoader.loadClass(racerType);
         this.constructor = classObject.getConstructor(String.class,double.class,double.class,EnumContainer.Color.class,int.class);
         Racer racer = (Racer)constructor.newInstance(name,maxSpeed,acceleration,color,numOfWheels);
         return racer;
