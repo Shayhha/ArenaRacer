@@ -1,6 +1,8 @@
 package GUI;
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -61,6 +63,7 @@ public class MainWindow implements ActionListener {
     private JSeparator separator1 = new JSeparator(SwingConstants.HORIZONTAL);
     private JSeparator separator2 = new JSeparator(SwingConstants.HORIZONTAL);
     private JLabel backgroundLabel = new JLabel("");
+    private JFrame infoWin = new JFrame("Racers information");
     //
 
     // Default values for gui:
@@ -294,6 +297,22 @@ public class MainWindow implements ActionListener {
              );
     }
 
+    private void printBackgroundImage() {
+        // getting the user's choises from the combo box and text boxes on the screen
+        String arenaImagePath = "src/icons/" + (String)this.chooseArena.getSelectedItem() + ".jpg"; // creating the path to the background image of the area useing the choise from the user's input to the combo box
+                
+        // creating the background image of the arena with the path that is made of the user's choise
+        ImageIcon icon = new ImageIcon(arenaImagePath);
+        Image image = icon.getImage().getScaledInstance(leftPanel.getWidth(), leftPanel.getHeight(), Image.SCALE_SMOOTH); // setting the size of the image to be the size of the panel it will sit in
+
+        // adding the background image to the screen
+        backgroundLabel = new JLabel("", new ImageIcon(image), JLabel.CENTER); // adding the background image to a label
+        backgroundLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // removing the background from the label that holds the background image of the arena
+
+        // adding the label with the choosen image to the left panel of the main screen
+        leftPanel.add(backgroundLabel, BorderLayout.CENTER); 
+    }
+
     // ======================================================================== //
 
 
@@ -410,21 +429,61 @@ public class MainWindow implements ActionListener {
             }
         }
     
-    }
+        if (e.getSource() == this.showInfo) {
+            if (arena != null) {
+                Dimension infoWinSize = new Dimension(555,175); // saveing the dimentions of the info window
+                JPanel panel = new JPanel(); // creating a panel that will sit in the window
+                JTable table; // creating a reference to a tabel for later use
+                Object[][] data = null;
 
-    private void printBackgroundImage() {
-        // getting the user's choises from the combo box and text boxes on the screen
-        String arenaImagePath = "src/icons/" + (String)this.chooseArena.getSelectedItem() + ".jpg"; // creating the path to the background image of the area useing the choise from the user's input to the combo box
+                // setting the window size and the panels layout and border
+                infoWin.setSize(infoWinSize);
+                panel.setLayout(new BorderLayout());
+                panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+                // column header values for creating the table
+                String[] columnHeaders = {"Racer name", "Current speed", "Max speed", "Current X location", "Finished"};
                 
-        // creating the background image of the arena with the path that is made of the user's choise
-        ImageIcon icon = new ImageIcon(arenaImagePath);
-        Image image = icon.getImage().getScaledInstance(leftPanel.getWidth(), leftPanel.getHeight(), Image.SCALE_SMOOTH); // setting the size of the image to be the size of the panel it will sit in
+                // data2 is just temporary information, need to change it to the actual racers information from the active racers
+                Object[][] data2 = {{"Data 1", "Data 2", "Data 3", "Data 4", "Data 5"}, {"Data 6", "Data 7", "Data 8", "Data 9", "Data 10"}};
+                data = data2;
+                // Object[][] data = getRacersInfoFromArena(); //! we need to implement this function to get the racers info, the function has to return null if there are no racers in the arena
+                //? here we might have an issue with active racers, this info window needs to show all racers, 
+                //? even onces that have finished the racer, we wont find them in active racers so we might need to use compleated racers as well...
 
-        // adding the background image to the screen
-        backgroundLabel = new JLabel("", new ImageIcon(image), JLabel.CENTER); // adding the background image to a label
-        backgroundLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // removing the background from the label that holds the background image of the arena
+                // this block will check if the function getRacersInfoFromArena will return actual data of null in the case that there are no racers in the arena yet
+                // if (data == null) { //! remove the comment from this if block when getRacersInfoFromArena() is implemented
+                //     data = new Object[0][5]; // create empty data array
+                // }
 
-        // adding the label with the choosen image to the left panel of the main screen
-        leftPanel.add(backgroundLabel, BorderLayout.CENTER); 
+                table = new JTable(data, columnHeaders); // creating a tabel with the column headers and the racers data
+
+                // adding the completed tabel to a scroll panel and then setting its size to the size of the info window
+                JScrollPane scrollPane = new JScrollPane(table);
+                scrollPane.setPreferredSize(infoWinSize);
+                
+                panel.add(scrollPane, BorderLayout.CENTER); // adding the scroll panel to the main panel of the frame
+        
+                // **** setting the location of the info window to open in the center of the screen **** //
+                    // get the screen size
+                    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+                    // calculate the new location of the frame
+                    int x = (int) ((screenSize.getWidth() - infoWin.getWidth()) / 2);
+                    int y = (int) ((screenSize.getHeight() - infoWin.getHeight()) / 2);
+
+                    // set the location of the frame
+                    infoWin.setLocation(x, y);
+                // **** **** //
+
+                // adding the panel to the frame and setting the frame visible
+                infoWin.add(panel);
+                infoWin.pack();
+                infoWin.setVisible(true);
+            }
+            else {
+                showErrorMessage("You have to build an arena first!");
+            }
+        }
     }
 }
