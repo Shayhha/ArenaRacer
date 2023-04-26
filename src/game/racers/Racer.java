@@ -191,6 +191,7 @@ public abstract class Racer implements Runnable {
                     temp.add(r2);
             }
             this.arena.setActiveRacers(temp);
+            System.out.println(this.name+" Finished");
         }   
     }
 

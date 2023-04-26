@@ -6,6 +6,9 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import game.arenas.Arena;
 import game.racers.Racer;
 import utilities.EnumContainer;
@@ -456,9 +459,11 @@ public class MainWindow implements ActionListener {
             else{
                 this.raceActive = true; //states that a race has been started
                 this.arena.initRace(); //initializes the racers as well
-                for (Racer r : this.arena.getActiveRacers()) {
-                   //TODO
+                ExecutorService executor = Executors.newFixedThreadPool(this.maxNumOfRacers); //new executor for threads
+                for (Racer r : this.arena.getActiveRacers()) { //initialize the threads of racers with executor
+                   executor.execute(r);
                 }
+                executor.shutdown(); //call shoutdown method
             }
         }
     
