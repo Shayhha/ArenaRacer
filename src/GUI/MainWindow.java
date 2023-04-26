@@ -483,16 +483,16 @@ public class MainWindow implements ActionListener {
                 String[] columnHeaders = {"Racer name", "Current speed", "Max speed", "Current X location", "Finished"};
                 
                 // data2 is just temporary information, need to change it to the actual racers information from the active racers
-                Object[][] data2 = {{"Data 1", "Data 2", "Data 3", "Data 4", "Data 5"}, {"Data 6", "Data 7", "Data 8", "Data 9", "Data 10"}};
-                data = data2;
-                // Object[][] data = getRacersInfoFromArena(); //! we need to implement this function to get the racers info, the function has to return null if there are no racers in the arena
+                // Object[][] data2 = {{"Data 1", "Data 2", "Data 3", "Data 4", "Data 5"}, {"Data 6", "Data 7", "Data 8", "Data 9", "Data 10"}};
+                // data = data2;
+                data = getRacersInfoFromArena(); //! we need to implement this function to get the racers info, the function has to return null if there are no racers in the arena
                 //? here we might have an issue with active racers, this info window needs to show all racers, 
                 //? even onces that have finished the racer, we wont find them in active racers so we might need to use compleated racers as well...
 
                 // this block will check if the function getRacersInfoFromArena will return actual data of null in the case that there are no racers in the arena yet
-                // if (data == null) { //! remove the comment from this if block when getRacersInfoFromArena() is implemented
-                //     data = new Object[0][5]; // create empty data array
-                // }
+                if (data == null) { //! remove the comment from this if block when getRacersInfoFromArena() is implemented
+                    data = new Object[0][5]; // create empty data array
+                }
 
                 table = new JTable(data, columnHeaders); // creating a tabel with the column headers and the racers data
 
@@ -523,5 +523,32 @@ public class MainWindow implements ActionListener {
                 showErrorMessage("You have to build an arena first!");
             }
         }
+    }
+
+    private Object[][] getRacersInfoFromArena() {
+        Object[][] data = new Object[arena.getActiveRacers().size() + arena.getCompletedRacers().size()][5];
+        Object[] temp = new String[5];
+        int i = 0;
+
+        for (Racer racer : arena.getCompletedRacers()) {
+            temp[0] = racer.getName();
+            temp[1] = Double.toString(racer.getCurrentSpeed());
+            temp[2] = Double.toString(racer.getMaxSpeed());
+            temp[3] = Double.toString(racer.getCurrentLocation().getX());
+            temp[4] = "Yes";
+            data[i++] = temp;
+        }
+
+
+        for (Racer racer : arena.getActiveRacers()) {
+            temp[0] = racer.getName();
+            temp[1] = Double.toString(racer.getCurrentSpeed());
+            temp[2] = Double.toString(racer.getMaxSpeed());
+            temp[3] = Double.toString(racer.getCurrentLocation().getX());
+            temp[4] = "No";
+            data[i++] = temp;
+        }
+
+        return data;
     }
 }
