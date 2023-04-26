@@ -10,6 +10,9 @@ import utilities.EnumContainer.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JLabel;
+
+import GUI.MainWindow;
 import game.arenas.Arena;
 import utilities.Fate;
 
@@ -124,7 +127,15 @@ public abstract class Racer implements Runnable {
             else
                 this.currentSpeed = newSpeed;
         }
-        this.currentLocation.setX(this.currentLocation.getX()+newSpeed); // setting the new position of the racer
+
+        // moving the current racer's icon on the screen the exact amount that he needs to move based on his speed
+        if (this.currentLocation.getX()+newSpeed > this.getArena().getLength()) {
+            MainWindow.moveRacer(this.getSerialNumber(), (int)this.getArena().getLength() - (int)this.currentLocation.getX(), 0);
+        }
+        else 
+            MainWindow.moveRacer(this.getSerialNumber(), (int)newSpeed, 0);
+
+        this.currentLocation.setX((int)this.currentLocation.getX()+newSpeed); // setting the new position of the racer
         return this.currentLocation; //return new position
     }
 

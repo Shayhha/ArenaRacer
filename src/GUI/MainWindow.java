@@ -8,6 +8,8 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -24,15 +26,15 @@ public class MainWindow implements ActionListener {
     private final static String[] RACERS = { "Airplane", "Helicopter", "Bicycle", "Car", "Horse", "RowBoat", "SpeedBoat"};
     private final static String[] COLORS = {"Black", "Blue", "Green", "Red", "Yellow"};
 
-    private int maxNumOfRacers = 8; // values must be between 1-20
+    private static int maxNumOfRacers = 8; // values must be between 1-20
     private int arenaLen = 1000; // values must be between 100-3000
     private Boolean raceActive = false;// we use that to determine if a race started
 
     // Constant Values for the Screen Dimentions:
-    private final static int MAIN_WINDOW_WIDTH = 1200;
+    private final static int MAIN_WINDOW_WIDTH = 1270;
     private final static int MAIN_WINDOW_HEIGHT = 728; // when we have more that 11 racers on the screen we need to increase the height by RACER_ICON_SIZE
 
-    private final static int LEFT_PANEL_WIDTH = 1000;
+    private final static int LEFT_PANEL_WIDTH = 1070;
     private final static int LEFT_PANEL_HEIGHT = 700;
 
     private final static int RIGHT_PANEL_WIDTH = 183;
@@ -41,7 +43,10 @@ public class MainWindow implements ActionListener {
     private final static int RACER_ICON_SIZE = 60; // width = height = 60
 
     // A temporary array of racers (array of icons)
-    private ArrayList<JLabel> racersList = new ArrayList<JLabel>(maxNumOfRacers);
+    //public static ArrayList<JLabel> racersList = new ArrayList<JLabel>(maxNumOfRacers);
+
+    private static Map<Integer, JLabel> racersList = new HashMap<>();
+
 
     // Our GUI Components:
     private JLabel comboLabel = new JLabel("Choose arena:");
@@ -82,6 +87,7 @@ public class MainWindow implements ActionListener {
     // Getter functions:
     public JFrame getFrame(){return mainFrame;}
     public JPanel getLeftPanel(){return leftPanel;}
+    public Map<Integer, JLabel> getRacersList() {return racersList;}
     //
 
     // ======================================================================== //
@@ -264,11 +270,12 @@ public class MainWindow implements ActionListener {
 
     /**
      * moves the given racer by adding to his X and Y coordinates
-     * @param racer the racer you want to move
+     * @param index the index of the racer you want to move
      * @param x how much to move on the X axies, 0 is dont move.
      * @param y how much to move on the Y axies, 0 is dont move.
      */
-    private void moveRacer(JLabel racer, int x, int y) {
+    public static void moveRacer(int serialNum, int x, int y) {
+        JLabel racer = racersList.get(serialNum);
         racer.setLocation(racer.getX() + x, racer.getY() + y);
     }
 
@@ -356,17 +363,17 @@ public class MainWindow implements ActionListener {
             } catch (Exception e1) {
                 showErrorMessage("Invalid input values! Please try again.");
                 return;
-            }
-            
+            }                      
+
             // resizing the window and the left panel acording to the max racers count 
-            if (this.maxNumOfRacers > 11) {
-                this.mainFrame.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT + (this.maxNumOfRacers-11)*60); // adding 60 pixels to the height for each max racer after 11 racers
-                this.leftPanel.setSize(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT + (this.maxNumOfRacers-11)*60);
-                this.leftPanel.setPreferredSize(new Dimension(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT + (this.maxNumOfRacers-11)*60));
+            if (maxNumOfRacers > 11) {
+                this.mainFrame.setSize(arenaLen + 270, MAIN_WINDOW_HEIGHT + (maxNumOfRacers-11)*60); // adding 60 pixels to the height for each max racer after 11 racers
+                this.leftPanel.setSize(arenaLen + 70, LEFT_PANEL_HEIGHT + (maxNumOfRacers-11)*60);
+                this.leftPanel.setPreferredSize(new Dimension(arenaLen + 70, LEFT_PANEL_HEIGHT + (maxNumOfRacers-11)*60));
             } else {
-                this.mainFrame.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT); // if less than 11 max racers keep original default size
-                this.leftPanel.setSize(new Dimension(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT));
-                this.leftPanel.setPreferredSize(new Dimension(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT));
+                this.mainFrame.setSize(arenaLen + 270, MAIN_WINDOW_HEIGHT); // if less than 11 max racers keep original default size
+                this.leftPanel.setSize(new Dimension(arenaLen + 70, LEFT_PANEL_HEIGHT));
+                this.leftPanel.setPreferredSize(new Dimension(arenaLen + 70, LEFT_PANEL_HEIGHT));
             }
 
             // generating the background image when all of the inputs are acounted for
@@ -418,8 +425,8 @@ public class MainWindow implements ActionListener {
 
                     // creating a racer icon based on the user's information and adding the icon to the array of icons and positioning the icon in the correct location
                     JLabel r1 = createRacer("src/icons/" + (String)Instance.getClass().getSimpleName() + this.chooseColor.getSelectedItem().toString() + ".png");
-                    this.racersList.add(r1);
-                    moveRacer(r1, 0, (i-1)*RACER_ICON_SIZE + (int)this.arena.getMIN_Y_GAP());
+                    racersList.put(Instance.getSerialNumber(),r1);
+                    moveRacer(Instance.getSerialNumber(), 0, (i-1)*RACER_ICON_SIZE + (int)this.arena.getMIN_Y_GAP());
                     
                     // adding the racer to the screen
                     this.leftPanel.add(r1, BorderLayout.CENTER);
