@@ -19,6 +19,7 @@ public class MainWindow implements ActionListener {
 
     private int maxNumOfRacers = 8; // values must be between 1-20
     private int arenaLen = 1000; // values must be between 100-3000
+    private Boolean raceActive = false;// we use that to determine if a race started
 
     // Constant Values for the Screen Dimentions:
     private final static int MAIN_WINDOW_WIDTH = 1200;
@@ -307,11 +308,11 @@ public class MainWindow implements ActionListener {
 
         if (e.getSource() == this.buildArenaButton) { // if the build arena button was clicked
             // removing the existig image from the left panel before adding a new one
-            leftPanel.remove(backgroundLabel); 
+            this.leftPanel.remove(backgroundLabel); 
             
-            // reseting the arena
-            arena = null;
-            
+            // reseting the arena & racerActive
+            this.arena = null;
+            this.raceActive  = false;
             // look at the user's inputed data and checking that it is valid
             if (!makeArena()) 
                     return;
@@ -321,11 +322,11 @@ public class MainWindow implements ActionListener {
             // trying to build the arena object based on the user's selection, if failed, show an error and stop the funtion
             try {
                 if (arenaType.contains("Aerial"))
-                    arena = buildInstance.buildArena("game.arenas.air." + arenaType, arenaLen, maxNumOfRacers);
+                    this.arena = buildInstance.buildArena("game.arenas.air." + arenaType, arenaLen, maxNumOfRacers);
                 else if (arenaType.contains("Naval"))
-                    arena = buildInstance.buildArena("game.arenas.naval." + arenaType, arenaLen, maxNumOfRacers);
+                    this.arena = buildInstance.buildArena("game.arenas.naval." + arenaType, arenaLen, maxNumOfRacers);
                 else if (arenaType.contains("Land"))
-                    arena = buildInstance.buildArena("game.arenas.land." + arenaType, arenaLen, maxNumOfRacers);
+                    this.arena = buildInstance.buildArena("game.arenas.land." + arenaType, arenaLen, maxNumOfRacers);
             } catch (Exception e1) {
                 showErrorMessage("Invalid input values! Please try again.");
                 return;
@@ -333,10 +334,10 @@ public class MainWindow implements ActionListener {
             
             // resizing the window acording to the max racers count //! this needs more work on the left panel size
             if (this.maxNumOfRacers > 11) {
-                mainFrame.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT + (this.maxNumOfRacers-11)*60); // adding 60 pixels to the height for each max racer after 11 racers
+                this.mainFrame.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT + (this.maxNumOfRacers-11)*60); // adding 60 pixels to the height for each max racer after 11 racers
                 //leftPanel.setSize(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT + (this.maxNumOfRacers-11)*60);
             } else {
-                mainFrame.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT); // if less than 11 max racers keep original default size
+                this.mainFrame.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT); // if less than 11 max racers keep original default size
                 //leftPanel.setSize(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT);
                 }
 
@@ -348,16 +349,21 @@ public class MainWindow implements ActionListener {
             Image image = icon.getImage().getScaledInstance(leftPanel.getWidth(), leftPanel.getHeight(), Image.SCALE_SMOOTH); // setting the size of the image to be the size of the panel it will sit in
 
             // adding the background image to the screen
-            backgroundLabel = new JLabel("", new ImageIcon(image), JLabel.CENTER); // adding the background image to a label
-            backgroundLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // removing the background from the label that holds the background image of the arena
+            this.backgroundLabel = new JLabel("", new ImageIcon(image), JLabel.CENTER); // adding the background image to a label
+            this.backgroundLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // removing the background from the label that holds the background image of the arena
 
             // adding the label with the choosen image to the left panel of the main screen
-            leftPanel.add(backgroundLabel, BorderLayout.CENTER); 
+            this.leftPanel.add(backgroundLabel, BorderLayout.CENTER); 
 
-            mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
+            this.mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
         }
 
-        if (e.getSource() == this.addRacerButton) {
+        if (e.getSource() == this.addRacerButton) { //add racer button clicked
+            if(this.raceActive){
+                JOptionPane.showMessageDialog(null,
+                    "Error, cannot add another racer beacuse race already started/ended.", "Error", JOptionPane.ERROR_MESSAGE);
+                     return;
+            }
             if(this.arena != null){
                 if (!this.maxSpeed.getText().matches("\\d+") || !this.acceleration.getText().matches("\\d+") || this.maxSpeed.getText().equals("") || this.acceleration.getText().equals("")
                      || this.racerName.getText().equals("")) {
@@ -384,22 +390,22 @@ public class MainWindow implements ActionListener {
                     else
                         Instance = buildInstance.buildRacer(racerTypeValue, racerNameValue, maxSpeedValue, accelerationValue, colorValue); //create instance
                     
-                    arena.addRacer(Instance); //calls add racer of arena (might throw an exaption!)
+                    this.arena.addRacer(Instance); //calls add racer of arena (might throw an exaption!)
 
                     Instance.introduce();
 
-                    leftPanel.remove(backgroundLabel);
+                    this.leftPanel.remove(backgroundLabel);
 
-                    int i = arena.getActiveRacers().size();
+                    int i = this.arena.getActiveRacers().size();
 
                     JLabel r1 = createRacer("src/icons/" + (String)Instance.getClass().getSimpleName() + this.chooseColor.getSelectedItem().toString() + ".png");
-                    racersList.add(r1);
+                    this.racersList.add(r1);
                     moveRacer(r1, 0, (i-1)*RACER_ICON_SIZE); //! use Y-GAP
                     
-                    leftPanel.add(r1, BorderLayout.CENTER);
+                    this.leftPanel.add(r1, BorderLayout.CENTER);
 
                     printBackgroundImage(); //! add comment and use this func in other places
-                    mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
+                    this.mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
 
                 }
                 catch(Exception ex){
@@ -413,6 +419,30 @@ public class MainWindow implements ActionListener {
                 JOptionPane.showMessageDialog(null,
                     "You have to build an arena first!", "Error", JOptionPane.ERROR_MESSAGE);
                      return;
+            }
+        }
+        if(e.getSource() == this.startRace){ //start racer buttom clicked
+            if(this.raceActive){
+                JOptionPane.showMessageDialog(null,
+                    "Race already started/ended!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            else if(this.arena == null){
+                JOptionPane.showMessageDialog(null,
+                    "Arena isn't initialized!", "Arena Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            else if(this.racersList.isEmpty()){
+                JOptionPane.showMessageDialog(null,
+                    "You haven't added racers to arena!", "Racer Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            else{
+                this.raceActive = true; //states that a race has been started
+                this.arena.initRace(); //initializes the racers as well
+                for (Racer r : this.arena.getActiveRacers()) {
+                   //TODO
+                }
             }
         }
     

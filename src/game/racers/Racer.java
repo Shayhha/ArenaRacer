@@ -177,7 +177,7 @@ public abstract class Racer implements Runnable {
         while(this.currentLocation.getX() < this.arena.getLength()){
             this.move(this.arena.getFriction());
             try {
-                Thread.sleep(((int)(Math.random() * 1000)));
+                Thread.sleep(((int)(Math.random() * 300)));
             }
             catch (InterruptedException e){
                 System.out.println("Error exception");
