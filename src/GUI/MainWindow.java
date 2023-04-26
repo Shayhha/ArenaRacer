@@ -1,3 +1,8 @@
+/**
+ * Partners:
+ * name: Shay Hahiashvili, ID: 206423840
+ * name: Maxim Subotin, ID: 207695479
+ */
 package GUI;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -7,7 +12,6 @@ import javax.swing.table.TableModel;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -19,8 +23,9 @@ import utilities.EnumContainer;
 import factory.RaceBuilder;
 
 public class MainWindow implements ActionListener {
-    //arena instance
+    // Arena Instance
     private Arena arena = null;
+
     // Our Variables:
     private final static String[] ARENAS = { "AerialArena", "NavalArena", "LandArena"};
     private final static String[] RACERS = { "Airplane", "Helicopter", "Bicycle", "Car", "Horse", "RowBoat", "SpeedBoat"};
@@ -31,8 +36,9 @@ public class MainWindow implements ActionListener {
     private Boolean raceActive = false;// we use that to determine if a race started
 
     // Constant Values for the Screen Dimentions:
+    // ( when we have more that 11 racers on the screen we need to increase the height by RACER_ICON_SIZE )
     private final static int MAIN_WINDOW_WIDTH = 1270;
-    private final static int MAIN_WINDOW_HEIGHT = 728; // when we have more that 11 racers on the screen we need to increase the height by RACER_ICON_SIZE
+    private final static int MAIN_WINDOW_HEIGHT = 728; 
 
     private final static int LEFT_PANEL_WIDTH = 1070;
     private final static int LEFT_PANEL_HEIGHT = 700;
@@ -40,11 +46,9 @@ public class MainWindow implements ActionListener {
     private final static int RIGHT_PANEL_WIDTH = 183;
     private final static int RIGHT_PANEL_HEIGHT = 700;
 
-    private final static int RACER_ICON_SIZE = 60; // width = height = 60
+    private final static int RACER_ICON_SIZE = 60; // racer's width = racer's height = 60 pixels
 
-    // A temporary array of racers (array of icons)
-    //public static ArrayList<JLabel> racersList = new ArrayList<JLabel>(maxNumOfRacers);
-
+    // A map that holds pairs of (racer's serial number , racer's icon on the screen)
     private static Map<Integer, JLabel> racersList = new HashMap<>();
 
 
@@ -81,7 +85,6 @@ public class MainWindow implements ActionListener {
     // Default values for gui:
     private static Border textFieldBorder = BorderFactory.createEmptyBorder(8,0,0,0);
     private static Font font = new Font("Arial", Font.BOLD, 13);
-
     //
 
     // Getter functions:
@@ -279,6 +282,12 @@ public class MainWindow implements ActionListener {
         racer.setLocation(racer.getX() + x, racer.getY() + y);
     }
 
+    /**
+     * This function checks the users inputs, arena's length and max racers fields, checking that they are filled
+     * and dont contain letters. also checkign that they contain valid arguments, for example the arena's length
+     * must be between 100 and 3000.
+     * @return true if the input is all right and false otherwise (also pops an error message to the user about the bad input)
+     */
     private boolean makeArena() {
         // checking if the user inputed data into all of the fields (if there are no missing values)
         if (this.arenaLength.getText().isEmpty() || this.maxRacers.getText().isEmpty()) { // if there is a missing value, show error message
@@ -294,7 +303,7 @@ public class MainWindow implements ActionListener {
 
         // getting the values the user has inputed into all of the fields (now the values cant be missing)
         this.arenaLen = Integer.parseInt(this.arenaLength.getText());
-        this.maxNumOfRacers = Integer.parseInt(this.maxRacers.getText());
+        maxNumOfRacers = Integer.parseInt(this.maxRacers.getText());
 
         if (arenaLen < 100 || arenaLen > 3000 || maxNumOfRacers < 1 || maxNumOfRacers > 20) {
             showErrorMessage("Invalid input values! Please try again.");
@@ -304,6 +313,10 @@ public class MainWindow implements ActionListener {
         return true;
     }
 
+    /**
+     * Shows an error message with information message icon
+     * @param err is the exact message we want to print on to the screen
+     */
     private void showErrorMessage(String err) {
             JOptionPane.showMessageDialog(null,
             err, "Message",
@@ -311,6 +324,10 @@ public class MainWindow implements ActionListener {
              );
     }
 
+    /**
+     * This function makes the background icon, sets its width and height, makes a label that will hold the image
+     * and adds the image to the left panel on the main frame
+     */
     private void printBackgroundImage() {
         // getting the user's choises from the combo box and text boxes on the screen
         String arenaImagePath = "src/icons/" + (String)this.chooseArena.getSelectedItem() + ".jpg"; // creating the path to the background image of the area useing the choise from the user's input to the combo box
@@ -327,16 +344,63 @@ public class MainWindow implements ActionListener {
         this.leftPanel.add(backgroundLabel, BorderLayout.CENTER); 
     }
 
+    /**
+     * This functions builds the table that is visible in the show info window when pressing the show info button.
+     * The table has the information regarding all of the active and completed racers in the current race, also shows an
+     * empty table when there are no racers.
+     * @return a JTable object (a complete table with all the info) that we then place into the show info window, into a scroll panel. 
+     */
+    private JTable getRacersInfoFromArena() {
+        // declaring some variables
+        Object[][] data = new Object[arena.getActiveRacers().size() + arena.getCompletedRacers().size()][5]; // data will enter the table as the information
+        Object[] temp = null; // temp will one row at a time and add it to the table
+        String[] columnHeaders = {"Racer name", "Current speed", "Max speed", "Current X location", "Finished"}; // column header values for creating the table
+        int i = 0;
+
+        // going over all of the completed racers in the arena, adding them into the table
+        for (Racer racer : arena.getCompletedRacers()) {
+            temp = new String[5];
+            temp[0] = racer.getName();
+            temp[1] = Double.toString(racer.getCurrentSpeed());
+            temp[2] = Double.toString(racer.getMaxSpeed());
+            if (raceActive)
+                temp[3] = Double.toString(racer.getCurrentLocation().getX());
+            else 
+                temp[3] = "0";
+            temp[4] = "Yes";
+            data[i++] = temp;
+        }
+
+        // going over all of the active racers in the arena, adding them into the table
+        for (Racer racer : arena.getActiveRacers()) {
+            temp = new String[5];
+            temp[0] = racer.getName();
+            temp[1] = Double.toString(racer.getCurrentSpeed());
+            temp[2] = Double.toString(racer.getMaxSpeed());
+            if (raceActive)
+                temp[3] = Double.toString(racer.getCurrentLocation().getX());
+            else 
+                temp[3] = "0";
+            temp[4] = "No";
+            data[i++] = temp;
+        }
+
+        // creating the table it self and adding the headers and the data to it and then returning the table
+        TableModel model = new DefaultTableModel(data, columnHeaders);
+        JTable table = new JTable(model);
+        return table;
+    }
+
     // ======================================================================== //
 
 
     public static void main(String[] args) {
-        createMainWindow();
+        createMainWindow(); // creating and showing the main frame
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        RaceBuilder buildInstance = RaceBuilder.getInstance();  //instance of RaceBuilder
+        RaceBuilder buildInstance = RaceBuilder.getInstance();  // instance of RaceBuilder
 
         if (e.getSource() == this.buildArenaButton) { // if the build arena button was clicked
             // reseting the arena and the racer icons array (also removes the background image but we add it back later)
@@ -346,6 +410,7 @@ public class MainWindow implements ActionListener {
             // reseting the arena & racerActive
             this.arena = null;
             this.raceActive  = false;
+            
             // look at the user's inputed data and checking that it is valid
             if (!makeArena()) 
                 return;
@@ -382,7 +447,7 @@ public class MainWindow implements ActionListener {
             this.mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
         }
 
-        if (e.getSource() == this.addRacerButton) { //add racer button clicked
+        if (e.getSource() == this.addRacerButton) { // if add racer button was clicked
             if(this.raceActive){
                 JOptionPane.showMessageDialog(null,
                     "Error, cannot add another racer beacuse race already started/ended.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -450,7 +515,7 @@ public class MainWindow implements ActionListener {
                      return;
             }
         }
-        if(e.getSource() == this.startRace){ //start racer buttom clicked
+        if(e.getSource() == this.startRace){ // if start racer buttom was clicked
             if(this.raceActive){
                 JOptionPane.showMessageDialog(null,
                     "Race already started/ended!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -461,7 +526,7 @@ public class MainWindow implements ActionListener {
                     "Arena isn't initialized!", "Arena Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            else if(this.racersList.isEmpty()){
+            else if(racersList.isEmpty()){
                 JOptionPane.showMessageDialog(null,
                     "You haven't added racers to arena!", "Racer Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -469,7 +534,7 @@ public class MainWindow implements ActionListener {
             else{
                 this.raceActive = true; //states that a race has been started
                 this.arena.initRace(); //initializes the racers as well
-                ExecutorService executor = Executors.newFixedThreadPool(this.maxNumOfRacers); //new executor for threads
+                ExecutorService executor = Executors.newFixedThreadPool(maxNumOfRacers); //new executor for threads
                 for (Racer r : this.arena.getActiveRacers()) { //initialize the threads of racers with executor
                    executor.execute(r);
                 }
@@ -477,7 +542,7 @@ public class MainWindow implements ActionListener {
             }
         }
     
-        if (e.getSource() == this.showInfo) {
+        if (e.getSource() == this.showInfo) { // if show info button was clicked
             if (arena != null) {
                 tablePanel.removeAll(); //? search for a move to front function
 
@@ -515,42 +580,5 @@ public class MainWindow implements ActionListener {
                 showErrorMessage("You have to build an arena first!");
             }
         }
-    }
-
-    private JTable getRacersInfoFromArena() {
-        Object[][] data = new Object[arena.getActiveRacers().size() + arena.getCompletedRacers().size()][5];
-        Object[] temp = null;
-        String[] columnHeaders = {"Racer name", "Current speed", "Max speed", "Current X location", "Finished"}; // column header values for creating the table
-        int i = 0;
-
-        for (Racer racer : arena.getCompletedRacers()) {
-            temp = new String[5];
-            temp[0] = racer.getName();
-            temp[1] = Double.toString(racer.getCurrentSpeed());
-            temp[2] = Double.toString(racer.getMaxSpeed());
-            if (raceActive)
-                temp[3] = Double.toString(racer.getCurrentLocation().getX());
-            else 
-                temp[3] = "0";
-            temp[4] = "Yes";
-            data[i++] = temp;
-        }
-
-        for (Racer racer : arena.getActiveRacers()) {
-            temp = new String[5];
-            temp[0] = racer.getName();
-            temp[1] = Double.toString(racer.getCurrentSpeed());
-            temp[2] = Double.toString(racer.getMaxSpeed());
-            if (raceActive)
-                temp[3] = Double.toString(racer.getCurrentLocation().getX());
-            else 
-                temp[3] = "0";
-            temp[4] = "No";
-            data[i++] = temp;
-        }
-
-        TableModel model = new DefaultTableModel(data, columnHeaders);
-        JTable table = new JTable(model);
-        return table;
     }
 }
