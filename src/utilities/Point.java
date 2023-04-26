@@ -73,7 +73,7 @@ public class Point {
      * @param X the value we want to set.
      * @return true if the placement succeeded and false if it didnt.
      */
-    public boolean setX(double X) { 
+    public synchronized boolean setX(double X) { 
         if (X <= MAX_X && X >= MIN_X) {
             this.x = X;
             return true;

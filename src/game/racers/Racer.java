@@ -173,7 +173,19 @@ public abstract class Racer implements Runnable {
         return false;
     }
     //!(volatile keyword can make a parameter visable to all threads in real time, e.g volatile int num)
-    public void run() { //!    SYNCHRONIZATION IS NECESSARY !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    /**
+     * run() method of thread racer, calls move() method for the racer until he finsihes the race.
+     * in each iteration thread is sleeping for given peroid
+     * when racer finsihes we call croosFinishLine() method to add racer to completedRacers and remove the racer from activeRacers list
+     * <p>
+     * we do synchronization for the following methods for thread safety:
+     * @method void move()
+     * @method void crossFinishLine()
+     * @method List<Racer> getActiveRacers()
+     * @method void setActiveRacers(List<Racer>)
+     * @method boolean setX(double)
+     */
+    public void run() { 
         while(this.currentLocation.getX() < this.arena.getLength()){
             this.move(this.arena.getFriction());
             try {
@@ -184,6 +196,7 @@ public abstract class Racer implements Runnable {
             }
         }
         if(this.currentLocation.getX() >= this.arena.getLength()){ //if racer has finsihed the race we call crossFinishedLine method
+            this.currentLocation.setX(this.arena.getLength());
             this.arena.crossFinishLine(this); //calls method to add to completedRacers
             List<Racer> temp = new ArrayList<Racer>(); //temp list
             for (Racer r2 : this.arena.getActiveRacers()) { //deletes the obj from arrayList
