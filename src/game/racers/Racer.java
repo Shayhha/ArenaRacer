@@ -75,7 +75,7 @@ public abstract class Racer implements Runnable {
      * @param friction the amount by which the acceleration needs to be modified for this current move
      * @return an instans of Point that represents the new location of the racer after the move was made.
      */
-    public Point move(double friction){ //method for racer to show his current location on track
+    public synchronized Point move(double friction){ //method for racer to show his current location on track
         double newAcc=this.getAcceleration(); // getting the original acceleration of the racer for later use
         double newSpeed = this.getCurrentSpeed(); // getting the original currentSpeed of the racer for later use
 

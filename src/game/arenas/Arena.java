@@ -115,7 +115,7 @@ public abstract class Arena {
     *
     * <p>
     */
-    public void crossFinishLine(Racer racer){ //gets a Racer and adds it to completeRacers
+    public synchronized void crossFinishLine(Racer racer){ //gets a Racer and adds it to completeRacers
         this.completedRacers.add(racer);
     }
 
@@ -153,7 +153,7 @@ public abstract class Arena {
     /**
      * @return a List that holds all of the active racers in the arena object.
      */
-    public final List<Racer> getActiveRacers(){return this.activeRacers;}
+    public synchronized final List<Racer> getActiveRacers(){return this.activeRacers;}
 
     /**
      * @return a List that holds all of the completed racers in the arena object.
@@ -175,6 +175,6 @@ public abstract class Arena {
         return true;
     }
 
-    public void setActiveRacers(List<Racer> temp){this.activeRacers = temp;}
+    public synchronized void setActiveRacers(List<Racer> temp){this.activeRacers = temp;}
 
 }
