@@ -306,15 +306,13 @@ public class MainWindow implements ActionListener {
         RaceBuilder buildInstance = RaceBuilder.getInstance();  //instance of RaceBuilder
 
         if (e.getSource() == this.buildArenaButton) { // if the build arena button was clicked
-            // removing the existig image from the left panel before adding a new one
-            leftPanel.remove(backgroundLabel); 
-            
-            // reseting the arena
+            // reseting the arena and the racer icons array (also removes the background image but we add it back later)
             arena = null;
+            leftPanel.removeAll();
             
             // look at the user's inputed data and checking that it is valid
             if (!makeArena()) 
-                    return;
+                return;
                 
             String arenaType = chooseArena.getSelectedItem().toString(); // can be: "AerialArena", "NavalArena", "LandArena"
 
@@ -331,28 +329,19 @@ public class MainWindow implements ActionListener {
                 return;
             }
             
-            // resizing the window acording to the max racers count //! this needs more work on the left panel size
+            // resizing the window and the left panel acording to the max racers count 
             if (this.maxNumOfRacers > 11) {
                 mainFrame.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT + (this.maxNumOfRacers-11)*60); // adding 60 pixels to the height for each max racer after 11 racers
-                //leftPanel.setSize(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT + (this.maxNumOfRacers-11)*60);
+                leftPanel.setSize(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT + (this.maxNumOfRacers-11)*60);
+                leftPanel.setPreferredSize(new Dimension(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT + (this.maxNumOfRacers-11)*60));
             } else {
                 mainFrame.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT); // if less than 11 max racers keep original default size
-                //leftPanel.setSize(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT);
-                }
+                leftPanel.setSize(new Dimension(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT));
+                leftPanel.setPreferredSize(new Dimension(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT));
+            }
 
-            // getting the user's choises from the combo box and text boxes on the screen
-            String arenaImagePath = "src/icons/" + (String)this.chooseArena.getSelectedItem() + ".jpg"; // creating the path to the background image of the area useing the choise from the user's input to the combo box
-            
-            // creating the background image of the arena with the path that is made of the user's choise
-            ImageIcon icon = new ImageIcon(arenaImagePath);
-            Image image = icon.getImage().getScaledInstance(leftPanel.getWidth(), leftPanel.getHeight(), Image.SCALE_SMOOTH); // setting the size of the image to be the size of the panel it will sit in
-
-            // adding the background image to the screen
-            backgroundLabel = new JLabel("", new ImageIcon(image), JLabel.CENTER); // adding the background image to a label
-            backgroundLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // removing the background from the label that holds the background image of the arena
-
-            // adding the label with the choosen image to the left panel of the main screen
-            leftPanel.add(backgroundLabel, BorderLayout.CENTER); 
+            // generating the background image when all of the inputs are acounted for
+            printBackgroundImage();
 
             mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
         }
@@ -375,6 +364,7 @@ public class MainWindow implements ActionListener {
 
                 Racer Instance=null;
                 try{
+                    // trying to build the racer based on the correct type of the racer
                     if(racerChoiceCombo == "Airplane")
                         Instance = buildInstance.buildWheeledRacer(racerTypeValue, racerNameValue, maxSpeedValue, accelerationValue, colorValue,3); //create instance
                     else if(racerChoiceCombo == "Bicycle")
@@ -386,19 +376,23 @@ public class MainWindow implements ActionListener {
                     
                     arena.addRacer(Instance); //calls add racer of arena (might throw an exaption!)
 
-                    Instance.introduce();
+                    Instance.introduce(); // printing the currect racer to the comand line
 
-                    leftPanel.remove(backgroundLabel);
+                    leftPanel.remove(backgroundLabel); // removing the background image temporarily to add the racers icon
 
-                    int i = arena.getActiveRacers().size();
+                    int i = arena.getActiveRacers().size(); // i is the current amount of active racers
 
+                    // creating a racer icon based on the user's information and adding the icon to the array of icons and positioning the icon in the correct location
                     JLabel r1 = createRacer("src/icons/" + (String)Instance.getClass().getSimpleName() + this.chooseColor.getSelectedItem().toString() + ".png");
                     racersList.add(r1);
-                    moveRacer(r1, 0, (i-1)*RACER_ICON_SIZE); //! use Y-GAP
+                    moveRacer(r1, 0, (i-1)*RACER_ICON_SIZE + (int)arena.getMIN_Y_GAP());
                     
+                    // adding the racer to the screen
                     leftPanel.add(r1, BorderLayout.CENTER);
 
-                    printBackgroundImage(); //! add comment and use this func in other places
+                    // re-generating the background image after the racer was added 
+                    printBackgroundImage();
+
                     mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
 
                 }
