@@ -2,6 +2,8 @@ package GUI;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -68,6 +70,7 @@ public class MainWindow implements ActionListener {
     private JSeparator separator2 = new JSeparator(SwingConstants.HORIZONTAL);
     private JLabel backgroundLabel = new JLabel("");
     private JFrame infoWin = new JFrame("Racers information");
+    private JPanel tablePanel = new JPanel(); // creating a panel that will sit in the window
     //
 
     // Default values for gui:
@@ -469,38 +472,20 @@ public class MainWindow implements ActionListener {
     
         if (e.getSource() == this.showInfo) {
             if (arena != null) {
+                tablePanel.removeAll(); //? search for a move to front function
+
                 Dimension infoWinSize = new Dimension(555,175); // saveing the dimentions of the info window
-                JPanel panel = new JPanel(); // creating a panel that will sit in the window
-                JTable table; // creating a reference to a tabel for later use
-                Object[][] data = null;
 
                 // setting the window size and the panels layout and border
                 infoWin.setSize(infoWinSize);
-                panel.setLayout(new BorderLayout());
-                panel.setBorder(new EmptyBorder(10, 10, 10, 10));
-
-                // column header values for creating the table
-                String[] columnHeaders = {"Racer name", "Current speed", "Max speed", "Current X location", "Finished"};
-                
-                // data2 is just temporary information, need to change it to the actual racers information from the active racers
-                // Object[][] data2 = {{"Data 1", "Data 2", "Data 3", "Data 4", "Data 5"}, {"Data 6", "Data 7", "Data 8", "Data 9", "Data 10"}};
-                // data = data2;
-                data = getRacersInfoFromArena(); //! we need to implement this function to get the racers info, the function has to return null if there are no racers in the arena
-                //? here we might have an issue with active racers, this info window needs to show all racers, 
-                //? even onces that have finished the racer, we wont find them in active racers so we might need to use compleated racers as well...
-
-                // this block will check if the function getRacersInfoFromArena will return actual data of null in the case that there are no racers in the arena yet
-                if (data == null) { //! remove the comment from this if block when getRacersInfoFromArena() is implemented
-                    data = new Object[0][5]; // create empty data array
-                }
-
-                table = new JTable(data, columnHeaders); // creating a tabel with the column headers and the racers data
+                tablePanel.setLayout(new BorderLayout());
+                tablePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
                 // adding the completed tabel to a scroll panel and then setting its size to the size of the info window
-                JScrollPane scrollPane = new JScrollPane(table);
+                JScrollPane scrollPane = new JScrollPane(getRacersInfoFromArena());
                 scrollPane.setPreferredSize(infoWinSize);
                 
-                panel.add(scrollPane, BorderLayout.CENTER); // adding the scroll panel to the main panel of the frame
+                tablePanel.add(scrollPane, BorderLayout.CENTER); // adding the scroll panel to the main panel of the frame
         
                 // **** setting the location of the info window to open in the center of the screen **** //
                     // get the screen size
@@ -515,7 +500,7 @@ public class MainWindow implements ActionListener {
                 // **** **** //
 
                 // adding the panel to the frame and setting the frame visible
-                infoWin.add(panel);
+                infoWin.add(tablePanel);
                 infoWin.pack();
                 infoWin.setVisible(true);
             }
@@ -525,30 +510,40 @@ public class MainWindow implements ActionListener {
         }
     }
 
-    private Object[][] getRacersInfoFromArena() {
+    private JTable getRacersInfoFromArena() {
         Object[][] data = new Object[arena.getActiveRacers().size() + arena.getCompletedRacers().size()][5];
-        Object[] temp = new String[5];
+        Object[] temp = null;
+        String[] columnHeaders = {"Racer name", "Current speed", "Max speed", "Current X location", "Finished"}; // column header values for creating the table
         int i = 0;
 
         for (Racer racer : arena.getCompletedRacers()) {
+            temp = new String[5];
             temp[0] = racer.getName();
             temp[1] = Double.toString(racer.getCurrentSpeed());
             temp[2] = Double.toString(racer.getMaxSpeed());
-            temp[3] = Double.toString(racer.getCurrentLocation().getX());
+            if (raceActive)
+                temp[3] = Double.toString(racer.getCurrentLocation().getX());
+            else 
+                temp[3] = "0";
             temp[4] = "Yes";
             data[i++] = temp;
         }
 
-
         for (Racer racer : arena.getActiveRacers()) {
+            temp = new String[5];
             temp[0] = racer.getName();
             temp[1] = Double.toString(racer.getCurrentSpeed());
             temp[2] = Double.toString(racer.getMaxSpeed());
-            temp[3] = Double.toString(racer.getCurrentLocation().getX());
+            if (raceActive)
+                temp[3] = Double.toString(racer.getCurrentLocation().getX());
+            else 
+                temp[3] = "0";
             temp[4] = "No";
             data[i++] = temp;
         }
 
-        return data;
+        TableModel model = new DefaultTableModel(data, columnHeaders);
+        JTable table = new JTable(model);
+        return table;
     }
 }
