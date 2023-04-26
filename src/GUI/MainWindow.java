@@ -280,8 +280,8 @@ public class MainWindow implements ActionListener {
         }
 
         // getting the values the user has inputed into all of the fields (now the values cant be missing)
-        arenaLen = Integer.parseInt(this.arenaLength.getText());
-        maxNumOfRacers = Integer.parseInt(this.maxRacers.getText());
+        this.arenaLen = Integer.parseInt(this.arenaLength.getText());
+        this.maxNumOfRacers = Integer.parseInt(this.maxRacers.getText());
 
         if (arenaLen < 100 || arenaLen > 3000 || maxNumOfRacers < 1 || maxNumOfRacers > 20) {
             showErrorMessage("Invalid input values! Please try again.");
@@ -307,11 +307,11 @@ public class MainWindow implements ActionListener {
         Image image = icon.getImage().getScaledInstance(leftPanel.getWidth(), leftPanel.getHeight(), Image.SCALE_SMOOTH); // setting the size of the image to be the size of the panel it will sit in
 
         // adding the background image to the screen
-        backgroundLabel = new JLabel("", new ImageIcon(image), JLabel.CENTER); // adding the background image to a label
-        backgroundLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // removing the background from the label that holds the background image of the arena
+        this.backgroundLabel = new JLabel("", new ImageIcon(image), JLabel.CENTER); // adding the background image to a label
+        this.backgroundLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // removing the background from the label that holds the background image of the arena
 
         // adding the label with the choosen image to the left panel of the main screen
-        leftPanel.add(backgroundLabel, BorderLayout.CENTER); 
+        this.leftPanel.add(backgroundLabel, BorderLayout.CENTER); 
     }
 
     // ======================================================================== //
@@ -327,8 +327,8 @@ public class MainWindow implements ActionListener {
 
         if (e.getSource() == this.buildArenaButton) { // if the build arena button was clicked
             // reseting the arena and the racer icons array (also removes the background image but we add it back later)
-            arena = null;
-            leftPanel.removeAll();
+            this.arena = null;
+            this.leftPanel.removeAll();
             
             // reseting the arena & racerActive
             this.arena = null;
@@ -354,13 +354,13 @@ public class MainWindow implements ActionListener {
             
             // resizing the window and the left panel acording to the max racers count 
             if (this.maxNumOfRacers > 11) {
-                mainFrame.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT + (this.maxNumOfRacers-11)*60); // adding 60 pixels to the height for each max racer after 11 racers
-                leftPanel.setSize(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT + (this.maxNumOfRacers-11)*60);
-                leftPanel.setPreferredSize(new Dimension(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT + (this.maxNumOfRacers-11)*60));
+                this.mainFrame.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT + (this.maxNumOfRacers-11)*60); // adding 60 pixels to the height for each max racer after 11 racers
+                this.leftPanel.setSize(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT + (this.maxNumOfRacers-11)*60);
+                this.leftPanel.setPreferredSize(new Dimension(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT + (this.maxNumOfRacers-11)*60));
             } else {
-                mainFrame.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT); // if less than 11 max racers keep original default size
-                leftPanel.setSize(new Dimension(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT));
-                leftPanel.setPreferredSize(new Dimension(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT));
+                this.mainFrame.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT); // if less than 11 max racers keep original default size
+                this.leftPanel.setSize(new Dimension(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT));
+                this.leftPanel.setPreferredSize(new Dimension(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT));
             }
 
             // generating the background image when all of the inputs are acounted for
@@ -412,16 +412,16 @@ public class MainWindow implements ActionListener {
 
                     // creating a racer icon based on the user's information and adding the icon to the array of icons and positioning the icon in the correct location
                     JLabel r1 = createRacer("src/icons/" + (String)Instance.getClass().getSimpleName() + this.chooseColor.getSelectedItem().toString() + ".png");
-                    racersList.add(r1);
-                    moveRacer(r1, 0, (i-1)*RACER_ICON_SIZE + (int)arena.getMIN_Y_GAP());
+                    this.racersList.add(r1);
+                    moveRacer(r1, 0, (i-1)*RACER_ICON_SIZE + (int)this.arena.getMIN_Y_GAP());
                     
                     // adding the racer to the screen
-                    leftPanel.add(r1, BorderLayout.CENTER);
+                    this.leftPanel.add(r1, BorderLayout.CENTER);
 
                     // re-generating the background image after the racer was added 
                     printBackgroundImage();
 
-                    mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
+                    this.mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
 
                 }
                 catch(Exception ex){
