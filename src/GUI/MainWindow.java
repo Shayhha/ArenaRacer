@@ -18,7 +18,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import game.arenas.Arena;
+import game.arenas.exceptions.RacerLimitException;
+import game.arenas.exceptions.RacerTypeException;
 import game.racers.Racer;
+import game.racers.air.Airplane;
+import game.racers.air.Helicopter;
 import utilities.EnumContainer;
 import factory.RaceBuilder;
 
@@ -466,7 +470,16 @@ public class MainWindow implements ActionListener {
                 double accelerationValue = Integer.parseInt(this.acceleration.getText());
                 String racerChoiceCombo = (String)this.chooseRacer.getSelectedItem();
                 EnumContainer.Color colorValue = EnumContainer.Color.valueOf(this.chooseColor.getSelectedItem().toString().toUpperCase());
-                String racerTypeValue =  "game.racers." +arena.getClass().toString().split("\\.")[2]  +"."+ racerChoiceCombo;
+                String racerTypeValue;
+                if(racerChoiceCombo.equals("Airplane") || racerChoiceCombo.equals("Helicopter")){
+                    racerTypeValue =  "game.racers.air."+ racerChoiceCombo;
+                }
+                else if(racerChoiceCombo.equals("Car") || racerChoiceCombo.equals("Horse") || racerChoiceCombo.equals("Bicycle")){
+                    racerTypeValue =  "game.racers.land."+ racerChoiceCombo;
+                }
+                else{
+                    racerTypeValue =  "game.racers.naval."+ racerChoiceCombo;
+                }
 
                 Racer Instance=null;
                 try{
@@ -502,11 +515,21 @@ public class MainWindow implements ActionListener {
                     this.mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
 
                 }
-                catch(Exception ex){
+                catch(RacerTypeException ex){
                     JOptionPane.showMessageDialog(null,
                     "Racer doesn't match arena.", "Racer Error", JOptionPane.ERROR_MESSAGE);
                     System.out.println(ex);
                     return;
+                }
+                catch(RacerLimitException ex){
+                    JOptionPane.showMessageDialog(null,
+                    "Racers are at max capacity!", "Racer Error", JOptionPane.ERROR_MESSAGE);
+                    System.out.println(ex);
+                }
+                catch(Exception ex){
+                    JOptionPane.showMessageDialog(null,
+                    "Error eccourd tring to add racer.", "Error", JOptionPane.ERROR_MESSAGE);
+                    System.out.println(ex);
                 }
             }
             else{
