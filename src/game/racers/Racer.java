@@ -6,10 +6,8 @@
 package game.racers;
 import utilities.*;
 import utilities.EnumContainer.Color;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import GUI.MainWindow;
 import game.arenas.Arena;
 import utilities.Fate;
@@ -203,7 +201,7 @@ public abstract class Racer implements Runnable {
         while(this.currentLocation.getX() < this.arena.getLength()){
             this.move(this.arena.getFriction());
             try {
-                Thread.sleep(((int)(Math.random() * 300)));
+                Thread.sleep(((int)(300)));
             }
             catch (InterruptedException e){
                 System.out.println("Error exception");
