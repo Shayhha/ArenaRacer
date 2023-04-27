@@ -21,8 +21,6 @@ import game.arenas.Arena;
 import game.arenas.exceptions.RacerLimitException;
 import game.arenas.exceptions.RacerTypeException;
 import game.racers.Racer;
-import game.racers.air.Airplane;
-import game.racers.air.Helicopter;
 import utilities.EnumContainer;
 import factory.RaceBuilder;
 
