@@ -184,6 +184,7 @@ public abstract class Racer extends Observable implements Runnable {
         }
         return false;
     }
+    
     //!(volatile keyword can make a parameter visable to all threads in real time, e.g volatile int num)
     /**
      * run() method of thread racer, calls move() method for the racer until he finsihes the race.
@@ -192,15 +193,12 @@ public abstract class Racer extends Observable implements Runnable {
      * <p>
      * we do synchronization for the following methods for thread safety:
      * @method void move()
-     * @method void crossFinishLine()
-     * @method List<Racer> getActiveRacers()
-     * @method void setActiveRacers(List<Racer>)
      * @method boolean setX(double)
      */
     public void run() { 
         while(this.currentLocation.getX() < this.arena.getLength()){
-            this.move(this.arena.getFriction());
-            try {
+            this.move(this.arena.getFriction()); //calls move method for racer
+            try { //makes thread to sleep
                 Thread.sleep(((int)(300)));
             }
             catch (InterruptedException e){
@@ -208,15 +206,8 @@ public abstract class Racer extends Observable implements Runnable {
             }
         }
         if(this.currentLocation.getX() >= this.arena.getLength()){ //if racer has finsihed the race we call crossFinishedLine method
-            this.currentLocation.setX(this.arena.getLength());
+            this.currentLocation.setX(this.arena.getLength()); //if racer finishes we give set final location to length of arena
             this.notifyObservers(this); //notifys arena that racer has finished the race
-            // List<Racer> temp = new ArrayList<Racer>(); //temp list
-            // for (Racer r2 : this.arena.getActiveRacers()) { //deletes the obj from arrayList
-            //     if(r2.equals(this)==false)
-            //         temp.add(r2);
-            // }
-            // this.arena.setActiveRacers(temp);
-            // System.out.println(this.name+" Finished");
         }   
     }
 

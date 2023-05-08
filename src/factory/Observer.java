@@ -1,6 +1,14 @@
 package factory;
 import game.racers.Racer;
 
-public interface Observer {
-    void update(Racer racer);
+/**
+* Observer interface 
+*<p>
+* Methods:
+* <p>
+* void update() - method for observer
+* <p>
+*/
+public interface Observer { //Observer interface for Observer/Observable design pattern
+    public void update(Racer racer); //update method 
 }

@@ -73,15 +73,15 @@ public abstract class Arena implements Observer{
         }
     }
 
-    public void update(Racer racer) { //if update was called means racer finished the race(notifys arena)
-        this.crossFinishLine(racer);
+    public synchronized void update(Racer racer) { //if update was called means racer finished the race(notifys arena)
+        this.crossFinishLine(racer); //calls crossFinishedLine to add new racer to completedRacers list
         List<Racer> temp = new ArrayList<Racer>(); //temp list
-        for (Racer r2 : this.getActiveRacers()) { //deletes the obj from arrayList
-            if(r2.equals(racer)==false)
+        for (Racer r2 : this.getActiveRacers()) { //deletes the obj from list
+            if(r2.equals(racer)==false) //copys all elements excet deleted obj
                 temp.add(r2);
         }
-        this.setActiveRacers(temp);
-        System.out.println(racer.getName()+" Finished");
+        this.setActiveRacers(temp); //gives activrRacers temp's reference
+        System.out.println(racer.getName()+" Finished"); //prints finished for racer
         racer.removeObserver(this);//removes the arena from list of observers
     }
 
