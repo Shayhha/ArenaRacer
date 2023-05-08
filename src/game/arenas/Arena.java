@@ -6,6 +6,7 @@
 package game.arenas;
 import java.util.ArrayList;
 import java.util.List;
+import factory.Observer;
 import game.racers.Racer;
 import utilities.Point;
 import game.arenas.exceptions.*;
@@ -23,7 +24,7 @@ import game.arenas.exceptions.*;
 * @param  MIN_Y_GAP represents the gap between each racer
 * @param  length represents the length of the race
 */
-public abstract class Arena {
+public abstract class Arena implements Observer{
 
     //------------------- Private Variables -------------------//
     private List<Racer> activeRacers = new ArrayList<Racer>();
@@ -72,6 +73,18 @@ public abstract class Arena {
         }
     }
 
+    public void update(Racer racer) { //if update was called means racer finished the race(notifys arena)
+        this.crossFinishLine(racer);
+        List<Racer> temp = new ArrayList<Racer>(); //temp list
+        for (Racer r2 : this.getActiveRacers()) { //deletes the obj from arrayList
+            if(r2.equals(racer)==false)
+                temp.add(r2);
+        }
+        this.setActiveRacers(temp);
+        System.out.println(racer.getName()+" Finished");
+        racer.removeObserver(this);//removes the arena from list of observers
+    }
+
     /**
     * checks if list of activeRacers if its empty
     * returns true or flase 
@@ -115,7 +128,7 @@ public abstract class Arena {
     *
     * <p>
     */
-    public synchronized void crossFinishLine(Racer racer){ //gets a Racer and adds it to completeRacers
+    public void crossFinishLine(Racer racer){ //gets a Racer and adds it to completeRacers
         this.completedRacers.add(racer);
     }
 
@@ -153,7 +166,7 @@ public abstract class Arena {
     /**
      * @return a List that holds all of the active racers in the arena object.
      */
-    public synchronized final List<Racer> getActiveRacers(){return this.activeRacers;}
+    public final List<Racer> getActiveRacers(){return this.activeRacers;}
 
     /**
      * @return a List that holds all of the completed racers in the arena object.
@@ -175,6 +188,6 @@ public abstract class Arena {
         return true;
     }
 
-    public synchronized void setActiveRacers(List<Racer> temp){this.activeRacers = temp;}
+    public void setActiveRacers(List<Racer> temp){this.activeRacers = temp;}
 
 }

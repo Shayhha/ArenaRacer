@@ -6,9 +6,8 @@
 package game.racers;
 import utilities.*;
 import utilities.EnumContainer.Color;
-import java.util.ArrayList;
-import java.util.List;
 import GUI.MainWindow;
+import factory.Observable;
 import game.arenas.Arena;
 import utilities.Fate;
 
@@ -20,7 +19,7 @@ import utilities.Fate;
  * <p>All of the methods have a purpose, how ever the method describeSpecific is an Abstract Method because we dont 
  * have enought information in the Racer class to describe its sub classes. 
  */
-public abstract class Racer implements Runnable {
+public abstract class Racer extends Observable implements Runnable {
 
     //------------------- Private Variables -------------------//
     private static int instanceCounter = 1; // we use this static field to initialize serialNumber for each instance of class 
@@ -62,6 +61,7 @@ public abstract class Racer implements Runnable {
      * @param finish the finish location represented by an instans of class Point
      */
     public void initRace(Arena arena, Point start, Point finish){
+        this.addObserver(arena);//adds arena to observer list
         this.currentLocation = start; //we initilaize currentLocation
         this.finish=finish; //initilaze finish
         this.arena = arena;
@@ -209,14 +209,14 @@ public abstract class Racer implements Runnable {
         }
         if(this.currentLocation.getX() >= this.arena.getLength()){ //if racer has finsihed the race we call crossFinishedLine method
             this.currentLocation.setX(this.arena.getLength());
-            this.arena.crossFinishLine(this); //calls method to add to completedRacers
-            List<Racer> temp = new ArrayList<Racer>(); //temp list
-            for (Racer r2 : this.arena.getActiveRacers()) { //deletes the obj from arrayList
-                if(r2.equals(this)==false)
-                    temp.add(r2);
-            }
-            this.arena.setActiveRacers(temp);
-            System.out.println(this.name+" Finished");
+            this.notifyObservers(this); //notifys arena that racer has finished the race
+            // List<Racer> temp = new ArrayList<Racer>(); //temp list
+            // for (Racer r2 : this.arena.getActiveRacers()) { //deletes the obj from arrayList
+            //     if(r2.equals(this)==false)
+            //         temp.add(r2);
+            // }
+            // this.arena.setActiveRacers(temp);
+            // System.out.println(this.name+" Finished");
         }   
     }
 

@@ -66,7 +66,7 @@ public class LandArena extends Arena {
             throw new RacerLimitException(newRacer);
         }
         else{ //else we add a new racer 
-            this.getActiveRacers().add(newRacer);     
+            this.getActiveRacers().add(newRacer);
         }
     }
 
