@@ -6,6 +6,8 @@
 package game.arenas;
 import java.util.ArrayList;
 import java.util.List;
+
+import factory.Observable;
 import factory.Observer;
 import game.racers.Racer;
 import utilities.Point;
@@ -73,15 +75,15 @@ public abstract class Arena implements Observer{
         }
     }
 
-    public synchronized void update(Racer racer) { //if update was called means racer finished the race(notifys arena)
-        this.crossFinishLine(racer); //calls crossFinishedLine to add new racer to completedRacers list
+    public synchronized void update(Observable racer) { //if update was called means racer finished the race(notifys arena)
+        this.crossFinishLine((Racer)racer); //calls crossFinishedLine to add new racer to completedRacers list
         List<Racer> temp = new ArrayList<Racer>(); //temp list
         for (Racer r2 : this.getActiveRacers()) { //deletes the obj from list
             if(r2.equals(racer)==false) //copys all elements excet deleted obj
                 temp.add(r2);
         }
         this.setActiveRacers(temp); //gives activrRacers temp's reference
-        System.out.println(racer.getName()+" Finished"); //prints finished for racer
+        System.out.println(((Racer)racer).getName()+" Finished"); //prints finished for racer
         racer.removeObserver(this);//removes the arena from list of observers
     }
 

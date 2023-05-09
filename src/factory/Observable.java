@@ -1,6 +1,5 @@
 package factory;
 import java.util.Vector;
-import game.racers.Racer;
 
 /**
 * Observable class
@@ -32,9 +31,9 @@ public class Observable {
         observers = temp; //gives original list temp's reference
     }
 
-    public void notifyObservers(Racer racer){ //calls update() methods for all observers
+    public void notifyObservers(Observable obj){ //calls update() methods for all observers
         for (Observer observer : observers) {
-            observer.update(racer);
+            observer.update(obj);
         }
     }
 }
