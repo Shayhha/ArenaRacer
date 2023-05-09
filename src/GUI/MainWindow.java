@@ -28,17 +28,18 @@ public class MainWindow implements ActionListener {
     // Arena Instance
     private Arena arena = null;
 
-    // Our Variables:
+    // Our Variables & ComboBox Choises:
     private final static String[] ARENAS = { "AerialArena", "NavalArena", "LandArena"};
     private final static String[] RACERS = { "Airplane", "Helicopter", "Bicycle", "Car", "Horse", "RowBoat", "SpeedBoat"};
     private final static String[] COLORS = {"Black", "Blue", "Green", "Red", "Yellow"};
 
     private static int maxNumOfRacers = 8; // values must be between 1-20
     private int arenaLen = 1000; // values must be between 100-3000
-    private Boolean raceActive = false;// we use that to determine if a race started
+    private Boolean raceActive = false; // we use that to determine if a race had started
 
     // Constant Values for the Screen Dimentions:
-    // ( when we have more that 11 racers on the screen we need to increase the height by RACER_ICON_SIZE )
+    // ( when we have more that 11 racers on the screen we increase the height by RACER_ICON_SIZE for each aditional racer )
+    // ( when the arena length is subject to change with the users input, defaults to leangth 1000 )
     private final static int MAIN_WINDOW_WIDTH = 1270;
     private final static int MAIN_WINDOW_HEIGHT = 728; 
 
@@ -48,7 +49,8 @@ public class MainWindow implements ActionListener {
     private final static int RIGHT_PANEL_WIDTH = 183;
     private final static int RIGHT_PANEL_HEIGHT = 700;
 
-    private final static int RACER_ICON_SIZE = 60; // racer's width = racer's height = 60 pixels
+    // This variable represents the size of each players icon on the screen
+    private final static int RACER_ICON_SIZE = 60; // racer's width = racer's height = 60 pixels 
 
     // A map that holds pairs of (racer's serial number , racer's icon on the screen)
     private static Map<Integer, JLabel> racersList = new HashMap<>();
@@ -406,13 +408,13 @@ public class MainWindow implements ActionListener {
 
         if (e.getSource() == this.buildArenaButton) { //if the build arena button was clicked
             // reseting the arena and the racer icons array (also removes the background image but we add it back later)
-            this.arena = null;
             this.leftPanel.removeAll();
+            MainWindow.racersList = new HashMap<>();
             
             // reseting the arena & racerActive
             this.arena = null;
             this.raceActive  = false;
-            
+
             // look at the user's inputed data and checking that it is valid
             if (!makeArena()) 
                 return;
