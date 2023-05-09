@@ -83,7 +83,7 @@ public abstract class Arena implements Observer{
                 temp.add(r2);
         }
         this.setActiveRacers(temp); //gives activrRacers temp's reference
-        System.out.println(((Racer)racer).getName()+" Finished"); //prints finished for racer
+        System.out.println(((Racer)racer).getName() + " Finished"); //prints finished for racer
         racer.removeObserver(this);//removes the arena from list of observers
     }
 
