@@ -404,7 +404,7 @@ public class MainWindow implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         RaceBuilder buildInstance = RaceBuilder.getInstance();  // instance of RaceBuilder
 
-        if (e.getSource() == this.buildArenaButton) { // if the build arena button was clicked
+        if (e.getSource() == this.buildArenaButton) { //if the build arena button was clicked
             // reseting the arena and the racer icons array (also removes the background image but we add it back later)
             this.arena = null;
             this.leftPanel.removeAll();
@@ -449,26 +449,27 @@ public class MainWindow implements ActionListener {
             this.mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
         }
 
-        if (e.getSource() == this.addRacerButton) { // if add racer button was clicked
-            if(this.raceActive){
+        if (e.getSource() == this.addRacerButton) { //if add racer button was clicked
+            if(this.raceActive){ //checks if there's an active race, if true then shows error message
                 JOptionPane.showMessageDialog(null,
                     "Error, cannot add another racer beacuse race already started/ended.", "Error", JOptionPane.ERROR_MESSAGE);
                      return;
             }
-            if(this.arena != null){
+            if(this.arena != null){ //checks user input, if one field isn't correct we show error message
                 if (!this.maxSpeed.getText().matches("\\d+") || !this.acceleration.getText().matches("\\d+") || this.maxSpeed.getText().equals("") || this.acceleration.getText().equals("")
                      || this.racerName.getText().equals("")) {
                     JOptionPane.showMessageDialog(null,
                     "Invalid input values! Please try again.", "Missing Values Error", JOptionPane.ERROR_MESSAGE);
                      return;
                 } 
-
+                //get user's input from text boxes and combo box
                 String racerNameValue = this.racerName.getText();
                 double maxSpeedValue = Integer.parseInt(this.maxSpeed.getText());
                 double accelerationValue = Integer.parseInt(this.acceleration.getText());
                 String racerChoiceCombo = (String)this.chooseRacer.getSelectedItem();
-                EnumContainer.Color colorValue = EnumContainer.Color.valueOf(this.chooseColor.getSelectedItem().toString().toUpperCase());
-                String racerTypeValue;
+                EnumContainer.Color colorValue = EnumContainer.Color.valueOf(this.chooseColor.getSelectedItem().toString().toUpperCase()); //gets color option from combobox
+                String racerTypeValue; //we use racertypeValue to store the package path for RaceBuilder
+                //here we check each option and give racertypeValue the correct path
                 if(racerChoiceCombo.equals("Airplane") || racerChoiceCombo.equals("Helicopter")){
                     racerTypeValue =  "game.racers.air."+ racerChoiceCombo;
                 }
@@ -479,7 +480,7 @@ public class MainWindow implements ActionListener {
                     racerTypeValue =  "game.racers.naval."+ racerChoiceCombo;
                 }
 
-                Racer Instance=null;
+                Racer Instance = null; //we use Instance to initialize the racer
                 try{
                     // trying to build the racer based on the correct type of the racer
                     if(racerChoiceCombo == "Airplane")
@@ -497,7 +498,7 @@ public class MainWindow implements ActionListener {
 
                     this.leftPanel.remove(backgroundLabel);
 
-                    int i = this.arena.getActiveRacers().size();
+                    int i = this.arena.getActiveRacers().size(); //we use arena's activeRacer size method for our icon movements
 
                     // creating a racer icon based on the user's information and adding the icon to the array of icons and positioning the icon in the correct location
                     JLabel r1 = createRacer("src/icons/" + (String)Instance.getClass().getSimpleName() + this.chooseColor.getSelectedItem().toString() + ".png");
@@ -513,6 +514,7 @@ public class MainWindow implements ActionListener {
                     this.mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
 
                 }
+                //here we handle excaption that addRacer method might throw (custom excaptions)
                 catch(RacerTypeException ex){
                     JOptionPane.showMessageDialog(null,
                     "Racer doesn't match arena.", "Racer Error", JOptionPane.ERROR_MESSAGE);
@@ -530,29 +532,30 @@ public class MainWindow implements ActionListener {
                     System.out.println(ex);
                 }
             }
-            else{
+            else{ //else we didnt build an arean before adding racer so we show an error message
                 JOptionPane.showMessageDialog(null,
                     "You have to build an arena first!", "Error", JOptionPane.ERROR_MESSAGE);
                      return;
             }
         }
-        if(e.getSource() == this.startRace){ // if start racer buttom was clicked
-            if(this.raceActive){
+
+        if(e.getSource() == this.startRace){ //if start race button was clicked
+            if(this.raceActive){ //if racerActive is true it means we cant start a race again (yet)
                 JOptionPane.showMessageDialog(null,
                     "Race already started/ended!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            else if(this.arena == null){
+            else if(this.arena == null){ //if arena isn't initialized we show error message
                 JOptionPane.showMessageDialog(null,
                     "Arena isn't initialized!", "Arena Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            else if(racersList.isEmpty()){
+            else if(racersList.isEmpty()){ //if now racers have been added we show error message
                 JOptionPane.showMessageDialog(null,
                     "You haven't added racers to arena!", "Racer Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            else{
+            else{ //else everything is good so we start the race
                 this.raceActive = true; //states that a race has been started
                 this.arena.initRace(); //initializes the racers as well
                 ExecutorService executor = Executors.newFixedThreadPool(maxNumOfRacers); //new executor for threads
