@@ -413,7 +413,7 @@ public class MainWindow implements ActionListener {
 
         if (e.getSource() == this.buildArenaButton) { // if the BUILD ARENA button was clicked
             // Checking if there is an ongoing race, if there is an active race then we dont allow the user to create a new arena
-            if (this.arena != null && this.arena.getActiveRacers().size() != 0) {
+            if (raceActive && this.arena != null && this.arena.getActiveRacers().size() != 0) {
                 showErrorMessage("Please wait for the current race to finish.");
                 return;
             }
