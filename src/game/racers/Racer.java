@@ -202,7 +202,7 @@ public abstract class Racer extends Observable implements Runnable {
                 Thread.sleep(((int)(300)));
             }
             catch (InterruptedException e){
-                System.out.println("Error exception");
+                System.out.println("Error!");
             }
         }
         if(this.currentLocation.getX() >= this.arena.getLength()){ //if racer has finsihed the race we call crossFinishedLine method
