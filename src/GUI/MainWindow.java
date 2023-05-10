@@ -256,7 +256,6 @@ public class MainWindow implements ActionListener {
         // setting the default look of the left panel, setting border, size, background color and layout
         leftPanel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));  
         leftPanel.setPreferredSize(new Dimension(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT));
-        //leftPanel.setBackground(Color.GRAY); // this is temporary, making the background a gray color
         leftPanel.setLayout(new BorderLayout()); // this improves the positioning of the image in the left panel
 
         // adding the panels to the frame
