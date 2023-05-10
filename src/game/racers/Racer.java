@@ -74,33 +74,15 @@ public abstract class Racer extends Observable implements Runnable {
      * @param friction the amount by which the acceleration needs to be modified for this current move
      * @return an instans of Point that represents the new location of the racer after the move was made.
      */
-    public synchronized Point move(double friction){ //method for racer to show his current location on track
-        double newAcc=this.getAcceleration(); // getting the original acceleration of the racer for later use
+    public Point move(double friction){ //method for racer to show his current location on track
+        System.out.println(this.serialNumber);
+        double newAcc = this.getAcceleration(); // getting the original acceleration of the racer for later use
         double newSpeed = this.getCurrentSpeed(); // getting the original currentSpeed of the racer for later use
 
         // if the racer has a mishap and it is fixable and the turns to fix is 0 then we regard it as if he does not have a mishap
         if(this.hasMishap() && this.mishap.getFixable() == true && this.mishap.getTurnsToFix()==0){
             this.mishap = null;
         }
-        //=======================================================================================================================//
-        // now if the racer has a mishap we need to check the senario that its is NOT fixable and the
-        // turns to fix is NOT 0, in that case we reduce the turns to fix by 1 and the racer does not get to move.
-        // if(this.hasMishap()){
-        //     if(this.mishap.getFixable() == false && this.mishap.getTurnsToFix()>0){
-        //         this.mishap.setTurnsToFix(this.mishap.getTurnsToFix()-1); // we reduce the fix time
-        //         return this.currentLocation;
-        //     }
-        //     else { // how ever if it is fixable then we just reduce the turns to fix by 1 and the racer moves later with a reduced acceleration
-        //         if(this.mishap.getFixable()==true)
-        //             this.mishap.nextTurn();
-        //     }
-             //this.mishap.nextTurn();
- 
-               // at this point all of the senarios were taken care of, and only the senario where the racer moves with reduced
-               // acceleration is left, calculating the new acceleration based on the reduction factor of the mishap that was generated.
-        //     newAcc *=this.mishap.getReductionFactor(); 
-        // }
-        //=======================================================================================================================//
         // if the racer does not have a mishap then we need to try to generate a new one using the methods of class Fate provided to us
         if(this.hasMishap() == false){ 
             if(Fate.breakDown()==true){ // if a mishap needs to be generate we generate a new one, else there is no mishap this turn
@@ -192,8 +174,7 @@ public abstract class Racer extends Observable implements Runnable {
      * when racer finsihes we call croosFinishLine() method to add racer to completedRacers and remove the racer from activeRacers list
      * <p>
      * we do synchronization for the following methods for thread safety:
-     * @method void move()
-     * @method boolean setX(double)
+     * @method void update(Observable)
      */
     public void run() { 
         while(this.currentLocation.getX() < this.arena.getLength()){

@@ -21,7 +21,7 @@ public class RaceBuilder {
     private Class<?> classObject;
     private Constructor<?> constructor;
 
-    public RaceBuilder(){} //ctor of class RaceBuilder
+    private RaceBuilder(){} //ctor of class RaceBuilder
 
     
     /**
