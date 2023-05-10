@@ -75,6 +75,13 @@ public abstract class Arena implements Observer{
         }
     }
 
+    /**
+     * This function is a part of the observer interface and arena needs to have it, 
+     * it is called by the observable object when needed. This function is called when a racer has finished
+     * the race, in that instance the arena (the observer) will place the racer in the completed racers list,
+     * remove him from the active racers list and print out that this racer has finished. 
+     * In the end the arena will remove itself from the list of obervers of that specific racer
+     */
     public synchronized void update(Observable racer) { //if update was called means racer finished the race(notifys arena)
         this.crossFinishLine((Racer)racer); //calls crossFinishedLine to add new racer to completedRacers list
         List<Racer> temp = new ArrayList<Racer>(); //temp list

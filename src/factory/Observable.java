@@ -18,10 +18,18 @@ import java.util.Vector;
 public class Observable {
     private Vector<Observer> observers = new Vector<>(); //observer list
 
-    public void addObserver(Observer observer){ //adds observer to list
-        this.observers.add(observer);
+    /**
+     * This function adds an observer to the list of observers on the current observable object
+     * @param observer 
+     */
+    public void addObserver(Observer observer){ 
+        this.observers.add(observer); //adds observer to list
     }
 
+    /**
+     * This function removes an observer from the list of observers on the current observable object
+     * @param observer is the object that needs to be removed from the list, in our case it will be an Arena class
+     */
     public synchronized void removeObserver(Observer observer){ //removes observer from list (must be synchronized)
         Vector<Observer> temp = new Vector<>(); //temp vector list
         for (Observer ob : observers) { //deletes the obj from arrayList
@@ -31,6 +39,11 @@ public class Observable {
         observers = temp; //gives original list temp's reference
     }
 
+    /**
+     * This function notifies each observer in the list of observers on the current observabel object. 
+     * This will call the update method defined in each observer, in our case Arena class has the update function.
+     * @param obj an observable object that has a list of observers that needs to be notified, in our case a Racer class
+     */
     public void notifyObservers(Observable obj){ //calls update() methods for all observers
         for (Observer observer : observers) {
             observer.update(obj);
