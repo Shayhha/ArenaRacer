@@ -176,10 +176,12 @@ public abstract class Racer extends Observable implements Runnable {
      * @method void update(Observable)
      */
     public void run() { 
+        int sleepCount = 0;
         while(this.currentLocation.getX() < this.arena.getLength()){
             this.move(this.arena.getFriction()); //calls move method for racer
             try { //makes thread to sleep
-                Thread.sleep(((int)(300)));
+                Thread.sleep(((int)(30 + sleepCount)));
+                sleepCount += 100;
             }
             catch (InterruptedException e){
                 System.out.println(e); //prints error
