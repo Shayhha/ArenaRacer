@@ -338,7 +338,7 @@ public class MainWindow implements ActionListener {
      */
     private void printBackgroundImage() {
         // getting the user's choises from the combo box and text boxes on the screen
-        String arenaImagePath = "src/icons/" + arenaType + ".jpg"; // creating the path to the background image of the area useing the choise from the user's input to the combo box
+        String arenaImagePath = "icons/" + arenaType + ".jpg"; // creating the path to the background image of the area useing the choise from the user's input to the combo box
                 
         // creating the background image of the arena with the path that is made of the user's choise
         ImageIcon icon = new ImageIcon(arenaImagePath);
@@ -513,7 +513,7 @@ public class MainWindow implements ActionListener {
                     int i = this.arena.getActiveRacers().size(); //we use arena's activeRacer size method for our icon movements
 
                     // creating a racer icon based on the user's information and adding the icon to the array of icons and positioning the icon in the correct location
-                    JLabel r1 = createRacer("src/icons/" + (String)Instance.getClass().getSimpleName() + this.chooseColor.getSelectedItem().toString() + ".png");
+                    JLabel r1 = createRacer("icons/" + (String)Instance.getClass().getSimpleName() + this.chooseColor.getSelectedItem().toString() + ".png");
                     racersList.put(Instance.getSerialNumber(),r1);
                     moveRacer(Instance.getSerialNumber(), 0, (i-1)*RACER_ICON_SIZE + (int)this.arena.getMIN_Y_GAP());
                     
