@@ -115,6 +115,12 @@ public abstract class Racer extends Observable implements Runnable {
         else // if the racer still go some way to go untill he reaches the finish line
             MainWindow.moveRacer(this.getSerialNumber(), (int)newSpeed, 0);
 
+        // making the gui update every 30 milliseconds by adding this timer right here after the racers moved on screen
+        try {
+            Thread.sleep(30);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         // # # ---------------------------------------- # # //
 
         this.currentLocation.setX((int)this.currentLocation.getX()+newSpeed); // setting the new position of the racer
