@@ -172,6 +172,7 @@ public abstract class Racer extends Observable implements Runnable {
         return false;
     }
     
+    //!(volatile keyword can make a parameter visable to all threads in real time, e.g volatile int num)
     /**
      * run() method of thread racer, calls move() method for the racer until he finsihes the race.
      * in each iteration thread is sleeping for given peroid

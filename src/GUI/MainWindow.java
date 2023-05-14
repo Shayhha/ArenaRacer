@@ -328,7 +328,7 @@ public class MainWindow implements ActionListener {
     private void showErrorMessage(String err) {
             JOptionPane.showMessageDialog(null,
             err, "Message",
-            JOptionPane.INFORMATION_MESSAGE  
+            JOptionPane.INFORMATION_MESSAGE  // more icons here --> https://stackoverflow.com/questions/6562847/joptionpane-change-the-icon
             );
     }
 
