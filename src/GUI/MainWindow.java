@@ -399,12 +399,7 @@ public class MainWindow implements ActionListener {
         return table;
     }
 
-    // ======================================================================== //
-
-
-    public static void main(String[] args) {
-        createMainWindow(); // creating and showing the main frame
-    }
+    // ===================================actionPerformed=================================== //
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -616,5 +611,9 @@ public class MainWindow implements ActionListener {
                 showErrorMessage("You have to build an arena first!");
             }
         }
+    }
+    // =================================Main================================= //
+    public static void main(String[] args) {
+        createMainWindow(); // creating and showing the main frame
     }
 }
