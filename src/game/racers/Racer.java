@@ -172,7 +172,6 @@ public abstract class Racer extends Observable implements Runnable {
         return false;
     }
     
-    //!(volatile keyword can make a parameter visable to all threads in real time, e.g volatile int num)
     /**
      * run() method of thread racer, calls move() method for the racer until he finsihes the race.
      * in each iteration thread is sleeping for given peroid
@@ -182,12 +181,10 @@ public abstract class Racer extends Observable implements Runnable {
      * @method void update(Observable)
      */
     public void run() { 
-        int sleepCount = 0;
         while(this.currentLocation.getX() < this.arena.getLength()){
             this.move(this.arena.getFriction()); //calls move method for racer
             try { //makes thread to sleep every iteration by 100 miliseconds
-                Thread.sleep(((int)(sleepCount)));
-                sleepCount += 100;
+                Thread.sleep(((int)(100)));
             }
             catch (InterruptedException e){
                 e.printStackTrace(); //prints error
