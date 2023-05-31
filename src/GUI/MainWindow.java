@@ -91,7 +91,7 @@ public class MainWindow implements ActionListener {
     private JFrame infoWin = new JFrame("Racers information");
     private JPanel tablePanel = new JPanel(); 
 
-    private JLabel defaultNumRacers = new JLabel("How many default racers:");
+    private JLabel defaultNumRacers = new JLabel("How many racers:");
     private JTextField defaultNumRacersInput = new JTextField();
     private JButton defaultRace = new JButton("Default Race");
 
