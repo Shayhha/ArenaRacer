@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import designPatterns.Builder;
 import designPatterns.Factory;
 import designPatterns.Prototype;
 
@@ -30,6 +31,7 @@ import factory.RaceBuilder;
 public class MainWindow implements ActionListener {
     // Arena Instance, this is the arena that the user is going to build
     private Arena arena = null; 
+    public MainWindow window = null;
 
     // Our Variables & ComboBox Choises:
     private final static String[] ARENAS = { "AerialArena", "NavalArena", "LandArena"};
@@ -58,7 +60,7 @@ public class MainWindow implements ActionListener {
     private final static int RACER_ICON_SIZE = 60; // racer's width = racer's height = 60 pixels 
 
     // A map that holds pairs of (racer's serial number , racer's icon on the screen)
-    private static Map<Integer, JLabel> racersList = new HashMap<>();
+    public static Map<Integer, JLabel> racersList = new HashMap<>();
 
     // Our GUI Components:
     private JLabel comboLabel = new JLabel("Choose arena:");
@@ -82,12 +84,17 @@ public class MainWindow implements ActionListener {
     private JButton startRace = new JButton("Start race");
     private JButton showInfo = new JButton("Show info");
     private JFrame mainFrame = new JFrame("Race Game - Advanced OOP");
-    private JPanel leftPanel = new JPanel(null);
+    public JPanel leftPanel = new JPanel(null);
     private JSeparator separator1 = new JSeparator(SwingConstants.HORIZONTAL);
     private JSeparator separator2 = new JSeparator(SwingConstants.HORIZONTAL);
     private JLabel backgroundLabel = new JLabel("");
     private JFrame infoWin = new JFrame("Racers information");
     private JPanel tablePanel = new JPanel(); 
+
+    private JLabel defaultNumRacers = new JLabel("How many default racers:");
+    private JTextField defaultNumRacersInput = new JTextField();
+    private JButton defaultRace = new JButton("Default Race");
+
     // all of these components are used in the main screen and the information screen
 
     // Default design values for gui:
@@ -124,8 +131,8 @@ public class MainWindow implements ActionListener {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipadx = 0;
-        gbc.ipady = 3;
-        gbc.insets = new Insets(2, 0, 0, 0); // top, left, bottom, right
+        gbc.ipady = 1;
+        gbc.insets = new Insets(1, 0, 0, 0); // top, left, bottom, right
         //
 
         // setting fonts and borders
@@ -210,7 +217,7 @@ public class MainWindow implements ActionListener {
         gbc.gridy++;
         p1.add(acceleration, gbc);
         gbc.gridy++;
-        gbc.insets = new Insets(7, 0, 7, 0); // adding some padding to a specific cell to match how the gui looks in the examples
+        gbc.insets = new Insets(4, 0, 7, 0); // adding some padding to a specific cell to match how the gui looks in the examples
         p1.add(addRacerButton, gbc);
         gbc.gridy++;
         p1.add(separator2, gbc); // a seperator is just a horizontal line
@@ -226,8 +233,22 @@ public class MainWindow implements ActionListener {
         p1.add(startRace, gbc);
         gbc.gridy++;
         p1.add(showInfo, gbc);
+        gbc.gridy++;
+
         // finished adding all of the elements that belong to the bottom part of the right panel
         
+        // adding builder part
+
+        defaultRace.addActionListener(this); // adding an action listener for the show info button, the function comes later in the code
+
+        gbc.insets = new Insets(4, 0, 7, 0);
+        p1.add(defaultNumRacers, gbc);
+        gbc.gridy++;
+        p1.add(defaultNumRacersInput, gbc);
+        gbc.gridy++;
+        p1.add(defaultRace, gbc);
+        // finished builder part
+
         return p1; // returning the finished panel (it will then be added to the right side of the main window)
     }
 
@@ -623,6 +644,39 @@ public class MainWindow implements ActionListener {
             else {
                 showErrorMessage("You have to build an arena first!");
             }
+        }
+        if (e.getSource() == this.defaultRace) {
+            this.leftPanel.removeAll();
+            String N = this.defaultNumRacersInput.getText();
+
+            Builder b = new Builder( Integer.parseInt(N) );
+            this.arena = b.getArena();
+
+            for (int serialNumber : b.serialNumList) {
+                this.leftPanel.add(this.racersList.get(serialNumber), BorderLayout.CENTER);
+            }
+
+            // re-generating the background image after the racer was added 
+            this.arenaType = "LandArena";
+            printBackgroundImage();
+
+            this.mainFrame.setVisible(true);
+
+            if(this.raceActive){ //if racerActive is true it means we cant start a race again (yet)
+                JOptionPane.showMessageDialog(null,
+                    "Race already started/ended!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            else{ //else everything is good so we start the race
+                this.raceActive = true; //states that a race has been started
+                this.arena.initRace(); //initializes the racers as well
+                ExecutorService executor = Executors.newFixedThreadPool(racersList.size()); //new executor for threads //maxNumOfRacers
+                for (Racer r : this.arena.getActiveRacers()) { //initialize the threads of racers with executor
+                   executor.execute(r);
+                }
+                executor.shutdown(); //call shoutdown method
+            }
+
         }
     }
     // =================================Main================================= //
