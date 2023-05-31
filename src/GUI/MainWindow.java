@@ -122,7 +122,7 @@ public class MainWindow implements ActionListener {
         JPanel p1 = new JPanel(); // creating a panel that everything will sit in and that will be returned from the function
 
         p1.setLayout(new GridBagLayout()); // making a grid bag layout inorder to have full control on the position of each element in the grid
-        p1.setBorder(BorderFactory.createEmptyBorder(-40,-25,0,0)); // changing the border to look good on the screen
+        p1.setBorder(BorderFactory.createEmptyBorder(-10,-25,0,0)); // changing the border to look good on the screen
         p1.setPreferredSize(new Dimension(RIGHT_PANEL_WIDTH, RIGHT_PANEL_HEIGHT)); // setting the size of the panel to the default size declared in above final parameters
 
         // making the grid bag layout manualy
@@ -132,7 +132,7 @@ public class MainWindow implements ActionListener {
         gbc.gridy = 0;
         gbc.ipadx = 0;
         gbc.ipady = 1;
-        gbc.insets = new Insets(2, 0, 0, 0); // top, left, bottom, right
+        gbc.insets = new Insets(1, 0, 0, 0); // top, left, bottom, right
         //
 
         // setting fonts and borders
