@@ -9,7 +9,6 @@ import utilities.EnumContainer.Color;
 import GUI.MainWindow;
 import factory.Observable;
 import game.arenas.Arena;
-import utilities.Fate;
 
 /**
  * The Racers class is an abstract class that represents the avarage racer in our program.
@@ -19,7 +18,7 @@ import utilities.Fate;
  * <p>All of the methods have a purpose, how ever the method describeSpecific is an Abstract Method because we dont 
  * have enought information in the Racer class to describe its sub classes. 
  */
-public abstract class Racer extends Observable implements Runnable {
+public abstract class Racer extends Observable implements Runnable, Cloneable {
 
     //------------------- Private Variables -------------------//
     private static int instanceCounter = 1; // we use this static field to initialize serialNumber for each instance of class 
@@ -246,6 +245,12 @@ public abstract class Racer extends Observable implements Runnable {
         return true;
     }
 
+    //!!!!! add comments
+    public static int getInstanceCounter() {return Racer.instanceCounter; }
+
+    public static boolean setInstanceCounter() { Racer.instanceCounter++; return true; }
+
+
     /**
      * @return a String value that represents the name of the racer.
      */
@@ -381,5 +386,15 @@ public abstract class Racer extends Observable implements Runnable {
             } 
         } 
         return false;
+    }
+
+    public Object clone() {
+        Object clone = null;
+        try {
+           clone = super.clone();
+        } catch (CloneNotSupportedException e) {
+           e.printStackTrace();
+        }
+        return clone;
     }
 }

@@ -10,6 +10,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import designPatterns.Factory;
+import designPatterns.Prototype;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.HashMap;
@@ -264,6 +267,10 @@ public class MainWindow implements ActionListener {
 
         // making the frame visible
         mainFrame.setVisible(true);
+
+        //!
+        Prototype.loadRacerPrototypes(); //create new instance for prototype and initialize racer instances
+        //!
     }
 
     /**
@@ -404,6 +411,7 @@ public class MainWindow implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         RaceBuilder buildInstance = RaceBuilder.getInstance();  // instance of RaceBuilder
+        Factory factory = new Factory(); //create new instance for factory 
 
         if (e.getSource() == this.buildArenaButton) { // if the BUILD ARENA button was clicked
             // Checking if there is an ongoing race, if there is an active race then we dont allow the user to create a new arena
@@ -429,7 +437,7 @@ public class MainWindow implements ActionListener {
             // trying to build the arena object based on the user's selection, if failed, show an error and stop the funtion
             try {
                 if (arenaType.contains("Aerial"))
-                    this.arena = buildInstance.buildArena("game.arenas.air." + arenaType, arenaLen, maxNumOfRacers);
+                    this.arena = factory.MakeArena("air", arenaLen, maxNumOfRacers); //buildInstance.buildArena("game.arenas.air." + arenaType, arenaLen, maxNumOfRacers); //factory.MakeArena("air", arenaLen, maxNumOfRacers); 
                 else if (arenaType.contains("Naval"))
                     this.arena = buildInstance.buildArena("game.arenas.naval." + arenaType, arenaLen, maxNumOfRacers);
                 else if (arenaType.contains("Land"))
@@ -490,8 +498,13 @@ public class MainWindow implements ActionListener {
                 Racer Instance = null; //we use Instance to initialize the racer
                 try{
                     // trying to build the racer based on the correct type of the racer
-                    if(racerChoiceCombo == "Airplane")
+                    if(racerChoiceCombo == "Airplane") {
                         Instance = buildInstance.buildWheeledRacer(racerTypeValue, racerNameValue, maxSpeedValue, accelerationValue, colorValue,3); //create instance
+                        Racer r1 = Prototype.getRacerClone(racerChoiceCombo, 5, utilities.EnumContainer.Color.BLUE);
+                        System.out.println("***********************************");
+                        r1.introduce();
+                        System.out.println("***********************************");
+                    }
                     else if(racerChoiceCombo == "Bicycle")
                         Instance = buildInstance.buildWheeledRacer(racerTypeValue, racerNameValue, maxSpeedValue, accelerationValue, colorValue,2); //create instance
                     else if(racerChoiceCombo == "Car")
