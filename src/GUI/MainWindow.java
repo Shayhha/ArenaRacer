@@ -434,7 +434,7 @@ public class MainWindow implements ActionListener {
                 
             arenaType = chooseArena.getSelectedItem().toString(); // can be: "AerialArena", "NavalArena", "LandArena"
 
-            // trying to build the arena object based on the user's selection, if failed, show an error and stop the funtion
+            // trying to build the arena object based on the user's selection, if failed, show an error and stop the funtion //! changes
             try {
                 if (arenaType.contains("Aerial"))
                     this.arena = factory.MakeArena("Aerial", arenaLen, maxNumOfRacers); //buildInstance.buildArena("game.arenas.air." + arenaType, arenaLen, maxNumOfRacers); //factory.MakeArena("air", arenaLen, maxNumOfRacers); 
