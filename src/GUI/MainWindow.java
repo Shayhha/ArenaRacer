@@ -439,9 +439,9 @@ public class MainWindow implements ActionListener {
                 if (arenaType.contains("Aerial"))
                     this.arena = factory.MakeArena("Aerial", arenaLen, maxNumOfRacers); //buildInstance.buildArena("game.arenas.air." + arenaType, arenaLen, maxNumOfRacers); //factory.MakeArena("air", arenaLen, maxNumOfRacers); 
                 else if (arenaType.contains("Naval"))
-                    this.arena = buildInstance.buildArena("game.arenas.naval." + arenaType, arenaLen, maxNumOfRacers);
+                    this.arena = factory.MakeArena("Naval", arenaLen, maxNumOfRacers); //buildInstance.buildArena("game.arenas.naval." + arenaType, arenaLen, maxNumOfRacers);
                 else if (arenaType.contains("Land"))
-                    this.arena = buildInstance.buildArena("game.arenas.land." + arenaType, arenaLen, maxNumOfRacers);
+                    this.arena = factory.MakeArena("Land", arenaLen, maxNumOfRacers); //buildInstance.buildArena("game.arenas.land." + arenaType, arenaLen, maxNumOfRacers);
             } catch (Exception e1) {
                 showErrorMessage("Invalid input values! Please try again.");
                 return;
