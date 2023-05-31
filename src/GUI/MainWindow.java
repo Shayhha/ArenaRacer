@@ -159,6 +159,9 @@ public class MainWindow implements ActionListener {
         
         accelerationLabel.setFont(font);
         accelerationLabel.setBorder(textFieldBorder);
+        
+        defaultNumRacers.setFont(font);
+        defaultNumRacers.setBorder(textFieldBorder);
         //
 
         // Setting default values
