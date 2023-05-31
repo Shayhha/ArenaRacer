@@ -195,10 +195,10 @@ public class MainWindow implements ActionListener {
         addRacerButton.addActionListener(this); // adding an action listener for the add racer button, the function comes later in the code
 
         // adding items to the panel and after each item go to the next row in the grid, that alows us to have one column in the grid
-        gbc.insets = new Insets(-2, 0, 0, 0); // adding some padding to a specific cell to match how the gui looks in the examples
+        gbc.insets = new Insets(-3, 0, 0, 0); // adding some padding to a specific cell to match how the gui looks in the examples
         p1.add(racerComboLabel, gbc);
         gbc.gridy++;
-        gbc.insets = new Insets(2, 0, 0, 0); // adding some padding to a specific cell to match how the gui looks in the examples
+        gbc.insets = new Insets(1, 0, 0, 0); // adding some padding to a specific cell to match how the gui looks in the examples
         p1.add(chooseRacer, gbc);
         gbc.gridy++;
         p1.add(colorComboLabel, gbc);
@@ -217,7 +217,7 @@ public class MainWindow implements ActionListener {
         gbc.gridy++;
         p1.add(acceleration, gbc);
         gbc.gridy++;
-        gbc.insets = new Insets(4, 0, 7, 0); // adding some padding to a specific cell to match how the gui looks in the examples
+        gbc.insets = new Insets(3, 0, 7, 0); // adding some padding to a specific cell to match how the gui looks in the examples
         p1.add(addRacerButton, gbc);
         gbc.gridy++;
         p1.add(separator2, gbc); // a seperator is just a horizontal line
