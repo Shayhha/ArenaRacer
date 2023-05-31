@@ -559,7 +559,7 @@ public class MainWindow implements ActionListener {
             }
         }
 
-        if(e.getSource() == this.startRace){ //if the START RACE button was clicked
+        if(e.getSource() == this.startRace){ //if the START RACE button was clickeds
             if(this.raceActive){ //if racerActive is true it means we cant start a race again (yet)
                 JOptionPane.showMessageDialog(null,
                     "Race already started/ended!", "Error", JOptionPane.ERROR_MESSAGE);
