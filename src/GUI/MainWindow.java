@@ -132,7 +132,7 @@ public class MainWindow implements ActionListener {
         gbc.gridy = 0;
         gbc.ipadx = 0;
         gbc.ipady = 1;
-        gbc.insets = new Insets(1, 0, 0, 0); // top, left, bottom, right
+        gbc.insets = new Insets(2, 0, 0, 0); // top, left, bottom, right
         //
 
         // setting fonts and borders
