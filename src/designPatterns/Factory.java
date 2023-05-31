@@ -13,13 +13,13 @@ public class Factory {
      * @param arenaName - string that represents arena name 
      */
     public Arena MakeArena(String arenaName, double length, int maxRacers){ 
-        if (arenaName.equalsIgnoreCase("land")) {
+        if (arenaName.equalsIgnoreCase("Land")) {
             return new LandArena(length, maxRacers);
         } 
-        else if (arenaName.equalsIgnoreCase("naval")) {
+        else if (arenaName.equalsIgnoreCase("Naval")) {
             return new NavalArena(length, maxRacers);
         } 
-        else if (arenaName.equalsIgnoreCase("air")) {
+        else if (arenaName.equalsIgnoreCase("Aerial")) {
             return new AerialArena(length, maxRacers);
         } 
         else 
