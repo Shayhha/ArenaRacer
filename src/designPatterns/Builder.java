@@ -25,17 +25,19 @@ public class Builder {
     public int[] serialNumList;
 
     public Builder(int numOfRacers) {
-        if (numOfRacers > MAX_RACERS) // If the given number of racers is larger than the default number
-            // Creating an arena with the given number of racers
-            arena = arenaFactory.MakeArena("land", DEFAULT_LENGTH, numOfRacers);
-        else 
-            // Creating an arena with the default number of max racers
-            arena = arenaFactory.MakeArena("land", DEFAULT_LENGTH, MAX_RACERS);
+        arena = arenaFactory.MakeArena("land", DEFAULT_LENGTH, numOfRacers);
+
+        // if (numOfRacers > MAX_RACERS) // If the given number of racers is larger than the default number
+        //     // Creating an arena with the given number of racers
+        //     arena = arenaFactory.MakeArena("land", DEFAULT_LENGTH, numOfRacers);
+        // else 
+        //     // Creating an arena with the default number of max racers
+        //     arena = arenaFactory.MakeArena("land", DEFAULT_LENGTH, MAX_RACERS);
         
         serialNumList = new int[numOfRacers];
         // create all of the racers using prototype
         for (int i = 0; i < numOfRacers; i++) {
-            Racer racer = Prototype.getRacerClone("Car", i+1, utilities.EnumContainer.Color.BLUE);
+            Racer racer = Prototype.getRacerClone("Car", i, utilities.EnumContainer.Color.BLUE);
             try {
                 this.arena.addRacer(racer);
                 serialNumList[i] = racer.getSerialNumber();
@@ -48,7 +50,6 @@ public class Builder {
 
                 MainWindow.racersList.put(racer.getSerialNumber(),racerImage);
                 MainWindow.moveRacer(racer.getSerialNumber(), 0, (i)*60 + (int)this.arena.getMIN_Y_GAP());
-                
 
             } catch (RacerLimitException e) {
                 e.printStackTrace();

@@ -9,6 +9,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.text.AttributeSet.ParagraphAttribute;
 
 import designPatterns.Builder;
 import designPatterns.Factory;
@@ -450,6 +451,23 @@ public class MainWindow implements ActionListener {
         return table;
     }
 
+    //!! add doc strings here
+    private void addRacerIconToScreen(Racer instance, String path, int index) { 
+        // creating a racer icon based on the user's information and adding the icon to the array of icons and positioning the icon in the correct location
+        JLabel r1 = createRacer(path);
+        racersList.put(instance.getSerialNumber(),r1);
+
+        moveRacer(instance.getSerialNumber(), 0, (index-1)*RACER_ICON_SIZE + (int)this.arena.getMIN_Y_GAP());
+
+        // adding the racer to the screen
+        this.leftPanel.add(r1, BorderLayout.CENTER);
+
+        // re-generating the background image after the racer was added 
+        printBackgroundImage();
+
+        this.mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
+    }
+
     // ===================================actionPerformed=================================== //
 
     @Override
@@ -565,27 +583,11 @@ public class MainWindow implements ActionListener {
 
                     this.leftPanel.remove(backgroundLabel); // removing the background image from the left panel
 
-                    int i = this.arena.getActiveRacers().size(); //we use arena's activeRacer size method for our icon movements
-
-                    // creating a racer icon based on the user's information and adding the icon to the array of icons and positioning the icon in the correct location
-                    JLabel r1 = createRacer("icons/" + (String)Instance.getClass().getSimpleName() + this.chooseColor.getSelectedItem().toString() + ".png");
-                    racersList.put(Instance.getSerialNumber(),r1);
-
-                    JOptionPane.showMessageDialog(null,i, "Racer Error", JOptionPane.ERROR_MESSAGE);
                     currentRacersToCopy.add(currentRacersToCopy.size(), racerChoiceCombo+"|"+Instance.getSerialNumber()); //! adding the racer to the combobox so that we could copy it later
-
                     DefaultComboBoxModel<String> comboBoxModelForRacers = new DefaultComboBoxModel<>(currentRacersToCopy.toArray(new String[0]));
                     chooseRacerToCopy.setModel(comboBoxModelForRacers);
-                    
-                    moveRacer(Instance.getSerialNumber(), 0, (i-1)*RACER_ICON_SIZE + (int)this.arena.getMIN_Y_GAP());
-                    
-                    // adding the racer to the screen
-                    this.leftPanel.add(r1, BorderLayout.CENTER);
 
-                    // re-generating the background image after the racer was added 
-                    printBackgroundImage();
-
-                    this.mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
+                    addRacerIconToScreen(Instance, "icons/" + (String)Instance.getClass().getSimpleName() + this.chooseColor.getSelectedItem().toString() + ".png", this.arena.getActiveRacers().size());
 
                 }
                 //here we handle excaption that addRacer method might throw (custom excaptions)
@@ -680,12 +682,22 @@ public class MainWindow implements ActionListener {
         }
 
         if (e.getSource() == this.defaultRace) {
-            this.leftPanel.removeAll();
             String N = this.defaultNumRacersInput.getText();
+            if (N.equals("") || N.equals(null)) {
+                JOptionPane.showMessageDialog(null,"Please enter the number of default racers in the field above", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if(this.raceActive){ //if racerActive is true it means we cant start a race again (yet)
+                JOptionPane.showMessageDialog(null,
+                    "Race already started/ended!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            this.leftPanel.removeAll();
 
             Builder b = new Builder( Integer.parseInt(N) );
             this.arena = b.getArena();
-
+           
             for (int serialNumber : b.serialNumList) {
                 this.leftPanel.add(MainWindow.racersList.get(serialNumber), BorderLayout.CENTER);
             }
@@ -695,21 +707,14 @@ public class MainWindow implements ActionListener {
             printBackgroundImage();
 
             this.mainFrame.setVisible(true);
-
-            if(this.raceActive){ //if racerActive is true it means we cant start a race again (yet)
-                JOptionPane.showMessageDialog(null,
-                    "Race already started/ended!", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
+            
+            this.raceActive = true; //states that a race has been started
+            this.arena.initRace(); //initializes the racers as well
+            ExecutorService executor = Executors.newFixedThreadPool(Integer.parseInt(N)); //new executor for threads //maxNumOfRacers
+            for (Racer r : this.arena.getActiveRacers()) { //initialize the threads of racers with executor
+                executor.execute(r);
             }
-            else{ //else everything is good so we start the race
-                this.raceActive = true; //states that a race has been started
-                this.arena.initRace(); //initializes the racers as well
-                ExecutorService executor = Executors.newFixedThreadPool(racersList.size()); //new executor for threads //maxNumOfRacers
-                for (Racer r : this.arena.getActiveRacers()) { //initialize the threads of racers with executor
-                   executor.execute(r);
-                }
-                executor.shutdown(); //call shoutdown method
-            }
+            executor.shutdown(); //call shoutdown method
 
         }
 
@@ -718,6 +723,16 @@ public class MainWindow implements ActionListener {
                 JOptionPane.showMessageDialog(null,
                     "There are no racers to copy, please add and then choose a racer", "Missing Racers Error", JOptionPane.ERROR_MESSAGE);
                     return;
+            }
+            if(this.raceActive){ //if racerActive is true it means we cant start a race again (yet)
+                JOptionPane.showMessageDialog(null,
+                    "Race already started/ended!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            else if(this.arena == null){ //if arena isn't initialized we show error message
+                JOptionPane.showMessageDialog(null,
+                    "Arena isn't initialized!", "Arena Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
             // get current selected racer and make a copy using prototye and then add to screen
             String[] currentRacer = this.chooseRacerToCopy.getSelectedItem().toString().split("\\|"); // spliting the string, [0] is the Type and [1] is the serial number
@@ -737,31 +752,18 @@ public class MainWindow implements ActionListener {
                 r1.setName(R.getName()+"_copy#"+r1.getSerialNumber());
                 try {
                     this.arena.addRacer(r1);
+                    r1.introduce(); // printing the currect racer to the comand line
+                    addRacerIconToScreen(r1,"icons/" + currentRacer[0] + R.getColor() + ".png",this.arena.getActiveRacers().size());
                 } catch (RacerLimitException e1) {
                     e1.printStackTrace();
                 } catch (RacerTypeException e1) {
                     e1.printStackTrace();
                 }
-
-                // creating a racer icon based on the user's information and adding the icon to the array of icons and positioning the icon in the correct location
-                JLabel l1 = createRacer("icons/" + currentRacer[0] + R.getColor() + ".png");
-                racersList.put(r1.getSerialNumber(),l1);
-
-                moveRacer(r1.getSerialNumber(), 0, (this.arena.getActiveRacers().size()-1)*RACER_ICON_SIZE + (int)this.arena.getMIN_Y_GAP());
-                
-                // adding the racer to the screen
-                this.leftPanel.add(l1, BorderLayout.CENTER);
-
-                // re-generating the background image after the racer was added 
-                printBackgroundImage();
-                this.mainFrame.setVisible(true); 
-
                 // add error checks
-                // make helper function
-                // add intoduce
             }
         }
     }
+
     // =================================Main================================= //
     public static void main(String[] args) {
         createMainWindow(); // creating and showing the main frame
