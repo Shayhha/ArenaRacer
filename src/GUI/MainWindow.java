@@ -770,6 +770,6 @@ public class MainWindow implements ActionListener {
 
     // =================================Main================================= //
     public static void main(String[] args) {
-        createMainWindow(); // creating and showing the main frame
+        createMainWindow(); 
     }
 }
