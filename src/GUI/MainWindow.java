@@ -333,7 +333,7 @@ public class MainWindow implements ActionListener {
 
     /**
      * moves the given racer by adding to his X and Y coordinates
-     * @param index the index of the racer you want to move
+     * @param serialNum the index of the racer you want to move
      * @param x how much to move on the X axies, 0 is dont move.
      * @param y how much to move on the Y axies, 0 is dont move.
      */
@@ -759,6 +759,10 @@ public class MainWindow implements ActionListener {
                 } catch (RacerTypeException e1) {
                     e1.printStackTrace();
                 }
+
+
+
+
                 // add error checks
             }
         }
