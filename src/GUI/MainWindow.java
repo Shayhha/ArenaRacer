@@ -759,10 +759,6 @@ public class MainWindow implements ActionListener {
                 } catch (RacerTypeException e1) {
                     e1.printStackTrace();
                 }
-
-
-
-
                 // add error checks
             }
         }
