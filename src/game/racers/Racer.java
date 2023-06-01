@@ -250,6 +250,7 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
 
     public static boolean setInstanceCounter() { Racer.instanceCounter++; return true; }
 
+    public static boolean resetInstaceCounter() { Racer.instanceCounter = 0; return true; }
 
     /**
      * @return a String value that represents the name of the racer.
