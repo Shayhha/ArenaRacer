@@ -1,6 +1,5 @@
 package factory;
 import java.util.Vector;
-import game.racers.Racer;
 
 /**
 * Observable class
@@ -53,7 +52,10 @@ public class Observable {
         }
     }
 
-    
+    /**
+     * This is a set function for the observers vecotr
+     * @param v a vector we want to set
+     */
     public void setObservers(Vector<Observer> v) {
         observers = v;
     }
