@@ -6,14 +6,11 @@
 package game.arenas;
 import java.util.ArrayList;
 import java.util.List;
-
 import factory.Observable;
 import factory.Observer;
 import game.racers.Racer;
 import utilities.Point;
 import game.arenas.exceptions.*;
-
-import javax.swing.*;
 
 /**
 * Arena class represents an object of arena circuit
