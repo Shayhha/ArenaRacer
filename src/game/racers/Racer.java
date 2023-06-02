@@ -4,11 +4,15 @@
  * name: Maxim Subotin, ID: 207695479
  */
 package game.racers;
+import factory.Observer;
 import utilities.*;
 import utilities.EnumContainer.Color;
 import GUI.MainWindow;
 import factory.Observable;
 import game.arenas.Arena;
+
+import javax.swing.*;
+import java.util.Vector;
 
 /**
  * The Racers class is an abstract class that represents the avarage racer in our program.
@@ -393,6 +397,7 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
         Object clone = null;
         try {
            clone = super.clone();
+           this.setObservers(new Vector<>()); // this was missing
         } catch (CloneNotSupportedException e) {
            e.printStackTrace();
         }

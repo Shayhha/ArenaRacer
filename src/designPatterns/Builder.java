@@ -22,29 +22,27 @@ public class Builder {
     // Create new instance for the arena factory 
     private Factory arenaFactory = new Factory(); 
 
-    public int[] serialNumList;
+    private int[] serialNumList;
 
     public Builder(int numOfRacers) {
-        arena = arenaFactory.MakeArena("land", DEFAULT_LENGTH, numOfRacers);
-
-        // if (numOfRacers > MAX_RACERS) // If the given number of racers is larger than the default number
-        //     // Creating an arena with the given number of racers
-        //     arena = arenaFactory.MakeArena("land", DEFAULT_LENGTH, numOfRacers);
-        // else 
-        //     // Creating an arena with the default number of max racers
-        //     arena = arenaFactory.MakeArena("land", DEFAULT_LENGTH, MAX_RACERS);
+         if (numOfRacers > MAX_RACERS) // If the given number of racers is larger than the default number
+             // Creating an arena with the given number of racers
+             this.arena = arenaFactory.MakeArena("land", DEFAULT_LENGTH, numOfRacers);
+         else
+             // Creating an arena with the default number of max racers
+             this.arena = arenaFactory.MakeArena("land", DEFAULT_LENGTH, MAX_RACERS);
         
         serialNumList = new int[numOfRacers];
-        // create all of the racers using prototype
+        // create all the racers using prototype
         for (int i = 0; i < numOfRacers; i++) {
-            Racer racer = Prototype.getRacerClone("Car", i, utilities.EnumContainer.Color.BLUE);
+            Racer racer = Prototype.getRacerClone("Car", i, utilities.EnumContainer.Color.BLACK);
             try {
                 this.arena.addRacer(racer);
                 serialNumList[i] = racer.getSerialNumber();
                 racer.introduce();
 
                 // making an image obj using the image located in the given path, setting the size of the image to the default size declaed at the top
-                Image image = new ImageIcon("icons/CarBlue.png").getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+                Image image = new ImageIcon("icons/CarBlack.png").getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
                 JLabel racerImage = new JLabel("", new ImageIcon(image), JLabel.CENTER); // adding the image to a label to be visible on screen
                 racerImage.setBounds(5, 5, 60, 60); // adding some border to each racer's icon and setting the default size
 
@@ -61,5 +59,9 @@ public class Builder {
 
     public Arena getArena() {
         return this.arena;
+    }
+
+    public int[] getSerialNumList() {
+        return this.serialNumList;
     }
 }
