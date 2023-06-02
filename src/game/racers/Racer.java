@@ -39,7 +39,6 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
     private EnumContainer.Color color; 
     private Mishap mishap;
     private EnumContainer.State state;
-    private int position;
 
     /**
      * A normal Constructor for class Racer, it gets 4 parameters and 
