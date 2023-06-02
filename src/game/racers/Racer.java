@@ -4,14 +4,15 @@
  * name: Maxim Subotin, ID: 207695479
  */
 package game.racers;
-import factory.Observer;
 import utilities.*;
 import utilities.EnumContainer.Color;
+import utilities.EnumContainer.State;
 import GUI.MainWindow;
 import factory.Observable;
 import game.arenas.Arena;
 
-import javax.swing.*;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Vector;
 
 /**
@@ -37,6 +38,8 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
     private double failureProbability;
     private EnumContainer.Color color; 
     private Mishap mishap;
+    private EnumContainer.State state;
+    private int position;
 
     /**
      * A normal Constructor for class Racer, it gets 4 parameters and 
@@ -68,6 +71,7 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
         this.currentLocation = start; //we initilaize currentLocation
         this.finish=finish; //initilaze finish
         this.arena = arena;
+        this.state = State.ACTIVE;
     }
     
     /**
@@ -127,6 +131,15 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
         // # # ---------------------------------------- # # //
 
         this.currentLocation.setX((int)this.currentLocation.getX()+newSpeed); // setting the new position of the racer
+
+        synchronized(this.getArena().getActiveRacers()){ //we lock the sorting on activeRacers list for thread safely
+            Collections.sort(this.getArena().getActiveRacers(), new Comparator<Racer>() {
+                @Override
+                public int compare(Racer racer1, Racer racer2) {
+                    return Double.compare(racer2.getCurrentLocation().getX(), racer1.getCurrentLocation().getX());
+                }
+            });
+        }
         return this.currentLocation; //return new position
     }
 
@@ -193,11 +206,11 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
             catch (InterruptedException e){
                 e.printStackTrace(); //prints error
             }
+            if(this.currentLocation.getX() >= this.arena.getLength()){ //if racer has finsihed the race we call notifyObservers method
+                this.currentLocation.setX(this.arena.getLength()); //if racer finishes we give set final location to length of arena
+            }
+            this.notifyObservers(this); // call notify method for state changes
         }
-        if(this.currentLocation.getX() >= this.arena.getLength()){ //if racer has finsihed the race we call notifyObservers method
-            this.currentLocation.setX(this.arena.getLength()); //if racer finishes we give set final location to length of arena
-            this.notifyObservers(this); //notifys arena that racer has finished the race
-        }   
     }
 
     //------------------- setter and getter functions -------------------//
@@ -348,6 +361,10 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
      */
     public final Mishap getMishap() { return this.mishap; }
 
+    /**
+     * @return an instance of state enum container.
+     */
+    public EnumContainer.State getState(){return this.state;}
     /**
      * A set function for setting the mishap of the racer.
      * @param newMishap an instance of class Mishap that will represent the new mishap of the racer

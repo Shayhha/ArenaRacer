@@ -1,16 +1,10 @@
 package designPatterns;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.swing.*;
 import java.awt.*;
-
 import GUI.*;
 import game.arenas.Arena;
 import game.arenas.exceptions.RacerLimitException;
 import game.arenas.exceptions.RacerTypeException;
-import game.arenas.land.LandArena;
 import game.racers.Racer;
 
 public class Builder {

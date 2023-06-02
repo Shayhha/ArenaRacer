@@ -79,4 +79,8 @@ public class EnumContainer {
 		DRY,RAIN,SNOW
 	}
 
+	public static enum State{ //we use this enum for indication of state of racer
+		ACTIVE, BROKEN, INVALID, COMPLETED;
+	}
+
 }

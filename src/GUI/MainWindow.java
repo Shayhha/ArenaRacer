@@ -9,12 +9,9 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import javax.swing.text.AttributeSet.ParagraphAttribute;
-
 import designPatterns.Builder;
 import designPatterns.Factory;
 import designPatterns.Prototype;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -22,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 import game.arenas.Arena;
 import game.arenas.exceptions.RacerLimitException;
 import game.arenas.exceptions.RacerTypeException;
@@ -94,7 +90,6 @@ public class MainWindow implements ActionListener {
     private JFrame infoWin = new JFrame("Racers information");
     private JPanel tablePanel = new JPanel(); 
 
-    //TODO: Part 3 gui elements:
     private JLabel defaultNumRacers = new JLabel("How many racers:");
     private JTextField defaultNumRacersInput = new JTextField();
     private JButton defaultRace = new JButton("Default Race");
@@ -102,7 +97,6 @@ public class MainWindow implements ActionListener {
     private JComboBox<String> chooseRacerToCopy = new JComboBox<>();
     private JButton copyChosenRacer = new JButton("Copy Racer");
 
-    //TODO: -------------------
 
     // all of these components are used in the main screen and the information screen
 

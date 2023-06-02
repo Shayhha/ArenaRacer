@@ -28,6 +28,7 @@ public class Prototype {
 
         // setting serial number and color to the cloned racer
         cachedRacer.setSerialNumber(id);
+        cachedRacer.setName(racerClass+" #"+id);
         Racer.setInstanceCounter(); // after creating a new racer we increment the serial number by calling setInstanceCounter()
         cachedRacer.setColor(color);
         return cachedRacer; // returning the cloned racer
