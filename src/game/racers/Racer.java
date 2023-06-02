@@ -96,13 +96,19 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
                 System.out.println(this.getName() + " has a new mishap! " + this.mishap.toString()); // whenever a new mishap is generated we print it out
                 this.state = State.BROKEN; //indicates that the racer state is "broken" meaning he has a mishap
                 this.brokenTime = System.currentTimeMillis() - this.getArena().getStartTime(); //sets the time racer got mishap(broken)
+                this.notifyObservers(this);
             }
         }
 
         //if racer has new/old mishap we reduce the turns to fix with nextTurn method and calculating the new reduced the acceleration
         if(this.hasMishap()){
+            if(this.getMishap().getFixable() == true)
+                this.state = State.ACTIVE; //we set sate to "active" if mishap is fixable
+            else
+                this.state = State.INVALID; //we set sate to "failed" if mishap isn't fixable 
+            this.notifyObservers(this); // notify the observer for state change
             this.mishap.nextTurn(); 
-            newAcc *=this.mishap.getReductionFactor(); 
+            newAcc *= this.mishap.getReductionFactor(); 
         }
 
         // calculating the racers new current speed and then his new location
@@ -114,10 +120,16 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
                 this.currentSpeed = newSpeed;
         }
 
+        if(this.currentLocation.getX() >= this.arena.getLength()){ //if racer has finsihed the race we call notifyObservers method
+            this.currentLocation.setX(this.arena.getLength()); //if racer finishes we give set final location to length of arena
+            this.state = State.COMPLETED; //indicates that racer finished (completed)
+            this.notifyObservers(this); // call notify method for state changes
+        }
+
         // # # --------- Part of Assignment 2 --------- # # //
         
         // moving the current racer's icon on the screen the exact amount that he needs to move based on his speed
-        if (this.currentLocation.getX()+newSpeed > this.getArena().getLength()) { // checking if the racer is about to cross the finish line and making him stop exactly on the finish line
+        if (this.currentLocation.getX() + newSpeed > this.getArena().getLength()) { // checking if the racer is about to cross the finish line and making him stop exactly on the finish line
             // calculating exactly the distance left between the racer's location and the finish line, then adding exactly that amount to the racer's position making him stop exactly on top of the finish line
             MainWindow.moveRacer(this.getSerialNumber(), (int)this.getArena().getLength() - (int)this.currentLocation.getX(), 0); 
         }
@@ -208,11 +220,11 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
             catch (InterruptedException e){
                 e.printStackTrace(); //prints error
             }
-            if(this.currentLocation.getX() >= this.arena.getLength()){ //if racer has finsihed the race we call notifyObservers method
-                this.currentLocation.setX(this.arena.getLength()); //if racer finishes we give set final location to length of arena
-                this.state = State.COMPLETED; //indicates that racer finished (completed)
-            }
-            this.notifyObservers(this); // call notify method for state changes
+            // if(this.currentLocation.getX() >= this.arena.getLength()){ //if racer has finsihed the race we call notifyObservers method
+            //     this.currentLocation.setX(this.arena.getLength()); //if racer finishes we give set final location to length of arena
+            //     this.state = State.COMPLETED; //indicates that racer finished (completed)
+            // }
+            // this.notifyObservers(this); // call notify method for state changes
         }
     }
 
