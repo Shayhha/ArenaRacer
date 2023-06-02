@@ -249,9 +249,16 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
         return true;
     }
 
-    //!!!!! add comments
+    /**
+     * A get function for the Instance Counter
+     * @return the instatnce counter
+     */
     public static int getInstanceCounter() {return Racer.instanceCounter; }
 
+    /**
+     *
+     * @return
+     */
     public static boolean setInstanceCounter() { Racer.instanceCounter++; return true; }
 
     public static boolean resetInstaceCounter() { Racer.instanceCounter = 0; return true; }

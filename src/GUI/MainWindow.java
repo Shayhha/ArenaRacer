@@ -254,11 +254,11 @@ public class MainWindow implements ActionListener {
         defaultRace.addActionListener(this); // adding an action listener for the show info button, the function comes later in the code
 
         gbc.insets = new Insets(2, 0, 7, 0);
-        p1.add(defaultNumRacers, gbc);
+        p1.add(defaultNumRacers, gbc); // adding a label
         gbc.gridy++;
-        p1.add(defaultNumRacersInput, gbc);
+        p1.add(defaultNumRacersInput, gbc); // adding a text box
         gbc.gridy++;
-        p1.add(defaultRace, gbc);
+        p1.add(defaultRace, gbc); // adding a button
         gbc.gridy++;
         // finished builder part
 
@@ -266,9 +266,9 @@ public class MainWindow implements ActionListener {
         copyChosenRacer.addActionListener(this); // adding an action listener for the show info button, the function comes later in the code
 
         gbc.insets = new Insets(2, 0, 7, 0);
-        p1.add(chooseRacerToCopy, gbc);
+        p1.add(chooseRacerToCopy, gbc); // adding a combobox
         gbc.gridy++;
-        p1.add(copyChosenRacer, gbc);
+        p1.add(copyChosenRacer, gbc); // adding a button
         gbc.gridy++;
         // finished prototype part
 
@@ -450,7 +450,15 @@ public class MainWindow implements ActionListener {
         return table;
     }
 
-    //!! add doc strings here
+    /**
+     * This function helps us add an icon for a given racer to the screen. The function takes the given racer, searches for
+     * an apropriate image using the given path, makes a JLable with the correct image, adds the JLable into the
+     * racersList map that is located in the MainWindow. Then moving the racer to the correct position based on the
+     * given index of the racer.
+     * @param instance the racer that needs an icon
+     * @param path the path to the icon for this racer
+     * @param index the index of the racer in the list
+     */
     private void addRacerIconToScreen(Racer instance, String path, int index) { 
         // creating a racer icon based on the user's information and adding the icon to the array of icons and positioning the icon in the correct location
         JLabel r1 = createRacer(path);
@@ -467,7 +475,10 @@ public class MainWindow implements ActionListener {
         this.mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
     }
 
-    // add doc strings
+    /**
+     * This function is used to reset all of the variables that are used during a race, this way with each new race
+     * the variables with be clean and ready for a new race
+     */
     private void resetRace() {
         // reseting the arena & racerActive
         this.arena = null;
@@ -478,6 +489,11 @@ public class MainWindow implements ActionListener {
         this.chooseRacerToCopy.removeAllItems();
     }
 
+    /**
+     * This function resizes the window based on the number of racer it gets, the screen needs to become longer the more racers we add
+     * and shorter when we have less racers, this function takes care of these changes.
+     * @param maxNumOfRacers the number of max racers in the current race
+     */
     private void resizeWindow(int maxNumOfRacers) {
         // resizing the window and the left panel acording to the max racers count
         if (maxNumOfRacers > 13) { //! originaly was: maxNumOfRacers > 11
@@ -527,20 +543,9 @@ public class MainWindow implements ActionListener {
                 return;
             }                      
 
-            // resizing the window and the left panel acording to the max racers count 
-//            if (maxNumOfRacers > 13) { //! originaly was: maxNumOfRacers > 11
-//                this.mainFrame.setSize(arenaLen + 270, MAIN_WINDOW_HEIGHT + (maxNumOfRacers-13)*60); // adding 60 pixels to the height for each max racer after 13 racers. arenaLen + 270 is because we need to account for the size of the right panel as well
-//                this.leftPanel.setSize(arenaLen + 70, LEFT_PANEL_HEIGHT + (maxNumOfRacers-13)*60);// adding 60 pixels to the height for each max racer after 13 racers. arenaLen + 70 is because we need to account for the size of the right panel as well
-//                this.leftPanel.setPreferredSize(new Dimension(arenaLen + 70, LEFT_PANEL_HEIGHT + (maxNumOfRacers-13)*60)); // this line is needed to make sure that the size will be exactly what we need
-//            } else {
-//                this.mainFrame.setSize(arenaLen + 270, MAIN_WINDOW_HEIGHT); // if less than 13 max racers keep original default size, arenaLen + 270 is because we need to account for the size of the right panel as well
-//                this.leftPanel.setSize(new Dimension(arenaLen + 70, LEFT_PANEL_HEIGHT)); // same as above
-//                this.leftPanel.setPreferredSize(new Dimension(arenaLen + 70, LEFT_PANEL_HEIGHT)); // same as above
-//            }
-            resizeWindow(maxNumOfRacers);
+            resizeWindow(maxNumOfRacers); // resizing the window based on the number of max racers allowed
 
-            // generating the background image when all of the inputs are accounted for
-            printBackgroundImage();
+            printBackgroundImage(); // generating the background image
 
             this.mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
         }
@@ -710,7 +715,7 @@ public class MainWindow implements ActionListener {
             }
 
             resetRace(); // reserting the race if the current race has finished and the user wants to run a new default race
-            resizeWindow(Integer.parseInt(N));
+            resizeWindow(Integer.parseInt(N)); // resizing the window based on the number of racers the user inputed
 
             Builder ourRaceBuilder = new Builder(Integer.parseInt(N)); // user the Builder design pattern in order to build a default Land race with N active racers
             this.arena = ourRaceBuilder.getArena(); // saving the arena reference from the Builder into the object that is located in this GUI file for reference later
