@@ -13,6 +13,8 @@ import game.racers.Racer;
 import utilities.Point;
 import game.arenas.exceptions.*;
 
+import javax.swing.*;
+
 /**
 * Arena class represents an object of arena circuit
 * includes constructor and methods for arena, with initRace that initilizes the current race and activates move method for each racer
@@ -90,7 +92,7 @@ public abstract class Arena implements Observer{
                 temp.add(r2);
         }
         this.setActiveRacers(temp); //gives activrRacers temp's reference
-        System.out.println(((Racer)racer).getName() + " Finished"); //prints finished for racer
+        System.out.println(((Racer)racer).getName() + ", " + ((Racer)racer).getSerialNumber() + " Finished"); //prints finished for racer
         racer.removeObserver(this);//removes the arena from list of observers
     }
 

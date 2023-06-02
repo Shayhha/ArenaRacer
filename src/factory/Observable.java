@@ -7,7 +7,7 @@ import java.util.Vector;
 * Parameters:
 *
 * <p>
-*@param observers vector list of observers
+*@param //observers vector list of observers
 *<p>
 * Methods:
 *<p>
@@ -48,5 +48,9 @@ public class Observable {
         for (Observer observer : observers) {
             observer.update(obj);
         }
+    }
+
+    public void setObservers(Vector<Observer> v) {
+        observers = v;
     }
 }
