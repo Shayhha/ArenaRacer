@@ -39,6 +39,7 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
     private EnumContainer.Color color; 
     private Mishap mishap;
     private EnumContainer.State state;
+    private long brokenTime;
 
     /**
      * A normal Constructor for class Racer, it gets 4 parameters and 
@@ -93,6 +94,8 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
             if(Fate.breakDown()==true){ // if a mishap needs to be generate we generate a new one, else there is no mishap this turn
                 this.mishap = Fate.generateMishap();
                 System.out.println(this.getName() + " has a new mishap! " + this.mishap.toString()); // whenever a new mishap is generated we print it out
+                this.state = State.BROKEN; //indicates that the racer state is "broken" meaning he has a mishap
+                this.brokenTime = System.currentTimeMillis() - this.getArena().getStartTime(); //sets the time racer got mishap(broken)
             }
         }
 
@@ -207,6 +210,7 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
             }
             if(this.currentLocation.getX() >= this.arena.getLength()){ //if racer has finsihed the race we call notifyObservers method
                 this.currentLocation.setX(this.arena.getLength()); //if racer finishes we give set final location to length of arena
+                this.state = State.COMPLETED; //indicates that racer finished (completed)
             }
             this.notifyObservers(this); // call notify method for state changes
         }
@@ -364,6 +368,8 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
      * @return an instance of state enum container.
      */
     public EnumContainer.State getState(){return this.state;}
+
+    public long getBrokenTime(){return this.brokenTime;}
     /**
      * A set function for setting the mishap of the racer.
      * @param newMishap an instance of class Mishap that will represent the new mishap of the racer
@@ -392,6 +398,11 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
         this.color = newColor;
         return true;
     }
+
+    /**
+     * Sets the brokenTime for racer
+     */
+    public void setBrokenTime(long num){this.brokenTime = num;}
 
     /**
      * This is the equals method that every class inherits from the main Object class, we use it later in the

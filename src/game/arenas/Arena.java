@@ -36,6 +36,7 @@ public abstract class Arena implements Observer{
     private final static int MIN_Y_GAP = 10;
     private double length; // x value of finish line
     private int originalNumOfRacers = 0;
+    private long startTime; 
     /**
      * A normal constructor for class Arena, it gets a few parameters and sets the fields to the correct values.
      * @param length is a double value that represents the length of the arena
@@ -64,6 +65,7 @@ public abstract class Arena implements Observer{
     * <p>
     */
     public void initRace(){
+        this.startTime = System.currentTimeMillis();  // Start the timer
         int i = 0;
         originalNumOfRacers = activeRacers.size();
         for (Racer r : activeRacers) { //foreach racer we set the values of X and Y with MIN_Y_GAP and we call InitRace method for the racer
@@ -165,22 +167,21 @@ public abstract class Arena implements Observer{
             System.out.println("Racer " + ((Racer)obj).getName() + " is currently ranked " + rating);
             // Update GUI if applicable
         } 
-        // else if (((Racer)obj).getState() == EnumContainer.State.BROKEN) {
-        //     // Display message that the Racer is broken and the time it was broken
-        //     LocalDateTime brokenTime = ((Racer)obj).getBrokenTime();
-        //     System.out.println("Racer " + ((Racer)obj).getName() + " is broken at " + brokenTime);
-        //     // Update GUI if applicable
-        // } 
-        // else if (((Racer)obj).getState() == EnumContainer.State.INVALID) {
-        //     // Display message that the Racer failed and update results table
-        //     System.out.println("Racer " + ((Racer)obj).getName() + " has failed");
-        //     // Update results table in GUI if applicable
-        // } 
-        // else if (((Racer)obj).getState() == EnumContainer.State.COMPLETED) {
-        //     // Display message that the Racer finished the race and update scoreboard
-        //     System.out.println("Racer " + ((Racer)obj).getName() + " has finished the race");
-        //     // Update scoreboard in GUI if applicable
-        // }
+        else if (((Racer)obj).getState() == EnumContainer.State.BROKEN) {
+            // Display message that the Racer is broken and the time it was broken
+            System.out.println("Racer " + ((Racer)obj).getName() + " is broken at " + ((Racer)obj).getBrokenTime());
+            // Update GUI if applicable
+        } 
+        else if (((Racer)obj).getState() == EnumContainer.State.INVALID) {
+            // Display message that the Racer failed and update results table
+            System.out.println("Racer " + ((Racer)obj).getName() + " has failed");
+            // Update results table in GUI if applicable
+        } 
+        else if (((Racer)obj).getState() == EnumContainer.State.COMPLETED) {
+            // Display message that the Racer finished the race and update scoreboard
+            System.out.println("Racer " + ((Racer)obj).getName() + " has finished the race");
+            // Update scoreboard in GUI if applicable
+        }
     }
 
     public int CalculateRacerRating(Racer racer){
@@ -218,6 +219,8 @@ public abstract class Arena implements Observer{
      * @return a double value that represents the length of the arena object.
      */
     public final double getLength(){return this.length;}
+    
+    public final long getStartTime(){return this.startTime;}
 
     /**
      * a set method for the length of the arena

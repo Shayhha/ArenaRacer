@@ -1,5 +1,6 @@
 package factory;
 import java.util.Vector;
+import game.racers.Racer;
 
 /**
 * Observable class
