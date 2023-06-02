@@ -174,7 +174,15 @@ public abstract class Arena implements Observer{
         } 
         else if (((Racer)obj).getState() == EnumContainer.State.INVALID) {
             // Display message that the Racer failed and update results table
-            System.out.println("Racer " + ((Racer)obj).getName() + " has failed");
+            // synchronized(this.activeRacers){
+            //     List<Racer> temp = new ArrayList<Racer>(); //temp list
+            //     for (Racer r2 : activeRacers) { //deletes the obj from arrayList
+            //         if(r2.equals(((Racer)obj))==false)
+            //             temp.add(r2);
+            //     }
+            //     this.activeRacers = temp;
+            // System.out.println("Racer " + ((Racer)obj).getName() + " has failed");
+            // }
             // Update results table in GUI if applicable
         } 
         else if (((Racer)obj).getState() == EnumContainer.State.COMPLETED) {
@@ -220,6 +228,9 @@ public abstract class Arena implements Observer{
      */
     public final double getLength(){return this.length;}
     
+    /**
+     * @return a long value that represents start time of arena race.
+     */
     public final long getStartTime(){return this.startTime;}
 
     /**
