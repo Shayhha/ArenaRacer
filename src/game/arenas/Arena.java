@@ -9,6 +9,7 @@ import java.util.List;
 import factory.Observable;
 import factory.Observer;
 import game.racers.Racer;
+import utilities.EnumContainer;
 import utilities.Point;
 import game.arenas.exceptions.*;
 
@@ -152,6 +153,36 @@ public abstract class Arena implements Observer{
             System.out.println("#" + place + " -> " + racer.describeRacer());
             place+=1;
         }
+    }
+
+    @Override
+    public void RacerStateChanged(Observable obj){
+        if (((Racer)obj).getState() == EnumContainer.State.ACTIVE) {
+            // Display current rating of the Racer
+            int rating = CalculateRacerRating((Racer)obj) + 1;
+            System.out.println("Racer " + ((Racer)obj).getName() + " is currently ranked " + rating);
+            // Update GUI if applicable
+        } 
+        // else if (((Racer)obj).getState() == EnumContainer.State.BROKEN) {
+        //     // Display message that the Racer is broken and the time it was broken
+        //     LocalDateTime brokenTime = ((Racer)obj).getBrokenTime();
+        //     System.out.println("Racer " + ((Racer)obj).getName() + " is broken at " + brokenTime);
+        //     // Update GUI if applicable
+        // } 
+        // else if (((Racer)obj).getState() == EnumContainer.State.INVALID) {
+        //     // Display message that the Racer failed and update results table
+        //     System.out.println("Racer " + ((Racer)obj).getName() + " has failed");
+        //     // Update results table in GUI if applicable
+        // } 
+        // else if (((Racer)obj).getState() == EnumContainer.State.COMPLETED) {
+        //     // Display message that the Racer finished the race and update scoreboard
+        //     System.out.println("Racer " + ((Racer)obj).getName() + " has finished the race");
+        //     // Update scoreboard in GUI if applicable
+        // }
+    }
+
+    public int CalculateRacerRating(Racer racer){
+        return this.activeRacers.indexOf(racer);
     }
 
     //------------------- setter and getter methods -------------------//

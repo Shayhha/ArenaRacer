@@ -9,6 +9,9 @@ import utilities.EnumContainer.Color;
 import GUI.MainWindow;
 import factory.Observable;
 import game.arenas.Arena;
+
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Vector;
 
 /**
@@ -34,6 +37,7 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
     private double failureProbability;
     private EnumContainer.Color color; 
     private Mishap mishap;
+    private EnumContainer.State state;
 
     /**
      * A normal Constructor for class Racer, it gets 4 parameters and 
@@ -124,6 +128,13 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
         // # # ---------------------------------------- # # //
 
         this.currentLocation.setX((int)this.currentLocation.getX()+newSpeed); // setting the new position of the racer
+
+        Collections.sort(this.getArena().getActiveRacers(), new Comparator<Racer>() {
+            @Override
+            public int compare(Racer racer1, Racer racer2) {
+                return Double.compare(racer2.getCurrentLocation().getX(), racer1.getCurrentLocation().getX());
+            }
+        });
         return this.currentLocation; //return new position
     }
 
@@ -193,8 +204,8 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
         }
         if(this.currentLocation.getX() >= this.arena.getLength()){ //if racer has finsihed the race we call notifyObservers method
             this.currentLocation.setX(this.arena.getLength()); //if racer finishes we give set final location to length of arena
-            this.notifyObservers(this); //notifys arena that racer has finished the race
-        }   
+        }
+        this.notifyObservers(this); // call notify method for state changes
     }
 
     //------------------- setter and getter functions -------------------//
@@ -338,6 +349,10 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
      */
     public final Mishap getMishap() { return this.mishap; }
 
+    /**
+     * @return an instance of state enum container.
+     */
+    public EnumContainer.State getState(){return this.state;}
     /**
      * A set function for setting the mishap of the racer.
      * @param newMishap an instance of class Mishap that will represent the new mishap of the racer

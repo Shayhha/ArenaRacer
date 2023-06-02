@@ -90,7 +90,6 @@ public class MainWindow implements ActionListener {
     private JFrame infoWin = new JFrame("Racers information");
     private JPanel tablePanel = new JPanel(); 
 
-    //TODO: Part 3 gui elements:
     private JLabel defaultNumRacers = new JLabel("How many racers:");
     private JTextField defaultNumRacersInput = new JTextField();
     private JButton defaultRace = new JButton("Default Race");
@@ -98,7 +97,6 @@ public class MainWindow implements ActionListener {
     private JComboBox<String> chooseRacerToCopy = new JComboBox<>();
     private JButton copyChosenRacer = new JButton("Copy Racer");
 
-    //TODO: -------------------
 
     // all of these components are used in the main screen and the information screen
 
