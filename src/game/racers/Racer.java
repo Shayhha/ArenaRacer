@@ -6,6 +6,7 @@
 package game.racers;
 import utilities.*;
 import utilities.EnumContainer.Color;
+import utilities.EnumContainer.State;
 import GUI.MainWindow;
 import factory.Observable;
 import game.arenas.Arena;
@@ -69,6 +70,7 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
         this.currentLocation = start; //we initilaize currentLocation
         this.finish=finish; //initilaze finish
         this.arena = arena;
+        this.state = State.ACTIVE;
     }
     
     /**
@@ -129,12 +131,14 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
 
         this.currentLocation.setX((int)this.currentLocation.getX()+newSpeed); // setting the new position of the racer
 
-        Collections.sort(this.getArena().getActiveRacers(), new Comparator<Racer>() {
-            @Override
-            public int compare(Racer racer1, Racer racer2) {
-                return Double.compare(racer2.getCurrentLocation().getX(), racer1.getCurrentLocation().getX());
-            }
-        });
+        synchronized(this.getArena().getActiveRacers()){ //we lock the sorting on activeRacers list for thread safely
+            Collections.sort(this.getArena().getActiveRacers(), new Comparator<Racer>() {
+                @Override
+                public int compare(Racer racer1, Racer racer2) {
+                    return Double.compare(racer2.getCurrentLocation().getX(), racer1.getCurrentLocation().getX());
+                }
+            });
+        }
         return this.currentLocation; //return new position
     }
 
@@ -201,11 +205,11 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
             catch (InterruptedException e){
                 e.printStackTrace(); //prints error
             }
+            if(this.currentLocation.getX() >= this.arena.getLength()){ //if racer has finsihed the race we call notifyObservers method
+                this.currentLocation.setX(this.arena.getLength()); //if racer finishes we give set final location to length of arena
+            }
+            this.notifyObservers(this); // call notify method for state changes
         }
-        if(this.currentLocation.getX() >= this.arena.getLength()){ //if racer has finsihed the race we call notifyObservers method
-            this.currentLocation.setX(this.arena.getLength()); //if racer finishes we give set final location to length of arena
-        }
-        this.notifyObservers(this); // call notify method for state changes
     }
 
     //------------------- setter and getter functions -------------------//
