@@ -4,18 +4,14 @@
  * name: Maxim Subotin, ID: 207695479
  */
 package game.racers;
-import com.sun.tools.javac.Main;
 import designPatterns.State.*;
 import utilities.*;
 import utilities.EnumContainer.Color;
-//import utilities.EnumContainer.State;
 import GUI.MainWindow;
 import factory.Observable;
 import game.arenas.Arena;
-
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Random;
 import java.util.Vector;
 
 /**
