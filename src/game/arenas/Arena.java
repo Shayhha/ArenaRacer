@@ -7,11 +7,9 @@ package game.arenas;
 import java.util.ArrayList;
 import java.util.List;
 
-import GUI.MainWindow;
 import factory.Observable;
 import factory.Observer;
 import game.racers.Racer;
-import utilities.EnumContainer;
 import utilities.Point;
 import game.arenas.exceptions.*;
 
