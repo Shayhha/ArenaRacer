@@ -6,6 +6,8 @@
 package game.arenas;
 import java.util.ArrayList;
 import java.util.List;
+
+import GUI.MainWindow;
 import factory.Observable;
 import factory.Observer;
 import game.racers.Racer;
@@ -36,6 +38,7 @@ public abstract class Arena implements Observer{
     private final static int MIN_Y_GAP = 10;
     private double length; // x value of finish line
     private int originalNumOfRacers = 0;
+    private int numOfInactiveRacers = 0;
     private long startTime; 
     /**
      * A normal constructor for class Arena, it gets a few parameters and sets the fields to the correct values.
@@ -68,6 +71,7 @@ public abstract class Arena implements Observer{
         this.startTime = System.currentTimeMillis();  // Start the timer
         int i = 0;
         originalNumOfRacers = activeRacers.size();
+        numOfInactiveRacers = 0;
         for (Racer r : activeRacers) { //foreach racer we set the values of X and Y with MIN_Y_GAP and we call InitRace method for the racer
             Point start = new Point(); //starting point
             Point end = new Point(this.length,0); //ending point
@@ -158,39 +162,42 @@ public abstract class Arena implements Observer{
         }
     }
 
-    @Override
-    public void RacerStateChanged(Observable obj){
-        if (((Racer)obj).getState() == EnumContainer.State.ACTIVE) {
-            // Display current rating of the Racer
-            int rating = originalNumOfRacers - (activeRacers.size() - (CalculateRacerRating((Racer)obj)+1));
-
-            System.out.println("Racer " + ((Racer)obj).getName() + " is currently ranked " + rating);
-            // Update GUI if applicable
-        } 
-        else if (((Racer)obj).getState() == EnumContainer.State.BROKEN) {
-            // Display message that the Racer is broken and the time it was broken
-            System.out.println("Racer " + ((Racer)obj).getName() + " is broken at " + ((Racer)obj).getBrokenTime());
-            // Update GUI if applicable
-        } 
-        else if (((Racer)obj).getState() == EnumContainer.State.INVALID) {
-            // Display message that the Racer failed and update results table
-            // synchronized(this.activeRacers){
-            //     List<Racer> temp = new ArrayList<Racer>(); //temp list
-            //     for (Racer r2 : activeRacers) { //deletes the obj from arrayList
-            //         if(r2.equals(((Racer)obj))==false)
-            //             temp.add(r2);
-            //     }
-            //     this.activeRacers = temp;
-            // System.out.println("Racer " + ((Racer)obj).getName() + " has failed");
-            // }
-            // Update results table in GUI if applicable
-        } 
-        else if (((Racer)obj).getState() == EnumContainer.State.COMPLETED) {
-            // Display message that the Racer finished the race and update scoreboard
-            System.out.println("Racer " + ((Racer)obj).getName() + " has finished the race");
-            // Update scoreboard in GUI if applicable
-        }
-    }
+//    @Override
+//    public void RacerStateChanged(Observable obj){
+//        if (((Racer)obj).getState() == EnumContainer.State.ACTIVE) {
+//            // Display current rating of the Racer
+//            int rating = originalNumOfRacers - (activeRacers.size() - (CalculateRacerRating((Racer)obj)+1));
+//
+//            System.out.println("Racer " + ((Racer)obj).getName() + " is currently ranked " + rating);
+//            // Update GUI if applicable
+//        }
+//        else if (((Racer)obj).getState() == EnumContainer.State.BROKEN) {
+//            // Display message that the Racer is broken and the time it was broken
+//            System.out.println("Racer " + ((Racer)obj).getName() + " is broken at " + ((Racer)obj).getBrokenTime());
+//            // Update GUI if applicable
+//        }
+//        else if (((Racer)obj).getState() == EnumContainer.State.INVALID) {
+//            // Display message that the Racer failed and update results table
+//             synchronized(this.activeRacers){
+//                 List<Racer> temp = new ArrayList<Racer>(); //temp list
+//                 for (Racer r2 : activeRacers) { //deletes the obj from arrayList
+//                     if(r2.equals(((Racer)obj))==false)
+//                         temp.add(r2);
+//                 }
+//                 this.activeRacers = temp;
+//                 System.out.println("Racer " + ((Racer)obj).getName() + " has failed");
+//             }
+//            ((Racer)obj).removeObserver(this); //++++
+//            ((Racer)obj).getCurrentLocation().setX(this.getLength()); //++++
+//            // Update results table in GUI if applicable
+//        }
+//        else if (((Racer)obj).getState() == EnumContainer.State.COMPLETED) {
+//            // Display message that the Racer finished the race and update scoreboard
+//            update((Racer)obj); //++++
+//            System.out.println("Racer " + ((Racer)obj).getName() + " has finished the race");
+//            // Update scoreboard in GUI if applicable
+//        }
+//    }
 
     public int CalculateRacerRating(Racer racer){
         return this.activeRacers.indexOf(racer);
@@ -245,4 +252,8 @@ public abstract class Arena implements Observer{
 
     public void setActiveRacers(List<Racer> temp){this.activeRacers = temp;}
 
+    public int getOriginalNumOfRacers() { return this.originalNumOfRacers; }
+
+    public int getNumOfInactiveRacers() { return this.numOfInactiveRacers; }
+    public boolean setNumOfInactiveRacers(int n) { this.numOfInactiveRacers = n; return true; }
 }

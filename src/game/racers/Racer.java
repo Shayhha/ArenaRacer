@@ -4,15 +4,18 @@
  * name: Maxim Subotin, ID: 207695479
  */
 package game.racers;
+import com.sun.tools.javac.Main;
+import designPatterns.State.*;
 import utilities.*;
 import utilities.EnumContainer.Color;
-import utilities.EnumContainer.State;
+//import utilities.EnumContainer.State;
 import GUI.MainWindow;
 import factory.Observable;
 import game.arenas.Arena;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Random;
 import java.util.Vector;
 
 /**
@@ -38,7 +41,8 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
     private double failureProbability;
     private EnumContainer.Color color; 
     private Mishap mishap;
-    private EnumContainer.State state;
+    //private EnumContainer.State state;
+    private RacerState STATE;
     private long brokenTime;
 
     /**
@@ -71,7 +75,9 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
         this.currentLocation = start; //we initilaize currentLocation
         this.finish=finish; //initilaze finish
         this.arena = arena;
-        this.state = State.ACTIVE;
+        //this.state = State.ACTIVE;
+        this.STATE = new ActiveState();
+        this.STATE.action(this);
     }
     
     /**
@@ -94,21 +100,33 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
             if(Fate.breakDown()==true){ // if a mishap needs to be generate we generate a new one, else there is no mishap this turn
                 this.mishap = Fate.generateMishap();
                 System.out.println(this.getName() + " has a new mishap! " + this.mishap.toString()); // whenever a new mishap is generated we print it out
-                this.state = State.BROKEN; //indicates that the racer state is "broken" meaning he has a mishap
+                //this.state = State.BROKEN; //indicates that the racer state is "broken" meaning he has a mishap
+                this.STATE = new BrokenState();
+                this.STATE.action(this);
                 this.brokenTime = System.currentTimeMillis() - this.getArena().getStartTime(); //sets the time racer got mishap(broken)
-                this.notifyObservers(this);
+                //this.notifyObservers(this);
+
+                if (Fate.breakDown()) {
+                    //this.state = State.ACTIVE;
+                    this.STATE = new ActiveState();
+                    this.STATE.action(this);
+                    //this.notifyObservers(this);
+                }
+                else {
+                    //this.state = State.INVALID; //we set sate to "failed" if mishap isn't fixable
+                    this.STATE = new InvalidState();
+                    this.STATE.action(this);
+                    //this.notifyObservers(this); // notify the observer for state change
+                    return this.currentLocation;
+                }
+
             }
         }
 
         //if racer has new/old mishap we reduce the turns to fix with nextTurn method and calculating the new reduced the acceleration
-        if(this.hasMishap()){
-            if(this.getMishap().getFixable() == true)
-                this.state = State.ACTIVE; //we set sate to "active" if mishap is fixable
-            else
-                this.state = State.INVALID; //we set sate to "failed" if mishap isn't fixable 
-            this.notifyObservers(this); // notify the observer for state change
-            this.mishap.nextTurn(); 
-            newAcc *= this.mishap.getReductionFactor(); 
+        if(this.hasMishap()) {
+            this.mishap.nextTurn();
+            newAcc *= this.mishap.getReductionFactor();
         }
 
         // calculating the racers new current speed and then his new location
@@ -120,18 +138,23 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
                 this.currentSpeed = newSpeed;
         }
 
-        if(this.currentLocation.getX() >= this.arena.getLength()){ //if racer has finsihed the race we call notifyObservers method
-            this.currentLocation.setX(this.arena.getLength()); //if racer finishes we give set final location to length of arena
-            this.state = State.COMPLETED; //indicates that racer finished (completed)
-            this.notifyObservers(this); // call notify method for state changes
-        }
+
+//        if(this.currentLocation.getX() >= this.arena.getLength()){ //if racer has finished the race we call notifyObservers method
+//            this.currentLocation.setX(this.arena.getLength()); //if racer finishes we give set final location to length of arena
+//            //this.state = State.COMPLETED; //indicates that racer finished (completed)
+////            this.STATE = new CompletedState();
+////            this.STATE.action(this);
+//            //this.notifyObservers(this); // call notify method for state changes
+//        }
 
         // # # --------- Part of Assignment 2 --------- # # //
         
         // moving the current racer's icon on the screen the exact amount that he needs to move based on his speed
         if (this.currentLocation.getX() + newSpeed > this.getArena().getLength()) { // checking if the racer is about to cross the finish line and making him stop exactly on the finish line
             // calculating exactly the distance left between the racer's location and the finish line, then adding exactly that amount to the racer's position making him stop exactly on top of the finish line
-            MainWindow.moveRacer(this.getSerialNumber(), (int)this.getArena().getLength() - (int)this.currentLocation.getX(), 0); 
+            MainWindow.moveRacer(this.getSerialNumber(), (int)this.getArena().getLength() - (int)this.currentLocation.getX(), 0);
+            this.STATE = new CompletedState();
+            this.STATE.action(this);
         }
         else // if the racer still go some way to go untill he reaches the finish line
             MainWindow.moveRacer(this.getSerialNumber(), (int)newSpeed, 0);
@@ -178,7 +201,7 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
     }
 
     /**
-     * This funcion prints out ALL of the information about a given racer, from his name to the number of wheels. 
+     * This function prints out ALL the information about a given racer, from his name to the number of wheels.
      * It uses the describeRacer function that uses the describeSpecific function.
      */
     public void introduce(){
@@ -212,8 +235,9 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
      * @method void update(Observable)
      */
     public void run() { 
-        while(this.currentLocation.getX() < this.arena.getLength()){
+        while (this.currentLocation.getX() < this.arena.getLength()) {
             this.move(this.arena.getFriction()); //calls move method for racer
+            if (this.STATE instanceof InvalidState) { break; }
             try { //makes thread to sleep every iteration by 100 miliseconds
                 Thread.sleep(100);
             }
@@ -379,7 +403,9 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
     /**
      * @return an instance of state enum container.
      */
-    public EnumContainer.State getState(){return this.state;}
+    //public EnumContainer.State getState(){return this.state;}
+
+    public RacerState getState() { return this.STATE; }
 
     public long getBrokenTime(){return this.brokenTime;}
     /**

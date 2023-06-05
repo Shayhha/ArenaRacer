@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import designPatterns.State.InvalidState;
 import game.arenas.Arena;
 import game.arenas.exceptions.RacerLimitException;
 import game.arenas.exceptions.RacerTypeException;
@@ -434,7 +436,10 @@ public class MainWindow implements ActionListener {
                 temp[3] = Double.toString(racer.getCurrentLocation().getX());
             else 
                 temp[3] = "0";
-            temp[4] = "No";
+            if (racer.getState() instanceof InvalidState)
+                temp[4] = "FAILED";
+            else
+                temp[4] = "No";
             data[i++] = temp;
         }
 
@@ -510,6 +515,10 @@ public class MainWindow implements ActionListener {
 
         if (e.getSource() == this.buildArenaButton) { // if the BUILD ARENA button was clicked
             // Checking if there is an ongoing race, if there is an active race then we dont allow the user to create a new arena
+            if (this.arena != null && this.arena.getNumOfInactiveRacers() == this.arena.getActiveRacers().size()) {
+                raceActive = false;
+            }
+
             if (raceActive && this.arena != null && this.arena.getActiveRacers().size() != 0) {
                 showErrorMessage("Please wait for the current race to finish.");
                 return;
@@ -692,6 +701,9 @@ public class MainWindow implements ActionListener {
         }
 
         if (e.getSource() == this.defaultRace) { // this code runs when the default race button is clicked
+            if (this.arena != null && this.arena.getNumOfInactiveRacers() == this.arena.getActiveRacers().size()) {
+                raceActive = false;
+            }
             String N = this.defaultNumRacersInput.getText(); // checking the users input into the number of racers field
             if (N.equals("") || N.equals(null)) { // if the user didnt input the number of racers then we show an error message
                 JOptionPane.showMessageDialog(null,"Please enter the number of default racers in the field above", "Number of Racers Error", JOptionPane.ERROR_MESSAGE);

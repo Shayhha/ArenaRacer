@@ -47,9 +47,9 @@ public class Observable {
      */
     public void notifyObservers(Observable obj){ //calls update() methods for all observers
         for (Observer observer : observers) {
-            observer.RacerStateChanged(this);
-            if(((Racer)obj).getCurrentLocation().getX() >= ((Racer)obj).getArena().getLength()) //checks if racer finished race, calls update method of arena
-                observer.update(obj);
+            //observer.RacerStateChanged(this);
+            //if(((Racer)obj).getCurrentLocation().getX() >= ((Racer)obj).getArena().getLength()) //checks if racer finished race, calls update method of arena
+            observer.update(obj);
         }
     }
 

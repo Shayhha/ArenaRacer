@@ -10,6 +10,6 @@ package factory;
 */
 public interface Observer { //Observer interface for Observer/Observable design pattern
     public void update(Observable obj); //update method 
-    public void RacerStateChanged(Observable obj); //state changed method for state design pattern
+    //public void RacerStateChanged(Observable obj); //state changed method for state design pattern
 }
 
