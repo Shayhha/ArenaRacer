@@ -22,22 +22,20 @@ public class Prototype {
     * @param color the color of the racer, use the Color class from utilities.EnumContainer.Color
     * @return an instant of Racer based on the passed parameters, all other fields are default
     */
-   public static Racer getRacerClone(String racerClass, int id, Color color) { // id is the next serial number
+    public static Racer getRacerClone(String racerClass, int id, Color color) { // id is the next serial number
         Racer cachedRacer = racerMap.get(racerClass);
         cachedRacer = (Racer)cachedRacer.clone(); // cloning
+        System.out.println("color: " + color.toString());
+        // setting serial number, name and color for the cloned racer
+        upgrade(cachedRacer, id, racerClass+" #"+id, color);
 
-        // setting serial number and color to the cloned racer
-        cachedRacer.setSerialNumber(id);
-        cachedRacer.setName(racerClass+" #"+id);
-        Racer.setInstanceCounter(); // after creating a new racer we increment the serial number by calling setInstanceCounter()
-        cachedRacer.setColor(color);
         return cachedRacer; // returning the cloned racer
-   }
+    }
 
-   // for each shape run database query and create shape
-   // shapeMap.put(shapeKey, shape);
-   // for example, we are adding three shapes
-   public static void loadRacerPrototypes() {
+    // for each shape run database query and create shape
+    // shapeMap.put(shapeKey, shape);
+    // for example, we are adding three shapes
+    public static void loadRacerPrototypes() {
         Airplane airplane = new Airplane();
         racerMap.put(airplane.className(), airplane);
         Racer.resetInstaceCounter();
@@ -45,7 +43,7 @@ public class Prototype {
         Helicopter helicopter = new Helicopter();
         racerMap.put(helicopter.className(), helicopter);
         Racer.resetInstaceCounter();
-        
+
         Bicycle bicycle = new Bicycle();
         racerMap.put(bicycle.className(), bicycle);
         Racer.resetInstaceCounter();
@@ -61,9 +59,16 @@ public class Prototype {
         RowBoat rowBoat = new RowBoat();
         racerMap.put(rowBoat.className(), rowBoat);
         Racer.resetInstaceCounter();
-        
+
         SpeedBoat speedBoat = new SpeedBoat();
         racerMap.put(speedBoat.className(), speedBoat);
         Racer.resetInstaceCounter();
-   }
+    }
+
+    public static void upgrade(Racer racer, int id, String name ,Color color) {
+        racer.setSerialNumber(id);
+        racer.setName(name);
+        Racer.setInstanceCounter(); // after creating a new racer we increment the serial number by calling setInstanceCounter()
+        racer.setColor(color);
+    }
 }

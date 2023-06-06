@@ -90,13 +90,22 @@ public class MainWindow implements ActionListener {
     private JSeparator separator2 = new JSeparator(SwingConstants.HORIZONTAL);
     private JLabel backgroundLabel = new JLabel("");
     private JFrame infoWin = new JFrame("Racers information");
-    private JPanel tablePanel = new JPanel(); 
+    private JPanel tablePanel = new JPanel();
+
+    private JSeparator separator3 = new JSeparator(SwingConstants.HORIZONTAL);
 
     private JLabel defaultNumRacers = new JLabel("How many racers:");
     private JTextField defaultNumRacersInput = new JTextField();
     private JButton defaultRace = new JButton("Default Race");
+    private JSeparator separator4 = new JSeparator(SwingConstants.HORIZONTAL);
+
+    private JLabel chooseRacerToCopyLabel = new JLabel("Choose who to copy:");
 
     private JComboBox<String> chooseRacerToCopy = new JComboBox<>();
+    private JLabel chooseCopyRacerColorLabel = new JLabel("Choose color:");
+
+    private JComboBox<String> chooseCopyRacerColor = new JComboBox<>(COLORS);
+
     private JButton copyChosenRacer = new JButton("Copy Racer");
 
 
@@ -127,7 +136,7 @@ public class MainWindow implements ActionListener {
         JPanel p1 = new JPanel(); // creating a panel that everything will sit in and that will be returned from the function
 
         p1.setLayout(new GridBagLayout()); // making a grid bag layout inorder to have full control on the position of each element in the grid
-        p1.setBorder(BorderFactory.createEmptyBorder(-10,-25,0,0)); // changing the border to look good on the screen
+        p1.setBorder(BorderFactory.createEmptyBorder(-20,-25,0,0)); // changing the border to look good on the screen
         p1.setPreferredSize(new Dimension(RIGHT_PANEL_WIDTH, RIGHT_PANEL_HEIGHT)); // setting the size of the panel to the default size declared in above final parameters
 
         // making the grid bag layout manualy
@@ -190,12 +199,13 @@ public class MainWindow implements ActionListener {
         gbc.gridy++;
         p1.add(maxRacers, gbc);
         gbc.gridy++;
-        gbc.insets = new Insets(7, 0, 7, 0); // adding some padding to a specific cell to match how the gui looks in the examples
+        gbc.insets = new Insets(5, 0, 7, 0); // adding some padding to a specific cell to match how the gui looks in the examples
         p1.add(buildArenaButton, gbc);
         gbc.gridy++;
+        gbc.insets = new Insets(0, 0, 7, 0); // adding some padding to a specific cell to match how the gui looks in the examples
         p1.add(separator1, gbc); // a seperator is just a horizontal line
         gbc.gridy++;
-        gbc.insets = new Insets(2, 0, 0, 0); // adding some padding to a specific cell to match how the gui looks in the examples
+        gbc.insets = new Insets(1, 0, 0, 0); // adding some padding to a specific cell to match how the gui looks in the examples
         // finished adding all of the elements that belong to the top part of the right panel
 
 
@@ -203,10 +213,10 @@ public class MainWindow implements ActionListener {
         addRacerButton.addActionListener(this); // adding an action listener for the add racer button, the function comes later in the code
 
         // adding items to the panel and after each item go to the next row in the grid, that alows us to have one column in the grid
-        gbc.insets = new Insets(-3, 0, 0, 0); // adding some padding to a specific cell to match how the gui looks in the examples
+        gbc.insets = new Insets(-5, 0, 0, 0); // adding some padding to a specific cell to match how the gui looks in the examples
         p1.add(racerComboLabel, gbc);
         gbc.gridy++;
-        gbc.insets = new Insets(1, 0, 0, 0); // adding some padding to a specific cell to match how the gui looks in the examples
+        gbc.insets = new Insets(-1, 0, 0, 0); // adding some padding to a specific cell to match how the gui looks in the examples
         p1.add(chooseRacer, gbc);
         gbc.gridy++;
         p1.add(colorComboLabel, gbc);
@@ -225,7 +235,7 @@ public class MainWindow implements ActionListener {
         gbc.gridy++;
         p1.add(acceleration, gbc);
         gbc.gridy++;
-        gbc.insets = new Insets(3, 0, 7, 0); // adding some padding to a specific cell to match how the gui looks in the examples
+        gbc.insets = new Insets(5, 0, 7, 0); // adding some padding to a specific cell to match how the gui looks in the examples
         p1.add(addRacerButton, gbc);
         gbc.gridy++;
         p1.add(separator2, gbc); // a seperator is just a horizontal line
@@ -237,7 +247,7 @@ public class MainWindow implements ActionListener {
         showInfo.addActionListener(this); // adding an action listener for the show info button, the function comes later in the code
         
         // adding items to the panel and after each item go to the next row in the grid, that alows us to have one column in the grid
-        gbc.insets = new Insets(2, 0, 7, 0); // adding some padding to a specific cell to match how the gui looks in the examples
+        gbc.insets = new Insets(1, 0, 7, 0); // adding some padding to a specific cell to match how the gui looks in the examples
         p1.add(startRace, gbc);
         gbc.gridy++;
         p1.add(showInfo, gbc);
@@ -248,12 +258,16 @@ public class MainWindow implements ActionListener {
         // adding builder part
 
         defaultRace.addActionListener(this); // adding an action listener for the show info button, the function comes later in the code
-
-        gbc.insets = new Insets(2, 0, 7, 0);
+        gbc.insets = new Insets(0, 0, 7, 0);
+        p1.add(separator3, gbc);
+        gbc.gridy++;
+        gbc.insets = new Insets(-10, 0, 7, 0);
         p1.add(defaultNumRacers, gbc); // adding a label
         gbc.gridy++;
+        gbc.insets = new Insets(-5, 0, 7, 0); // adding some padding to a specific cell to match how the gui looks in the examples
         p1.add(defaultNumRacersInput, gbc); // adding a text box
         gbc.gridy++;
+        gbc.insets = new Insets(0, 0, 7, 0); // adding some padding to a specific cell to match how the gui looks in the examples
         p1.add(defaultRace, gbc); // adding a button
         gbc.gridy++;
         // finished builder part
@@ -261,10 +275,19 @@ public class MainWindow implements ActionListener {
         // adding prototype part
         copyChosenRacer.addActionListener(this); // adding an action listener for the show info button, the function comes later in the code
 
-        gbc.insets = new Insets(2, 0, 7, 0);
-        p1.add(chooseRacerToCopy, gbc); // adding a combobox
+        p1.add(separator4, gbc);
         gbc.gridy++;
-        p1.add(copyChosenRacer, gbc); // adding a button
+        p1.add(chooseRacerToCopyLabel, gbc);
+        gbc.gridy++;
+        gbc.insets = new Insets(-5, 0, 7, 0);
+        p1.add(chooseRacerToCopy, gbc); // adding cloneable racers combo box
+        gbc.gridy++;
+        p1.add(chooseCopyRacerColorLabel, gbc);
+        gbc.gridy++;
+        p1.add(chooseCopyRacerColor, gbc); // adding a colors combo box
+        gbc.gridy++;
+        gbc.insets = new Insets(0, 0, 7, 0); // adding some padding to a specific cell to match how the gui looks in the examples
+        p1.add(copyChosenRacer, gbc); // adding a button to choose a racer to copy
         gbc.gridy++;
         // finished prototype part
 
@@ -720,7 +743,7 @@ public class MainWindow implements ActionListener {
                 return;
             }
 
-            resetRace(); // reserting the race if the current race has finished and the user wants to run a new default race
+            resetRace(); // resetting the race if the current race has finished and the user wants to run a new default race
             resizeWindow(Integer.parseInt(N)); // resizing the window based on the number of racers the user inputed
 
             Builder ourRaceBuilder = new Builder(Integer.parseInt(N)); // user the Builder design pattern in order to build a default Land race with N active racers
@@ -760,14 +783,19 @@ public class MainWindow implements ActionListener {
                         "There are no racers to copy, please add and then choose a racer", "Missing Racers Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            if (this.arena.getActiveRacers().size() == this.arena.getMAX_RACERS()) {
+                JOptionPane.showMessageDialog(null,
+                        "You have reached the max amount of racers.", "Max Racers Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-            // get current selected racer and make a copy using prototye and then add to screen
+            // get current selected racer and make a copy using prototype and then add to screen
             String[] currentRacer = this.chooseRacerToCopy.getSelectedItem().toString().split("\\|"); // spliting the string, [0] is the Type and [1] is the serial number
             Racer newRacer = null;
             Racer originalRacer = null;
             for (Racer r : this.arena.getActiveRacers()) {
                 if (r.getSerialNumber() == Integer.parseInt(currentRacer[1])) {
-                    newRacer = Prototype.getRacerClone(currentRacer[0], Racer.getInstanceCounter(), r.getColor());
+                    newRacer = Prototype.getRacerClone(currentRacer[0], Racer.getInstanceCounter(), EnumContainer.Color.valueOf(this.chooseCopyRacerColor.getSelectedItem().toString().toUpperCase())); //gets color option from combo box
                     originalRacer = r;
                 }
             }
@@ -781,7 +809,7 @@ public class MainWindow implements ActionListener {
                 try {
                     this.arena.addRacer(newRacer);
                     newRacer.introduce(); // printing the currect racer to the comand line
-                    addRacerIconToScreen(newRacer,"icons/" + currentRacer[0] + originalRacer.getColor() + ".png",this.arena.getActiveRacers().size());
+                    addRacerIconToScreen(newRacer,"icons/" + currentRacer[0] + newRacer.getColor() + ".png",this.arena.getActiveRacers().size());
                 } catch (RacerLimitException e1) {
                     e1.printStackTrace();
                 } catch (RacerTypeException e1) {
