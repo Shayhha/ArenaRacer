@@ -792,20 +792,16 @@ public class MainWindow implements ActionListener {
             // get current selected racer and make a copy using prototype and then add to screen
             String[] currentRacer = this.chooseRacerToCopy.getSelectedItem().toString().split("\\|"); // spliting the string, [0] is the Type and [1] is the serial number
             Racer newRacer = null;
-            Racer originalRacer = null;
             for (Racer r : this.arena.getActiveRacers()) {
                 if (r.getSerialNumber() == Integer.parseInt(currentRacer[1])) {
                     newRacer = Prototype.getRacerClone(currentRacer[0], Racer.getInstanceCounter(), EnumContainer.Color.valueOf(this.chooseCopyRacerColor.getSelectedItem().toString().toUpperCase())); //gets color option from combo box
-                    originalRacer = r;
+                    newRacer.setAcceleration(r.getAcceleration());
+                    newRacer.setMaxSpeed(r.getMaxSpeed());
+                    newRacer.setName(r.getName()+"_copy#"+newRacer.getSerialNumber());
                 }
             }
-            if (newRacer != null && originalRacer != null) {
+            if (newRacer != null) {
                 this.leftPanel.remove(backgroundLabel); // removing the background image from the left panel
-
-                newRacer.setAcceleration(originalRacer.getAcceleration());
-                newRacer.setMaxSpeed(originalRacer.getMaxSpeed());
-                newRacer.setName(originalRacer.getName()+"_copy#"+newRacer.getSerialNumber());
-
                 try {
                     this.arena.addRacer(newRacer);
                     newRacer.introduce(); // printing the currect racer to the comand line
