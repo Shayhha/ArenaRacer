@@ -33,7 +33,7 @@ public class MainWindow implements ActionListener {
     private Arena arena = null; 
     public MainWindow window = null;
 
-    // Our Variables & ComboBox Choises:
+    // Our Variables & ComboBox Choices:
     private final static String[] ARENAS = { "AerialArena", "NavalArena", "LandArena"};
     private final static String[] RACERS = { "Airplane", "Helicopter", "Bicycle", "Car", "Horse", "RowBoat", "SpeedBoat"};
     private final static String[] COLORS = {"Black", "Blue", "Green", "Red", "Yellow"};
@@ -135,7 +135,7 @@ public class MainWindow implements ActionListener {
         p1.setBorder(BorderFactory.createEmptyBorder(-20,-25,0,0)); // changing the border to look good on the screen
         p1.setPreferredSize(new Dimension(RIGHT_PANEL_WIDTH, RIGHT_PANEL_HEIGHT)); // setting the size of the panel to the default size declared in above final parameters
 
-        // making the grid bag layout manualy
+        // making the grid bag layout manually
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
@@ -333,23 +333,23 @@ public class MainWindow implements ActionListener {
     }
 
     /**
-     * creating a single racer buy getting the icon from the given path and makeing a label that will hold that icon
+     * creating a single racer by getting the icon from the given path and making a label that will hold that icon
      * @param path the path to the icon we want to give the racer
      * @return a JLabel object (an icon) that represents a racer in our race
      */
     private JLabel createRacer(String path) {
-        // making an image obj using the image located in the given path, setting the size of the image to the default size declaed at the top
+        // making an image obj using the image located in the given path, setting the size of the image to the default size declared at the top
         Image image = new ImageIcon(path).getImage().getScaledInstance(RACER_ICON_SIZE, RACER_ICON_SIZE, Image.SCALE_SMOOTH);
         JLabel racer = new JLabel("", new ImageIcon(image), JLabel.CENTER); // adding the image to a label to be visible on screen
         racer.setBounds(5, 5, RACER_ICON_SIZE, RACER_ICON_SIZE); // adding some border to each racer's icon and setting the default size
-        return racer; // returning the lable with the image
+        return racer; // returning the label with the image
     }
 
     /**
      * moves the given racer by adding to his X and Y coordinates
      * @param serialNum the index of the racer you want to move
-     * @param x how much to move on the X axies, 0 is dont move.
-     * @param y how much to move on the Y axies, 0 is dont move.
+     * @param x how much to move on the X axis, 0 is don't move.
+     * @param y how much to move on the Y axis, 0 is don't move.
      */
     public static void moveRacer(int serialNum, int x, int y) {
         JLabel racer = racersList.get(serialNum);
@@ -358,12 +358,12 @@ public class MainWindow implements ActionListener {
 
     /**
      * This function checks the users inputs, arena's length and max racers fields, checking that they are filled
-     * and dont contain letters. also checkign that they contain valid arguments, for example the arena's length
+     * and don't contain letters. also checking that they contain valid arguments, for example the arena's length
      * must be between 100 and 3000.
      * @return true if the input is all right and false otherwise (also pops an error message to the user about the bad input)
      */
     private boolean makeArena() {
-        // checking if the user inputed data into all the fields (if there are no missing values)
+        // checking if the user inputted data into all the fields (if there are no missing values)
         if (this.arenaLength.getText().isEmpty() || this.maxRacers.getText().isEmpty()) { // if there is a missing value, show error message
             showErrorMessage("Invalid input values! Please try again.");
             return false;
@@ -375,7 +375,7 @@ public class MainWindow implements ActionListener {
             return false;
         }
 
-        // getting the values the user has inputed into all the fields (now the values cant be missing)
+        // getting the values the user has inputted into all the fields (now the values cant be missing)
         this.arenaLen = Integer.parseInt(this.arenaLength.getText());
         maxNumOfRacers = Integer.parseInt(this.maxRacers.getText());
 
@@ -403,10 +403,10 @@ public class MainWindow implements ActionListener {
      * and adds the image to the left panel on the main frame
      */
     private void printBackgroundImage() {
-        // getting the user's choises from the combo box and text boxes on the screen
-        String arenaImagePath = "icons/" + arenaType + ".jpg"; // creating the path to the background image of the area useing the choise from the user's input to the combo box
+        // getting the user's choices from the combo box and text boxes on the screen
+        String arenaImagePath = "icons/" + arenaType + ".jpg"; // creating the path to the background image of the area using the choice from the user's input to the combo box
 
-        // creating the background image of the arena with the path that is made of the user's choise
+        // creating the background image of the arena with the path that is made of the user's choice
         ImageIcon icon = new ImageIcon(arenaImagePath);
         Image image = icon.getImage().getScaledInstance(leftPanel.getWidth(), leftPanel.getHeight(), Image.SCALE_SMOOTH); // setting the size of the image to be the size of the panel it will sit in
 
@@ -414,7 +414,7 @@ public class MainWindow implements ActionListener {
         this.backgroundLabel = new JLabel("", new ImageIcon(image), JLabel.CENTER); // adding the background image to a label
         this.backgroundLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // removing the background from the label that holds the background image of the arena
 
-        // adding the label with the choosen image to the left panel of the main screen
+        // adding the label with the chosen image to the left panel of the main screen
         this.leftPanel.add(backgroundLabel, BorderLayout.CENTER);
     }
 
@@ -462,7 +462,7 @@ public class MainWindow implements ActionListener {
             data[i++] = temp;
         }
 
-        // creating the table it self and adding the headers and the data to it and then returning the table
+        // creating the table itself and adding the headers and the data to it and then returning the table
         TableModel model = new DefaultTableModel(data, columnHeaders);
         JTable table = new JTable(model);
         return table;
@@ -578,7 +578,7 @@ public class MainWindow implements ActionListener {
         if (e.getSource() == this.addRacerButton) { // if the ADD RACER button was clicked
             if(this.raceActive){ //checks if there's an active race, if true then shows error message
                 JOptionPane.showMessageDialog(null,
-                    "Error, cannot add another racer beacuse race already started/ended.", "Error", JOptionPane.ERROR_MESSAGE);
+                    "Error, cannot add another racer because race already started/ended.", "Error", JOptionPane.ERROR_MESSAGE);
                      return;
             }
             if(this.arena != null){ //checks user input, if one field isn't correct we show error message
@@ -618,9 +618,9 @@ public class MainWindow implements ActionListener {
                     else
                         Instance = buildInstance.buildRacer(racerTypeValue, racerNameValue, maxSpeedValue, accelerationValue, colorValue); //create instance
 
-                    this.arena.addRacer(Instance); //calls add racer of arena (might throw an exaption!)
+                    this.arena.addRacer(Instance); //calls add racer of arena (might throw an exception!)
 
-                    Instance.introduce(); // printing the currect racer to the comand line
+                    Instance.introduce(); // printing the current racer to the command line
 
                     this.leftPanel.remove(backgroundLabel); // removing the background image from the left panel
 
@@ -645,11 +645,11 @@ public class MainWindow implements ActionListener {
                 }
                 catch(Exception ex){
                     JOptionPane.showMessageDialog(null,
-                    "Error eccourd tring to add racer.", "Error", JOptionPane.ERROR_MESSAGE);
+                    "Error occurred trying to add racer.", "Error", JOptionPane.ERROR_MESSAGE);
                     System.out.println(ex);
                 }
             }
-            else{ //else we didn't build an arean before adding racer, so we show an error message
+            else{ //else we didn't build an arena before adding racer, so we show an error message
                 JOptionPane.showMessageDialog(null,
                     "You have to build an arena first!", "Error", JOptionPane.ERROR_MESSAGE);
                      return;
@@ -789,7 +789,7 @@ public class MainWindow implements ActionListener {
             }
 
             // get current selected racer and make a copy using prototype and then add to screen
-            String[] currentRacer = this.chooseRacerToCopy.getSelectedItem().toString().split("\\|"); // spliting the string, [0] is the Type and [1] is the serial number
+            String[] currentRacer = this.chooseRacerToCopy.getSelectedItem().toString().split("\\|"); // splitting the string, [0] is the Type and [1] is the serial number
             Racer newRacer = null;
             for (Racer r : this.arena.getActiveRacers()) {
                 if (r.getSerialNumber() == Integer.parseInt(currentRacer[1])) { // finding out which racer does the user want to copy
@@ -804,7 +804,7 @@ public class MainWindow implements ActionListener {
                 this.leftPanel.remove(backgroundLabel); // removing the background image from the left panel
                 try {
                     this.arena.addRacer(newRacer);
-                    newRacer.introduce(); // printing the currect racer to the comand line
+                    newRacer.introduce(); // printing the current racer to the command line
                     addRacerIconToScreen(newRacer,"icons/" + currentRacer[0] + newRacer.getColor() + ".png",this.arena.getActiveRacers().size());
                 } catch (RacerLimitException e1) {
                     e1.printStackTrace();
