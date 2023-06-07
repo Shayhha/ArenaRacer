@@ -36,9 +36,9 @@ public class Prototype {
     // shapeMap.put(shapeKey, shape);
     // for example, we are adding three shapes
     public static void loadRacerPrototypes() {
-        Airplane airplane = new Airplane();
+        Airplane airplane = new Airplane(); 
         racerMap.put(airplane.className(), airplane);
-        Racer.resetInstaceCounter();
+        Racer.resetInstaceCounter(); 
 
         Helicopter helicopter = new Helicopter();
         racerMap.put(helicopter.className(), helicopter);
@@ -65,10 +65,18 @@ public class Prototype {
         Racer.resetInstaceCounter();
     }
 
+    /**
+     * Method for prototype desgin pattern to update desired fields in objects
+     * @param racer
+     * @param id
+     * @param name
+     * @param color
+     * 
+     */
     public static void upgrade(Racer racer, int id, String name ,Color color) {
-        racer.setSerialNumber(id);
-        racer.setName(name);
-        Racer.setInstanceCounter(); // after creating a new racer we increment the serial number by calling setInstanceCounter()
-        racer.setColor(color);
+        racer.setSerialNumber(id); //sets the seriel number
+        racer.setName(name); //sets the name
+        Racer.setInstanceCounter(); //after creating a new racer we increment the serial number by calling setInstanceCounter()
+        racer.setColor(color); //sets the color
     }
 }

@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 import designPatterns.State.InvalidState;
 import game.arenas.Arena;
 import game.arenas.exceptions.RacerLimitException;

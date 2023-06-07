@@ -8,12 +8,12 @@ import game.arenas.exceptions.RacerTypeException;
 import game.racers.Racer;
 
 public class Builder {
-    // Arena Instance, this is the arena that the user is going to build
+    //arena Instance, this is the arena that the user is going to build
     private Arena arena = null; 
     private final static int DEFAULT_LENGTH=1000; // the default arena length
     private final static int MAX_RACERS = 8; // the default max racers allowed
 
-    // Create new instance for the arena factory 
+    //create new instance for the arena factory 
     private Factory arenaFactory = new Factory(); 
 
     private int[] serialNumList;

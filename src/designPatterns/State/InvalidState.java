@@ -5,9 +5,9 @@ import game.racers.Racer;
 public class InvalidState implements RacerState {
     @Override
     public void action(Racer racer) {
-        Arena a = racer.getArena();
-        System.out.println("Racer " + (racer).getName() + " has failed");
-        a.setNumOfInactiveRacers(a.getNumOfInactiveRacers() + 1);
-        racer.removeObserver(a); //++++
+        Arena a = racer.getArena(); //get arena instance
+        System.out.println("Racer " + (racer).getName() + " has failed"); //prints that racer failed
+        a.setNumOfInactiveRacers(a.getNumOfInactiveRacers() + 1); //increase the invactive number of racers
+        racer.removeObserver(a); //remove the racer from observers 
     }
 }

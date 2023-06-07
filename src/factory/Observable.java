@@ -1,6 +1,5 @@
 package factory;
 import java.util.Vector;
-import game.racers.Racer;
 
 /**
 * Observable class
@@ -47,8 +46,6 @@ public class Observable {
      */
     public void notifyObservers(Observable obj){ //calls update() methods for all observers
         for (Observer observer : observers) {
-            //observer.RacerStateChanged(this);
-            //if(((Racer)obj).getCurrentLocation().getX() >= ((Racer)obj).getArena().getLength()) //checks if racer finished race, calls update method of arena
             observer.update(obj);
         }
     }
