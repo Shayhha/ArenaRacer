@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import designPatterns.State.InvalidState;
+import designPatterns.State.DisabledState;
 import game.arenas.Arena;
 import game.arenas.exceptions.RacerLimitException;
 import game.arenas.exceptions.RacerTypeException;
@@ -393,7 +393,7 @@ public class MainWindow implements ActionListener {
     private void showErrorMessage(String err) {
             JOptionPane.showMessageDialog(null,
             err, "Message",
-            JOptionPane.INFORMATION_MESSAGE  // more icons here --> https://stackoverflow.com/questions/6562847/joptionpane-change-the-icon
+            JOptionPane.INFORMATION_MESSAGE //more icons here --> https://stackoverflow.com/questions/6562847/joptionpane-change-the-icon
             );
     }
 
@@ -454,7 +454,7 @@ public class MainWindow implements ActionListener {
                 temp[3] = Double.toString(racer.getCurrentLocation().getX());
             else
                 temp[3] = "0";
-            if (racer.getState() instanceof InvalidState)
+            if (racer.getState() instanceof DisabledState)
                 temp[4] = "FAILED";
             else
                 temp[4] = "No";
@@ -551,7 +551,7 @@ public class MainWindow implements ActionListener {
 
             arenaType = chooseArena.getSelectedItem().toString(); // can be: "AerialArena", "NavalArena", "LandArena"
 
-            // trying to build the arena object based on the user's selection, if failed, show an error and stop the function //! changes
+            // trying to build the arena object based on the user's selection, if failed, show an error and stop the function 
             try { // * * * UPDATED WITH PART 3 FACTORY * * *
                 if (arenaType.contains("Aerial"))
                     this.arena = factory.MakeArena("Aerial", arenaLen, maxNumOfRacers); // replacing the old builder with our factory builder
@@ -623,7 +623,7 @@ public class MainWindow implements ActionListener {
 
                     this.leftPanel.remove(backgroundLabel); // removing the background image from the left panel
 
-                    currentRacersToCopy.add(currentRacersToCopy.size(), racerChoiceCombo+"|"+Instance.getSerialNumber()); //! adding the racer to the combobox so that we could copy it later
+                    currentRacersToCopy.add(currentRacersToCopy.size(), racerChoiceCombo+"|"+Instance.getSerialNumber()); // adding the racer to the combobox so that we could copy it later
                     DefaultComboBoxModel<String> comboBoxModelForRacers = new DefaultComboBoxModel<>(currentRacersToCopy.toArray(new String[0]));
                     chooseRacerToCopy.setModel(comboBoxModelForRacers);
 

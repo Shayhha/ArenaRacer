@@ -72,7 +72,7 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
         this.arena = arena;
         //this.state = State.ACTIVE;
         this.STATE = new ActiveState();
-        this.STATE.action(this);
+        this.notifyObservers(this); //calls notifyObservers method of racer 
     }
     
     /**
@@ -97,14 +97,15 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
                 System.out.println(this.getName() + " has a new mishap! " + this.mishap.toString()); // whenever a new mishap is generated we print it out
                 this.STATE = new BrokenState(); //indicates that the racer state is "broken" meaning he has a mishap
                 this.brokenTime = System.currentTimeMillis() - this.getArena().getStartTime(); //sets the time racer got mishap(broken)
-                this.STATE.action(this); //calls action metod for racer
+                this.notifyObservers(this); //calls notifyObservers method of racer 
+
                 if (Fate.breakDown()) { //we use breakdown() method to randomize if the racer will be "active" or "invalid"
                     this.STATE = new ActiveState(); //sets state to "active" if true
-                    this.STATE.action(this); //calls action method
+                    this.notifyObservers(this); //calls notifyObservers method of racer 
                 }
                 else {
-                    this.STATE = new InvalidState(); //we set state to "failed" if mishap isn't fixable
-                    this.STATE.action(this); //calls action method
+                    this.STATE = new DisabledState(); //we set state to "failed" if mishap isn't fixable
+                    this.notifyObservers(this); //calls notifyObservers method of racer 
                     return this.currentLocation; //returns the failed location
                 }
             }
@@ -132,7 +133,7 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
             // calculating exactly the distance left between the racer's location and the finish line, then adding exactly that amount to the racer's position making him stop exactly on top of the finish line
             MainWindow.moveRacer(this.getSerialNumber(), (int)this.getArena().getLength() - (int)this.currentLocation.getX(), 0);
             this.STATE = new CompletedState(); //updates the state of racer to "completed"
-            this.STATE.action(this); //calls action method of racer
+            this.notifyObservers(this); //calls notifyObservers method of racer 
         }
         else // if the racer still go some way to go untill he reaches the finish line
             MainWindow.moveRacer(this.getSerialNumber(), (int)newSpeed, 0);
@@ -214,7 +215,7 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
     public void run() { 
         while (this.currentLocation.getX() < this.arena.getLength()) {
             this.move(this.arena.getFriction()); //calls move method for racer
-            if (this.STATE instanceof InvalidState) { break; }
+            if (this.STATE instanceof DisabledState) { break; }
             try { //makes thread to sleep every iteration by 100 miliseconds
                 Thread.sleep(100);
             }

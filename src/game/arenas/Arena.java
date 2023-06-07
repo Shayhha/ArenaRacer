@@ -86,16 +86,9 @@ public abstract class Arena implements Observer{
      * remove him from the active racers list and print out that this racer has finished. 
      * In the end the arena will remove itself from the list of obervers of that specific racer
      */
-    public synchronized void update(Observable racer) { //if update was called means racer finished the race(notifys arena)
-        this.crossFinishLine((Racer)racer); //calls crossFinishedLine to add new racer to completedRacers list
-        List<Racer> temp = new ArrayList<Racer>(); //temp list
-        for (Racer r2 : this.getActiveRacers()) { //deletes the obj from list
-            if(r2.equals(racer)==false) //copys all elements excet deleted obj
-                temp.add(r2);
-        }
-        this.setActiveRacers(temp); //gives activrRacers temp's reference
-        System.out.println(((Racer)racer).getName() + " Finished"); //prints finished for racer
-        racer.removeObserver(this);//removes the arena from list of observers
+    public void update(Observable racer) { //if update was called means racer finished the race(notifys arena)
+
+        ((Racer)racer).getState().action((Racer)racer); //calls the action method of desgin pattern
     }
 
     /**

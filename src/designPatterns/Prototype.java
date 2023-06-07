@@ -25,7 +25,6 @@ public class Prototype {
     public static Racer getRacerClone(String racerClass, int id, Color color) { // id is the next serial number
         Racer cachedRacer = racerMap.get(racerClass);
         cachedRacer = (Racer)cachedRacer.clone(); // cloning
-        System.out.println("color: " + color.toString());
         // setting serial number, name and color for the cloned racer
         upgrade(cachedRacer, id, racerClass+" #"+id, color);
 

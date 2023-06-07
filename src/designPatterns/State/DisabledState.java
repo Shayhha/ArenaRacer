@@ -2,7 +2,7 @@ package designPatterns.State;
 import game.arenas.Arena;
 import game.racers.Racer;
 
-public class InvalidState implements RacerState {
+public class DisabledState implements RacerState {
     @Override
     public void action(Racer racer) {
         Arena a = racer.getArena(); //get arena instance
