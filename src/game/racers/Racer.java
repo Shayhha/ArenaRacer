@@ -438,14 +438,19 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
         return false;
     }
 
+    /**
+     * This method is a part of the Cloneable interface. We need it to make the Prototype design pattern work
+     * correctly. This method overrides the clone method from the Cloneable interface.
+     * @return an instance of a cloned object
+     */
     public Object clone() {
         Object clone = null;
         try {
-           clone = super.clone();
-           this.setObservers(new Vector<>()); // this was missing
+           clone = super.clone(); // cloning the original object
+           this.setObservers(new Vector<>()); // setting the observers list to a new empty list so that each clone will have its own observers
         } catch (CloneNotSupportedException e) {
            e.printStackTrace();
         }
-        return clone;
+        return clone; // returning the clone
     }
 }

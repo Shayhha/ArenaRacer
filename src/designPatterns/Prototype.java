@@ -10,6 +10,11 @@ import game.racers.naval.SpeedBoat;
 import utilities.EnumContainer.Color;
 import java.util.Hashtable;
 
+/**
+ * This Prototype class is used to create copies of racers from our project.
+ * This class is implementing the Prototype design pattern, it uses to Cloneable interface on
+ * the racers.
+ */
 public class Prototype {
    private static Hashtable<String, Racer> racerMap = new Hashtable<String, Racer>();
 
@@ -31,9 +36,10 @@ public class Prototype {
         return cachedRacer; // returning the cloned racer
     }
 
-    // for each shape run database query and create shape
-    // shapeMap.put(shapeKey, shape);
-    // for example, we are adding three shapes
+    /**
+     * This method initializes all the racer instances so that we can later create copies of them using the
+     * prototype getRacerClone method.
+     */
     public static void loadRacerPrototypes() {
         Airplane airplane = new Airplane(); 
         racerMap.put(airplane.className(), airplane);
@@ -66,10 +72,10 @@ public class Prototype {
 
     /**
      * Method for prototype desgin pattern to update desired fields in objects
-     * @param racer
-     * @param id
-     * @param name
-     * @param color
+     * @param racer the racer we want to upgrade
+     * @param id the id we want to give him
+     * @param name the name we want to give him
+     * @param color the color we want to give him
      * 
      */
     public static void upgrade(Racer racer, int id, String name ,Color color) {

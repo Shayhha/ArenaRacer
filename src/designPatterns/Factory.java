@@ -4,11 +4,19 @@ import game.arenas.air.AerialArena;
 import game.arenas.land.LandArena;
 import game.arenas.naval.NavalArena;
 
+/**
+ * The Factory class that is used to build the arenas in our project.
+ * This Factory class is implementing a design pattern called Factory and allows us to build all types
+ * of arenas in our project by using the MakeArena method.
+ */
 public class Factory {
-    
-    public Factory(){} //default ctor for Factory class
     /**
-     * Method that handels creation of new instance of arena class, based on classed parameters 
+     * default ctor for Factory class
+     */
+    public Factory(){}
+
+    /**
+     * Method that handles creation of new instance of arena class, based on classed parameters
      * @param arenaName - string that represents arena name 
      */
     public Arena MakeArena(String arenaName, double length, int maxRacers){ 

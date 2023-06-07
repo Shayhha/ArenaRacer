@@ -7,6 +7,11 @@ import game.arenas.exceptions.RacerLimitException;
 import game.arenas.exceptions.RacerTypeException;
 import game.racers.Racer;
 
+/**
+ * This Builder class is used to build a race using the Factory class and Prototype class.
+ * This Builder is implementing the Builder design pattern and allows us to construct a full race
+ * in the correct order using the Builder constructor.
+ */
 public class Builder {
     //arena Instance, this is the arena that the user is going to build
     private Arena arena = null; 
@@ -18,6 +23,11 @@ public class Builder {
 
     private int[] serialNumList;
 
+    /**
+     * This constructor is used to build a default race. This race will be a car race with N racers according to
+     * the input this method gets. It builds an arena using the Factory and then creates races using the Prototype.
+     * @param numOfRacers the number of racers participating in the race.
+     */
     public Builder(int numOfRacers) {
          if (numOfRacers > MAX_RACERS) // If the given number of racers is larger than the default number
              // Creating an arena with the given number of racers
@@ -51,11 +61,12 @@ public class Builder {
         }
     }
 
+    // getter methods:
     public Arena getArena() {
         return this.arena;
     }
-
     public int[] getSerialNumList() {
         return this.serialNumList;
     }
+    // -----
 }

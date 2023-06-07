@@ -5,7 +5,15 @@ import java.util.List;
 import game.arenas.Arena;
 import game.racers.Racer;
 
-public class CompletedState implements RacerState{
+/**
+ *  This class represents the COMPLETED state of a racer. It implements the RacerState interface by overriding the
+ *  action method to remove the racer from the completed racers list of the arena and print that the racer has finished.
+ */
+public class CompletedState implements RacerState {
+    /**
+     * Remove the current racer from the list of active racers in the arena and print that the racer has finished.
+     * @param racer the racer that changed his state to COMPLETED
+     */
     @Override
     public void action(Racer racer) {
         Arena arena = racer.getArena();
