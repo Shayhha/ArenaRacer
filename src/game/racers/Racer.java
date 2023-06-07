@@ -96,8 +96,8 @@ public abstract class Racer extends Observable implements Runnable, Cloneable {
                 this.mishap = Fate.generateMishap();
                 System.out.println(this.getName() + " has a new mishap! " + this.mishap.toString()); // whenever a new mishap is generated we print it out
                 this.STATE = new BrokenState(); //indicates that the racer state is "broken" meaning he has a mishap
-                this.STATE.action(this); //calls action metod for racer
                 this.brokenTime = System.currentTimeMillis() - this.getArena().getStartTime(); //sets the time racer got mishap(broken)
+                this.STATE.action(this); //calls action metod for racer
                 if (Fate.breakDown()) { //we use breakdown() method to randomize if the racer will be "active" or "invalid"
                     this.STATE = new ActiveState(); //sets state to "active" if true
                     this.STATE.action(this); //calls action method
