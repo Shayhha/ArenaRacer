@@ -1,5 +1,4 @@
 package designPatterns.State;
-
 import game.arenas.Arena;
 import game.racers.Racer;
 

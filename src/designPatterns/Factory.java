@@ -1,5 +1,4 @@
 package designPatterns;
-
 import game.arenas.Arena;
 import game.arenas.air.AerialArena;
 import game.arenas.land.LandArena;
