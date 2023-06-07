@@ -44,18 +44,18 @@ public class MainWindow implements ActionListener {
     private Boolean raceActive = false; // we use that to determine if a race had started
     private String arenaType = ""; // this will hold the selected combo box value from the user, needed in some places
 
-    // Constant Values for the Screen Dimentions:
-    // ( when we have more that 11 racers on the screen we increase the height by RACER_ICON_SIZE for each aditional racer )
-    // ( when the arena length is subject to change with the users input, defaults to leangth 1000 )
-    // even though the screen dimentions change these values are final inorder to be able to reset the screen to the default size with every new arena
+    // Constant Values for the Screen Dimensions:
+    // ( when we have more than 11 racers on the screen we increase the height by RACER_ICON_SIZE for each additional racer )
+    // ( when the arena length is subject to change with the users input, defaults to length 1000 )
+    // even though the screen dimensions change these values are final inorder to be able to reset the screen to the default size with every new arena
     private final static int MAIN_WINDOW_WIDTH = 1270;
-    private final static int MAIN_WINDOW_HEIGHT = 828; //! 728
+    private final static int MAIN_WINDOW_HEIGHT = 828; 
 
     private final static int LEFT_PANEL_WIDTH = 1070;
-    private final static int LEFT_PANEL_HEIGHT = 800; //! 700
+    private final static int LEFT_PANEL_HEIGHT = 800; 
 
     private final static int RIGHT_PANEL_WIDTH = 183;
-    private final static int RIGHT_PANEL_HEIGHT = 800; //! 700
+    private final static int RIGHT_PANEL_HEIGHT = 800; 
 
     // This variable represents the size of each players icon on the screen
     private final static int RACER_ICON_SIZE = 60; // racer's width = racer's height = 60 pixels 
@@ -92,28 +92,24 @@ public class MainWindow implements ActionListener {
     private JFrame infoWin = new JFrame("Racers information");
     private JPanel tablePanel = new JPanel();
 
-    private JSeparator separator3 = new JSeparator(SwingConstants.HORIZONTAL);
-
-    private JLabel defaultNumRacers = new JLabel("How many racers:");
-    private JTextField defaultNumRacersInput = new JTextField();
-    private JButton defaultRace = new JButton("Default Race");
-    private JSeparator separator4 = new JSeparator(SwingConstants.HORIZONTAL);
-
-    private JLabel chooseRacerToCopyLabel = new JLabel("Choose who to copy:");
-
-    private JComboBox<String> chooseRacerToCopy = new JComboBox<>();
-    private JLabel chooseCopyRacerColorLabel = new JLabel("Choose color:");
-
-    private JComboBox<String> chooseCopyRacerColor = new JComboBox<>(COLORS);
-
-    private JButton copyChosenRacer = new JButton("Copy Racer");
-
+    // Part 3 Objects:
+    private JSeparator separator3 = new JSeparator(SwingConstants.HORIZONTAL); // a spacer
+    private JLabel defaultNumRacers = new JLabel("How many racers:"); // a label
+    private JTextField defaultNumRacersInput = new JTextField(); // a text field for inputting the number of racers in a random race
+    private JButton defaultRace = new JButton("Default Race"); // a button to start a random race
+    private JSeparator separator4 = new JSeparator(SwingConstants.HORIZONTAL); // a spacer
+    private JLabel chooseRacerToCopyLabel = new JLabel("Choose who to copy:"); // a label
+    private JComboBox<String> chooseRacerToCopy = new JComboBox<>(); // a combo box for choosing which racer to copy
+    private JLabel chooseCopyRacerColorLabel = new JLabel("Choose color:"); // a label
+    private JComboBox<String> chooseCopyRacerColor = new JComboBox<>(COLORS); // a combo box to choose the color for the new copied racer
+    private JButton copyChosenRacer = new JButton("Copy Racer"); // a button to copy a racer
+    // -----
 
     // all of these components are used in the main screen and the information screen
 
     // Default design values for gui:
     private static Border textFieldBorder = BorderFactory.createEmptyBorder(8,0,0,0); // our default border for text fields
-    private static Font font = new Font("Arial", Font.BOLD, 13); //our default font for lables
+    private static Font font = new Font("Arial", Font.BOLD, 13); //our default font for labels
     //
 
     // Getter functions: (inorder to have direct access to some of the gui components we declared up top)
@@ -127,10 +123,10 @@ public class MainWindow implements ActionListener {
     // Helper functions:
 
     /**
-     * Builds the Right panel of the main screen. 
-     * <p>This panel will hold all of the buttons and the text fields and labels for the 
-     * controls of the game, it will alow the player to add arena, add racers, start and end the race and more.
-     * @return a JPanel object that has all of the buttons and text fields in the correct order
+     * Builds the Right panel of the main screen.
+     * <p>This panel will hold all the buttons and the text fields and labels for the
+     * controls of the game, it will allow the player to add arena, add racers, start and end the race and more.
+     * @return a JPanel object that has all the buttons and text fields in the correct order
      */
     public JPanel buildRightPanel() {
         JPanel p1 = new JPanel(); // creating a panel that everything will sit in and that will be returned from the function
@@ -140,7 +136,7 @@ public class MainWindow implements ActionListener {
         p1.setPreferredSize(new Dimension(RIGHT_PANEL_WIDTH, RIGHT_PANEL_HEIGHT)); // setting the size of the panel to the default size declared in above final parameters
 
         // making the grid bag layout manualy
-        GridBagConstraints gbc = new GridBagConstraints();        
+        GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -164,29 +160,29 @@ public class MainWindow implements ActionListener {
 
         colorComboLabel.setFont(font);
         colorComboLabel.setBorder(textFieldBorder);
-        
+
         racerNameLabel.setFont(font);
         racerNameLabel.setBorder(textFieldBorder);
-        
+
         maxSpeedLabel.setFont(font);
         maxSpeedLabel.setBorder(textFieldBorder);
-        
+
         accelerationLabel.setFont(font);
         accelerationLabel.setBorder(textFieldBorder);
-        
+
         defaultNumRacers.setFont(font);
         defaultNumRacers.setBorder(textFieldBorder);
         //
 
         // Setting default values
-        arenaLength.setText("1000"); 
+        arenaLength.setText("1000");
         maxRacers.setText("8");
         //
 
         // Top Part of the Right Panel:
         buildArenaButton.addActionListener(this); // adding an action listener for the build arena button, the function comes later in the code
 
-        // adding items to the panel and after each item go to the next row in the grid, that alows us to have one column in the grid
+        // adding items to the panel and after each item go to the next row in the grid, that allows us to have one column in the grid
         p1.add(comboLabel, gbc);
         gbc.gridy++;
         p1.add(chooseArena, gbc);
@@ -203,16 +199,16 @@ public class MainWindow implements ActionListener {
         p1.add(buildArenaButton, gbc);
         gbc.gridy++;
         gbc.insets = new Insets(0, 0, 7, 0); // adding some padding to a specific cell to match how the gui looks in the examples
-        p1.add(separator1, gbc); // a seperator is just a horizontal line
+        p1.add(separator1, gbc); // a separator is just a horizontal line
         gbc.gridy++;
         gbc.insets = new Insets(1, 0, 0, 0); // adding some padding to a specific cell to match how the gui looks in the examples
-        // finished adding all of the elements that belong to the top part of the right panel
+        // finished adding all the elements that belong to the top part of the right panel
 
 
         // Middle Part of the Right Panel:
         addRacerButton.addActionListener(this); // adding an action listener for the add racer button, the function comes later in the code
 
-        // adding items to the panel and after each item go to the next row in the grid, that alows us to have one column in the grid
+        // adding items to the panel and after each item go to the next row in the grid, that allows us to have one column in the grid
         gbc.insets = new Insets(-5, 0, 0, 0); // adding some padding to a specific cell to match how the gui looks in the examples
         p1.add(racerComboLabel, gbc);
         gbc.gridy++;
@@ -238,28 +234,28 @@ public class MainWindow implements ActionListener {
         gbc.insets = new Insets(5, 0, 7, 0); // adding some padding to a specific cell to match how the gui looks in the examples
         p1.add(addRacerButton, gbc);
         gbc.gridy++;
-        p1.add(separator2, gbc); // a seperator is just a horizontal line
+        p1.add(separator2, gbc); // a separator is just a horizontal line
         gbc.gridy++;
-        // finished adding all of the elements that belong to the middle part of the right panel
+        // finished adding all the elements that belong to the middle part of the right panel
 
         // Bottom Part of the Right Panel:
         startRace.addActionListener(this); // adding an action listener for the start race button, the function comes later in the code
         showInfo.addActionListener(this); // adding an action listener for the show info button, the function comes later in the code
-        
-        // adding items to the panel and after each item go to the next row in the grid, that alows us to have one column in the grid
+
+        // adding items to the panel and after each item go to the next row in the grid, that allows us to have one column in the grid
         gbc.insets = new Insets(1, 0, 7, 0); // adding some padding to a specific cell to match how the gui looks in the examples
         p1.add(startRace, gbc);
         gbc.gridy++;
         p1.add(showInfo, gbc);
         gbc.gridy++;
 
-        // finished adding all of the elements that belong to the bottom part of the right panel
-        
-        // adding builder part
+        // finished adding all the elements that belong to the bottom part of the right panel
 
+        // adding builder part
         defaultRace.addActionListener(this); // adding an action listener for the show info button, the function comes later in the code
+
         gbc.insets = new Insets(0, 0, 7, 0);
-        p1.add(separator3, gbc);
+        p1.add(separator3, gbc); // adding a spacer
         gbc.gridy++;
         gbc.insets = new Insets(-10, 0, 7, 0);
         p1.add(defaultNumRacers, gbc); // adding a label
@@ -275,14 +271,14 @@ public class MainWindow implements ActionListener {
         // adding prototype part
         copyChosenRacer.addActionListener(this); // adding an action listener for the show info button, the function comes later in the code
 
-        p1.add(separator4, gbc);
+        p1.add(separator4, gbc); // adding a spacer
         gbc.gridy++;
-        p1.add(chooseRacerToCopyLabel, gbc);
+        p1.add(chooseRacerToCopyLabel, gbc); // adding a label
         gbc.gridy++;
         gbc.insets = new Insets(-5, 0, 7, 0);
         p1.add(chooseRacerToCopy, gbc); // adding cloneable racers combo box
         gbc.gridy++;
-        p1.add(chooseCopyRacerColorLabel, gbc);
+        p1.add(chooseCopyRacerColorLabel, gbc); // adding a label
         gbc.gridy++;
         p1.add(chooseCopyRacerColor, gbc); // adding a colors combo box
         gbc.gridy++;
@@ -295,17 +291,17 @@ public class MainWindow implements ActionListener {
     }
 
     /**
-     * Building the Main Window for the game, this will be called in the main. Creating the frames and panels, setting the size and layout 
+     * Building the Main Window for the game, this will be called in the main. Creating the frames and panels, setting the size and layout
      * setting the location on the screen for the windows to open, adding the panels and showing the main window to the user.
      */
     private static void createMainWindow() {
         // creating the main window using some variables declared above
         MainWindow window = new MainWindow();
         JFrame mainFrame = window.getFrame();
-        JPanel leftPanel = window.getLeftPanel(); // the left panel will hold all of the racers
-        JPanel rightPanel = window.buildRightPanel(); // the right panel will hold all of the buttons and text boxes
-        
-        // setting the correct layout to the main window frame 
+        JPanel leftPanel = window.getLeftPanel(); // the left panel will hold all the racers
+        JPanel rightPanel = window.buildRightPanel(); // the right panel will hold all the buttons and text boxes
+
+        // setting the correct layout to the main window frame
         mainFrame.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         mainFrame.setSize(MAIN_WINDOW_WIDTH,MAIN_WINDOW_HEIGHT); // setting the size of the frame to the default size
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // making sure the program stops when we close the window
@@ -320,7 +316,7 @@ public class MainWindow implements ActionListener {
         //
 
         // setting the default look of the left panel, setting border, size, background color and layout
-        leftPanel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));  
+        leftPanel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
         leftPanel.setPreferredSize(new Dimension(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT));
         leftPanel.setLayout(new BorderLayout()); // this improves the positioning of the image in the left panel
 
@@ -331,9 +327,9 @@ public class MainWindow implements ActionListener {
         // making the frame visible
         mainFrame.setVisible(true);
 
-        //!
-        Prototype.loadRacerPrototypes(); //create new instance for prototype and initialize racer instances
-        //!
+        // Part 3:
+        Prototype.loadRacerPrototypes(); // create new instance for prototype by initializing the racer instances when gui loads up
+        // -----
     }
 
     /**
@@ -367,7 +363,7 @@ public class MainWindow implements ActionListener {
      * @return true if the input is all right and false otherwise (also pops an error message to the user about the bad input)
      */
     private boolean makeArena() {
-        // checking if the user inputed data into all of the fields (if there are no missing values)
+        // checking if the user inputed data into all the fields (if there are no missing values)
         if (this.arenaLength.getText().isEmpty() || this.maxRacers.getText().isEmpty()) { // if there is a missing value, show error message
             showErrorMessage("Invalid input values! Please try again.");
             return false;
@@ -379,7 +375,7 @@ public class MainWindow implements ActionListener {
             return false;
         }
 
-        // getting the values the user has inputed into all of the fields (now the values cant be missing)
+        // getting the values the user has inputed into all the fields (now the values cant be missing)
         this.arenaLen = Integer.parseInt(this.arenaLength.getText());
         maxNumOfRacers = Integer.parseInt(this.maxRacers.getText());
 
@@ -409,7 +405,7 @@ public class MainWindow implements ActionListener {
     private void printBackgroundImage() {
         // getting the user's choises from the combo box and text boxes on the screen
         String arenaImagePath = "icons/" + arenaType + ".jpg"; // creating the path to the background image of the area useing the choise from the user's input to the combo box
-                
+
         // creating the background image of the arena with the path that is made of the user's choise
         ImageIcon icon = new ImageIcon(arenaImagePath);
         Image image = icon.getImage().getScaledInstance(leftPanel.getWidth(), leftPanel.getHeight(), Image.SCALE_SMOOTH); // setting the size of the image to be the size of the panel it will sit in
@@ -419,14 +415,14 @@ public class MainWindow implements ActionListener {
         this.backgroundLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0)); // removing the background from the label that holds the background image of the arena
 
         // adding the label with the choosen image to the left panel of the main screen
-        this.leftPanel.add(backgroundLabel, BorderLayout.CENTER); 
+        this.leftPanel.add(backgroundLabel, BorderLayout.CENTER);
     }
 
     /**
      * This functions builds the table that is visible in the show info window when pressing the show info button.
-     * The table has the information regarding all of the active and completed racers in the current race, also shows an
+     * The table has the information regarding all the active and completed racers in the current race, also shows an
      * empty table when there are no racers.
-     * @return a JTable object (a complete table with all the info) that we then place into the show info window, into a scroll panel. 
+     * @return a JTable object (a complete table with all the info) that we then place into the show info window, into a scroll panel.
      */
     private JTable getRacersInfoFromArena() {
         // declaring some variables
@@ -435,7 +431,7 @@ public class MainWindow implements ActionListener {
         String[] columnHeaders = {"Racer name", "Current speed", "Max speed", "Current X location", "Finished"}; // column header values for creating the table
         int i = 0;
 
-        // going over all of the completed racers in the arena, adding them into the table
+        // going over all the completed racers in the arena, adding them into the table
         for (Racer racer : arena.getCompletedRacers()) {
             temp = new String[5];
             temp[0] = racer.getName();
@@ -443,13 +439,13 @@ public class MainWindow implements ActionListener {
             temp[2] = Double.toString(racer.getMaxSpeed());
             if (raceActive)
                 temp[3] = Double.toString(racer.getCurrentLocation().getX());
-            else 
+            else
                 temp[3] = "0";
             temp[4] = "Yes";
             data[i++] = temp;
         }
 
-        // going over all of the active racers in the arena, adding them into the table
+        // going over all the active racers in the arena, adding them into the table
         for (Racer racer : arena.getActiveRacers()) {
             temp = new String[5];
             temp[0] = racer.getName();
@@ -457,7 +453,7 @@ public class MainWindow implements ActionListener {
             temp[2] = Double.toString(racer.getMaxSpeed());
             if (raceActive)
                 temp[3] = Double.toString(racer.getCurrentLocation().getX());
-            else 
+            else
                 temp[3] = "0";
             if (racer.getState() instanceof InvalidState)
                 temp[4] = "FAILED";
@@ -474,14 +470,14 @@ public class MainWindow implements ActionListener {
 
     /**
      * This function helps us add an icon for a given racer to the screen. The function takes the given racer, searches for
-     * an apropriate image using the given path, makes a JLable with the correct image, adds the JLable into the
+     * an appropriate image using the given path, makes a JLabel with the correct image, adds the JLabel into the
      * racersList map that is located in the MainWindow. Then moving the racer to the correct position based on the
      * given index of the racer.
      * @param instance the racer that needs an icon
      * @param path the path to the icon for this racer
      * @param index the index of the racer in the list
      */
-    private void addRacerIconToScreen(Racer instance, String path, int index) { 
+    private void addRacerIconToScreen(Racer instance, String path, int index) {
         // creating a racer icon based on the user's information and adding the icon to the array of icons and positioning the icon in the correct location
         JLabel r1 = createRacer(path);
         racersList.put(instance.getSerialNumber(),r1);
@@ -491,18 +487,18 @@ public class MainWindow implements ActionListener {
         // adding the racer to the screen
         this.leftPanel.add(r1, BorderLayout.CENTER);
 
-        // re-generating the background image after the racer was added 
+        // re-generating the background image after the racer was added
         printBackgroundImage();
 
-        this.mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
+        this.mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible
     }
 
     /**
-     * This function is used to reset all of the variables that are used during a race, this way with each new race
+     * This function is used to reset all the variables that are used during a race, this way with each new race
      * the variables with be clean and ready for a new race
      */
     private void resetRace() {
-        // reseting the arena & racerActive
+        // resetting the arena & racerActive
         this.arena = null;
         MainWindow.racersList = new HashMap<>();
         this.raceActive  = false;
@@ -517,8 +513,8 @@ public class MainWindow implements ActionListener {
      * @param maxNumOfRacers the number of max racers in the current race
      */
     private void resizeWindow(int maxNumOfRacers) {
-        // resizing the window and the left panel acording to the max racers count
-        if (maxNumOfRacers > 13) { //! originaly was: maxNumOfRacers > 11
+        // resizing the window and the left panel according to the max racers count
+        if (maxNumOfRacers > 13) { //! originally was: maxNumOfRacers > 11
             this.mainFrame.setSize(arenaLen + 270, MAIN_WINDOW_HEIGHT + (maxNumOfRacers-13)*60); // adding 60 pixels to the height for each max racer after 13 racers. arenaLen + 270 is because we need to account for the size of the right panel as well
             this.leftPanel.setSize(arenaLen + 70, LEFT_PANEL_HEIGHT + (maxNumOfRacers-13)*60);// adding 60 pixels to the height for each max racer after 13 racers. arenaLen + 70 is because we need to account for the size of the right panel as well
             this.leftPanel.setPreferredSize(new Dimension(arenaLen + 70, LEFT_PANEL_HEIGHT + (maxNumOfRacers-13)*60)); // this line is needed to make sure that the size will be exactly what we need
@@ -534,10 +530,10 @@ public class MainWindow implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         RaceBuilder buildInstance = RaceBuilder.getInstance();  // instance of RaceBuilder
-        Factory factory = new Factory(); //create new instance for factory 
+        Factory factory = new Factory(); //create new instance for factory
 
         if (e.getSource() == this.buildArenaButton) { // if the BUILD ARENA button was clicked
-            // Checking if there is an ongoing race, if there is an active race then we dont allow the user to create a new arena
+            // Checking if there is an ongoing race, if there is an active race then we don't allow the user to create a new arena
             if (this.arena != null && this.arena.getNumOfInactiveRacers() == this.arena.getActiveRacers().size()) {
                 raceActive = false;
             }
@@ -547,33 +543,36 @@ public class MainWindow implements ActionListener {
                 return;
             }
 
-            // reseting the arena and the racer icons array (also removes the background image but we add it back later)
+            // resetting the arena and the racer icons array (also removes the background image, but we add it back later)
             resetRace();
 
-            // look at the user's inputed data and checking that it is valid
-            if (!makeArena()) 
+            // look at the user's inputted data and checking that it is valid
+            if (!makeArena())
                 return;
-                
+
             arenaType = chooseArena.getSelectedItem().toString(); // can be: "AerialArena", "NavalArena", "LandArena"
 
-            // trying to build the arena object based on the user's selection, if failed, show an error and stop the funtion //! changes
-            try {
+            // trying to build the arena object based on the user's selection, if failed, show an error and stop the function //! changes
+            try { // * * * UPDATED WITH PART 3 FACTORY * * *
                 if (arenaType.contains("Aerial"))
-                    this.arena = factory.MakeArena("Aerial", arenaLen, maxNumOfRacers); //buildInstance.buildArena("game.arenas.air." + arenaType, arenaLen, maxNumOfRacers); //factory.MakeArena("air", arenaLen, maxNumOfRacers); 
+                    this.arena = factory.MakeArena("Aerial", arenaLen, maxNumOfRacers); // replacing the old builder with our factory builder
+                    //buildInstance.buildArena("game.arenas.air." + arenaType, arenaLen, maxNumOfRacers);
                 else if (arenaType.contains("Naval"))
-                    this.arena = factory.MakeArena("Naval", arenaLen, maxNumOfRacers); //buildInstance.buildArena("game.arenas.naval." + arenaType, arenaLen, maxNumOfRacers);
+                    this.arena = factory.MakeArena("Naval", arenaLen, maxNumOfRacers); // replacing the old builder with our factory builder
+                    //buildInstance.buildArena("game.arenas.naval." + arenaType, arenaLen, maxNumOfRacers);
                 else if (arenaType.contains("Land"))
-                    this.arena = factory.MakeArena("Land", arenaLen, maxNumOfRacers); //buildInstance.buildArena("game.arenas.land." + arenaType, arenaLen, maxNumOfRacers);
+                    this.arena = factory.MakeArena("Land", arenaLen, maxNumOfRacers); // replacing the old builder with our factory builder
+                    //buildInstance.buildArena("game.arenas.land." + arenaType, arenaLen, maxNumOfRacers);
             } catch (Exception e1) {
                 showErrorMessage("Invalid input values! Please try again.");
                 return;
-            }                      
+            }
 
             resizeWindow(maxNumOfRacers); // resizing the window based on the number of max racers allowed
 
             printBackgroundImage(); // generating the background image
 
-            this.mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible     
+            this.mainFrame.setVisible(true); // this line "updates" the main window after we have adding items to it, this way the image is now visible
         }
 
         if (e.getSource() == this.addRacerButton) { // if the ADD RACER button was clicked
@@ -588,7 +587,7 @@ public class MainWindow implements ActionListener {
                     JOptionPane.showMessageDialog(null,
                     "Invalid input values! Please try again.", "Missing Values Error", JOptionPane.ERROR_MESSAGE);
                      return;
-                } 
+                }
                 //get user's input from text boxes and combo box
                 String racerNameValue = this.racerName.getText();
                 double maxSpeedValue = Integer.parseInt(this.maxSpeed.getText());
@@ -618,7 +617,7 @@ public class MainWindow implements ActionListener {
                         Instance = buildInstance.buildWheeledRacer(racerTypeValue, racerNameValue, maxSpeedValue, accelerationValue, colorValue,4); //create instance
                     else
                         Instance = buildInstance.buildRacer(racerTypeValue, racerNameValue, maxSpeedValue, accelerationValue, colorValue); //create instance
-                    
+
                     this.arena.addRacer(Instance); //calls add racer of arena (might throw an exaption!)
 
                     Instance.introduce(); // printing the currect racer to the comand line
@@ -632,7 +631,7 @@ public class MainWindow implements ActionListener {
                     addRacerIconToScreen(Instance, "icons/" + (String)Instance.getClass().getSimpleName() + this.chooseColor.getSelectedItem().toString() + ".png", this.arena.getActiveRacers().size());
 
                 }
-                //here we handle excaption that addRacer method might throw (custom excaptions)
+                //here we handle exception that addRacer method might throw (custom exceptions)
                 catch(RacerTypeException ex){
                     JOptionPane.showMessageDialog(null,
                     "Racer doesn't match arena.", "Racer Error", JOptionPane.ERROR_MESSAGE);
@@ -650,14 +649,14 @@ public class MainWindow implements ActionListener {
                     System.out.println(ex);
                 }
             }
-            else{ //else we didnt build an arean before adding racer so we show an error message
+            else{ //else we didn't build an arean before adding racer, so we show an error message
                 JOptionPane.showMessageDialog(null,
                     "You have to build an arena first!", "Error", JOptionPane.ERROR_MESSAGE);
                      return;
             }
         }
 
-        if(e.getSource() == this.startRace){ //if the START RACE button was clickeds
+        if(e.getSource() == this.startRace){ //if the START RACE button was clicked
             if(this.raceActive){ //if racerActive is true it means we cant start a race again (yet)
                 JOptionPane.showMessageDialog(null,
                     "Race already started/ended!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -680,27 +679,27 @@ public class MainWindow implements ActionListener {
                 for (Racer r : this.arena.getActiveRacers()) { //initialize the threads of racers with executor
                     executor.execute(r);
                 }
-                executor.shutdown(); //call shoutdown method
+                executor.shutdown(); //call shutdown method
             }
         }
-    
+
         if (e.getSource() == this.showInfo) { // if the SHOW INFO button was clicked
             if (arena != null) {
-                tablePanel.removeAll(); 
+                tablePanel.removeAll();
 
-                Dimension infoWinSize = new Dimension(555,175); // saveing the dimentions of the info window
+                Dimension infoWinSize = new Dimension(555,175); // saving the dimensions of the info window
 
                 // setting the window size and the panels layout and border
                 infoWin.setSize(infoWinSize);
                 tablePanel.setLayout(new BorderLayout());
                 tablePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-                // adding the completed tabel to a scroll panel and then setting its size to the size of the info window
+                // adding the completed table to a scroll panel and then setting its size to the size of the info window
                 JScrollPane scrollPane = new JScrollPane(getRacersInfoFromArena());
                 scrollPane.setPreferredSize(infoWinSize);
-                
+
                 tablePanel.add(scrollPane, BorderLayout.CENTER); // adding the scroll panel to the main panel of the frame
-        
+
                 // **** setting the location of the info window to open in the center of the screen **** //
                     // get the screen size
                     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -725,14 +724,14 @@ public class MainWindow implements ActionListener {
 
         if (e.getSource() == this.defaultRace) { // this code runs when the default race button is clicked
             if (this.arena != null && this.arena.getNumOfInactiveRacers() == this.arena.getActiveRacers().size()) {
-                raceActive = false;
+                raceActive = false; // checking if the race has finished by looking at the number of active racers and number of racers with inactive state.
             }
             String N = this.defaultNumRacersInput.getText(); // checking the users input into the number of racers field
-            if (N.equals("") || N.equals(null)) { // if the user didnt input the number of racers then we show an error message
+            if (N.equals("")) { // if the user didn't input the number of racers then we show an error message
                 JOptionPane.showMessageDialog(null,"Please enter the number of default racers in the field above", "Number of Racers Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            if (Integer.parseInt(N) > 20 || Integer.parseInt(N) < 1) {
+            if (Integer.parseInt(N) > 20 || Integer.parseInt(N) < 1) { // checking that the inputted number of racers is within the allowed limits
                 JOptionPane.showMessageDialog(null,
                         "Number of racers should be between 1 and 20!", "Number of Racers Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -744,13 +743,13 @@ public class MainWindow implements ActionListener {
             }
 
             resetRace(); // resetting the race if the current race has finished and the user wants to run a new default race
-            resizeWindow(Integer.parseInt(N)); // resizing the window based on the number of racers the user inputed
+            resizeWindow(Integer.parseInt(N)); // resizing the window based on the number of racers the user inputted
 
             Builder ourRaceBuilder = new Builder(Integer.parseInt(N)); // user the Builder design pattern in order to build a default Land race with N active racers
             this.arena = ourRaceBuilder.getArena(); // saving the arena reference from the Builder into the object that is located in this GUI file for reference later
-            this.arenaType = "LandArena"; // saving the type of the race, this will be used to determin what background show be on the screen
+            this.arenaType = "LandArena"; // saving the type of the race, this will be used to determine what background show be on the screen
 
-            for (int serialNumber : ourRaceBuilder.getSerialNumList()) { // after the Builder build the race, we want to add all of the racers into the left panel
+            for (int serialNumber : ourRaceBuilder.getSerialNumList()) { // after the Builder build the race, we want to add all the racers into the left panel
                 this.leftPanel.add(MainWindow.racersList.get(serialNumber), BorderLayout.CENTER);
             }
 
@@ -764,7 +763,7 @@ public class MainWindow implements ActionListener {
             for (Racer r : this.arena.getActiveRacers()) { //initialize the threads of racers with executor
                 executor.execute(r);
             }
-            executor.shutdown(); //call shoutdown method
+            executor.shutdown(); //call shutdown method
         }
 
         if (e.getSource() == this.copyChosenRacer) { // this code runs when the user wants to clone an existing racer
@@ -783,7 +782,7 @@ public class MainWindow implements ActionListener {
                         "There are no racers to copy, please add and then choose a racer", "Missing Racers Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            if (this.arena.getActiveRacers().size() == this.arena.getMAX_RACERS()) {
+            if (this.arena.getActiveRacers().size() == this.arena.getMAX_RACERS()) { // checking if there is space for more racers in the arena
                 JOptionPane.showMessageDialog(null,
                         "You have reached the max amount of racers.", "Max Racers Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -793,14 +792,15 @@ public class MainWindow implements ActionListener {
             String[] currentRacer = this.chooseRacerToCopy.getSelectedItem().toString().split("\\|"); // spliting the string, [0] is the Type and [1] is the serial number
             Racer newRacer = null;
             for (Racer r : this.arena.getActiveRacers()) {
-                if (r.getSerialNumber() == Integer.parseInt(currentRacer[1])) {
+                if (r.getSerialNumber() == Integer.parseInt(currentRacer[1])) { // finding out which racer does the user want to copy
+                    // building a prototype of the selected racer, giving the clone all the attributes of the original racer, changing only the name and the color.
                     newRacer = Prototype.getRacerClone(currentRacer[0], Racer.getInstanceCounter(), EnumContainer.Color.valueOf(this.chooseCopyRacerColor.getSelectedItem().toString().toUpperCase())); //gets color option from combo box
                     newRacer.setAcceleration(r.getAcceleration());
                     newRacer.setMaxSpeed(r.getMaxSpeed());
                     newRacer.setName(r.getName()+"_copy#"+newRacer.getSerialNumber());
                 }
             }
-            if (newRacer != null) {
+            if (newRacer != null) { // if racer was built, we want to add it to the screen and to the arena
                 this.leftPanel.remove(backgroundLabel); // removing the background image from the left panel
                 try {
                     this.arena.addRacer(newRacer);
