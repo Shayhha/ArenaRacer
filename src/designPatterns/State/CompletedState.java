@@ -2,6 +2,11 @@ package designPatterns.State;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Partners:
+ * name: Shay Hahiashvili, ID: 206423840
+ * name: Maxim Subotin, ID: 207695479
+ */
 import game.arenas.Arena;
 import game.racers.Racer;
 

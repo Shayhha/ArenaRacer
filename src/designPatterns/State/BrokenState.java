@@ -1,3 +1,8 @@
+/**
+ * Partners:
+ * name: Shay Hahiashvili, ID: 206423840
+ * name: Maxim Subotin, ID: 207695479
+ */
 package designPatterns.State;
 import game.racers.Racer;
 
