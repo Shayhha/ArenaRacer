@@ -327,7 +327,7 @@ public class MainWindow implements ActionListener {
         mainFrame.setVisible(true);
 
         // Part 3:
-        Prototype.loadRacerPrototypes(); // create new instance for prototype by initializing the racer instances when gui loads up
+        Prototype.loadRacerPrototypes(); //! create new instance for prototype by initializing the racer instances when gui loads up
         // -----
     }
 
